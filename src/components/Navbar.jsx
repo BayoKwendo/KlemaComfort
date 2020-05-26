@@ -133,9 +133,10 @@ class Navbar extends Component{
           </div>
         </div>
         <Navgroup>
-          <Link to="/"><img src={Logo} className='logo2' alt="logo" /></Link>
+          {/* <Link to="/"><img src={Logo} className='logo2' alt="logo" /></Link> */}
+          <Link to="/">PrimeCrib</Link>
           <Link to="/Listings">Listings</Link>
-          {/* <Link to="/Sellpage">Sell</Link> */}
+          <Link to="/Sellpage">Sell</Link>
           <Link to="/contact">Contact Us</Link>
           <Link to="/sign">
             <button>Sign in</button>
