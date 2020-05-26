@@ -35,7 +35,7 @@ const Headerstyle = styled.header`
 
     form{
       margin-top:20px;
-      @media (min-width:768px){
+      @media (min-width:100){
         display:grid;
         grid-template-columns:1fr 1fr;
         align-items: center;
@@ -119,45 +119,24 @@ const Headerstyle = styled.header`
 
 const Header =()=>(
   <div>
-  {/* <Navbar /> */}
+  <Navbar />
   <Headerstyle>
     <div className="header_container">
       <h1>We manage your Transition, not just the Transaction</h1>
       <h3>buy or sell a home and manage the moving process all in one place</h3>
-      <div className="buttons">
-        <button>Find Home</button>
-        <button>Sell Home</button>
-        <button>See home estimate</button>
-      </div>
-      <form>
-        <input type="search" name="search" placeholder='Location' />
-          <div className="Property">
-            <select name="property-type" className="app-select" required>
-              <option data-display="Property Type">Property Type</option>
-              <option value="1">Property type 1</option>
-              <option value="2">Property type 2</option>
-              <option value="3">Property type 3</option>
-            </select>
-          </div>
+     
+      <form >
+         
           <div className="bedrooms">
             <select name="bedroom" className="app-select" required>
-              <option data-display="Bedrooms">Bedrooms</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
+              <option data-display="Bedrooms">Who are you?</option>
+              <option value="1">LandLord</option>
+              <option value="2">CareTaker</option>
+              <option value="3">Tenant</option>
+             </select>
           </div>
-          <div className="PriceRange">
-            <input type="text" id="range" name="range" placeholder='Price Range' />
-          </div>
-          <div className="AreaRange">
-            <input type="text" id="range2" name="range"placeholder='Area Range' />
-          </div>
-          <div className="button">
-            <button className='propt_btn'>Search Properties</button>
-          </div>		
+        
+          	
       </form>
     </div>
   </Headerstyle>
