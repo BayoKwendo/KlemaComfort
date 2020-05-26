@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 
 const Foot = styled.footer`
-  padding-top: 120px;
+  padding-top: 20px;
   p{
     text-align: center;
   }
@@ -54,7 +54,7 @@ const Footer = () => (
       </div>
     </div>
     <p>
-      &copy;{Year} , Olukayode Osisami
+      &copy;{Year} , Onfon Group
     </p>
   </Foot>
 );

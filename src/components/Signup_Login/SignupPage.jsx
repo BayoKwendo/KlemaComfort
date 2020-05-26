@@ -2,7 +2,7 @@ import React, { Component,Fragment } from 'react';
 import styled from 'styled-components';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
-import back from '../../assets/pexels-photo-534233.jpeg'
+import back from '../../assets/home.jpg'
 
 const Form = styled.form`
   width:90%;

@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import Homeimg from '../assets/home.jpeg';
+import { createBrowserHistory } from "history";
+
+import { Form   } from "react-bootstrap";
+import {  Redirect, Switch } from "react-router-dom";
+
 import Navbar from './Navbar';
+const hist = createBrowserHistory();
+
 
 const Headerstyle = styled.header`
   background: url(${Homeimg})no-repeat center center/cover;
@@ -117,30 +124,95 @@ const Headerstyle = styled.header`
 `;
 
 
-const Header =()=>(
-  <div>
-  <Navbar />
-  <Headerstyle>
-    <div className="header_container">
-      <h1>We manage your Transition, not just the Transaction</h1>
-      <h3>buy or sell a home and manage the moving process all in one place</h3>
-     
-      <form >
-         
-          <div className="bedrooms">
-            <select name="bedroom" className="app-select" required>
-              <option data-display="Bedrooms">Who are you?</option>
-              <option value="1">LandLord</option>
-              <option value="2">CareTaker</option>
-              <option value="3">Tenant</option>
-             </select>
-          </div>
-        
-          	
-      </form>
-    </div>
-  </Headerstyle>
-  </div>
-)
+export default class CareTakerReg extends Component {
 
-export default Header;
+
+  constructor(props) {
+    super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+
+    this.state = {
+      selectedPerson: '',
+      person: [{
+        name: 'LandLord'
+      }, {
+        name: 'CareTaker'
+      }, {
+        name: 'Tenant'
+      }],
+    }
+  }
+
+  handleChangePerson = (event) => {
+    this.setState({ selectedPerson: event.target.value });
+};
+
+onSubmit(e) {
+  e.preventDefault();
+
+   if (this.state.selectedPerson === "LandLord") {
+
+    hist.push('/landlord')
+    window.location.reload();
+
+
+   } else if(this.state.selectedPerson == "CareTaker") {
+    hist.push('/caretaker')
+    window.location.reload();
+   }
+     else if(this.state.selectedPerson == "Tenant") {
+      hist.push('/tenants')
+      window.location.reload();
+     
+  }else{
+
+  }
+  }
+
+  
+
+
+  render() {
+    return (
+      <div>
+        <Navbar />
+        <Headerstyle>
+          <div className="header_container">
+            <h1>We manage your Transition, not just the Transaction</h1>
+            <h3>buy or sell a home and manage the moving process all in one place</h3>
+            <form  onSubmit={this.onSubmit}>
+              <div className="">
+
+                <Form.Group controlId="first-row" className="Focus-line">
+                  <Form.Control
+                    as="select"
+                    className="form-control input-md"
+                    placeholder="Who are you"
+                    value={this.state.selectedPerson}
+                    onChange={this.handleChangePerson}
+                    id="person"
+                    option={this.selectedPerson}>
+                    {<option>Who are you</option>}
+
+                    {
+                      this.state.person && this.state.person.length >
+                      0 && this.state.person.map((personItem, i) =>
+
+
+                        <option key={i} value={personItem.name}>{personItem.name}</option>)
+
+                    }
+                  </Form.Control>
+                </Form.Group>
+                </div>
+
+              <div className="button">
+                <button className='propt_btn'>Continue</button>
+              </div>
+            </form>
+          </div>
+        </Headerstyle>
+      </div>
+    )
+  }
+}

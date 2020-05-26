@@ -118,22 +118,18 @@ class Navbar extends Component{
       <Nav>
         <div className="nav_respond">
           <div className="collapse">
-            <h4>PrimeCrib</h4>
-            {/* <Link to="/">
-              <img src={Logo} alt="logo" />
-            </Link>
-            <img src={Navlogo} alt="NavIcon" onClick={ this.handleClick } /> */}
+              <h4>PrimeCrib</h4>
+            <img src={Navlogo} alt="NavIcon" onClick={ this.handleClick } />
           </div>
           <div className={ this.state.condition ? "navlinks" : "rm-navlinks" } >
             <Link to="/">Home</Link>
             <Link to="/Listings">Listings</Link>
-            {/* <Link to="/Sellpage">Sell</Link> */}
+            <Link to="/Sellpage">Sell</Link>
             <Link to="/contact">Contact Us</Link>
             <Link to="/sign">Sign in</Link>
           </div>
         </div>
         <Navgroup>
-          {/* <Link to="/"><img src={Logo} className='logo2' alt="logo" /></Link> */}
           <Link to="/">PrimeCrib</Link>
           <Link to="/Listings">Listings</Link>
           <Link to="/Sellpage">Sell</Link>
