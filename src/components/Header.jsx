@@ -119,7 +119,7 @@ const Headerstyle = styled.header`
 
 const Header =()=>(
   <div>
-  {/* <Navbar /> */}
+  <Navbar />
   <Headerstyle>
     <div className="header_container">
       <h1>We manage your Transition, not just the Transaction</h1>
