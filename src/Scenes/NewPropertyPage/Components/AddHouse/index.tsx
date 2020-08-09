@@ -1,10 +1,9 @@
 import * as React from 'react';
 import './style.css';
 import axios from "axios";
-import Select from 'react-select';
 import { baseURL } from 'Helpers/baseURL';
+import Select from 'react-select';
 import { TOKEN } from 'Helpers/token';
-import { isLoggedIn } from 'Helpers/isLoggedIn';
 
 type ListingState = {
 
@@ -33,7 +32,9 @@ type ListingState = {
   isShowError: boolean
 
 };
-class AddNewPropertyForm extends React.Component<{}, ListingState> {
+
+
+class AddHouse extends React.Component<{}, ListingState> {
   constructor() {
     super();
     this.onSubmit = this.onSubmit.bind(this);
@@ -68,21 +69,18 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
           name: 'NO'
         }],
     };
-    if(isLoggedIn == "true"){
-     
-      alert("You have to login first")
-      window.location.href = "/";
-    }  
+
+
   }
   async componentDidMount() {
-    const token = 'Bearer '+TOKEN
+    const token = 'Bearer '+ TOKEN
     const [
       countiesResponse, constituencyResponse, wardsResponse, landlordResponse] = await Promise.all([
         // axios.get(baseURL + 'users/1', { headers: { "Authorization": `Bearer ${window.user.data.access_token}` } }),
-        axios.get(baseURL + "counties", { headers: { "Authorization": token } }),
-        axios.get(baseURL + 'constituencies', { headers: { "Authorization": token } }),
+        axios.get(baseURL + "apartments", { headers: { "Authorization": token } }),
+        axios.get(baseURL + 'users?role_id=5', { headers: { "Authorization": token } }),
         axios.get(baseURL + 'wards', { headers: { "Authorization": token } }),
-        axios.get(baseURL + 'users?role_id=3', { headers: { "Authorization": token } }),
+        axios.get(baseURL + 'users?role_id=4', { headers: { "Authorization": token } }),
 
       ]);
 
@@ -105,7 +103,7 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
   County() {
     return (this.state.counties && this.state.counties.length > 0 &&
       this.state.counties.map((countyItem, i) =>
-        ({ label: countyItem.county_name, value: countyItem.id })))
+        ({ label: countyItem.apartment_name, value: countyItem.id })))
   }
 
   onSelectChange = (value: { value: { toString: () => any; }; }) => {
@@ -125,7 +123,7 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
   Constituency() {
     return (this.state.constituency && this.state.constituency.length > 0 &&
       this.state.constituency.map((countyItem, i) =>
-        ({ label: countyItem.constituency_name, value: countyItem.id })))
+        ({ label: countyItem.username, value: countyItem.id })))
   }
   onSelectChangeConstitueny = value => {
     this.setState({ constituency_id: value.value.toString() });
@@ -143,30 +141,27 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
 
   onSubmit(e) {
     e.preventDefault();
+  
     let formData = {
 
-      "apartment_name": this.state.apartment_name,
-      "apartment_type": this.state.apartment_type,
-      "number_of_floors": this.state.number_of_floors,
-      "number_of_carparking": this.state.number_of_carparking,
-      "number_blocks": this.state.number_blocks,
-      "county_id": this.state.county_id,
-      "constituency_id": this.state.constituency_id,
-      "ward_id": this.state.ward_id,
-      "landLord_id": this.state.landLord_id,
-      "generator": this.state.selectedBolean,
-      "lift": this.state.selectedBolean1,
+      "house_number": this.state.apartment_name,
+      "apartment_id": this.state.county_id,
+      "house_size": this.state.number_of_floors,
+      "house_type": this.state.number_of_carparking,
+      "caretaker_id": this.state.constituency_id,
+      "number_bathrooms": this.state.number_blocks,
       // 'school_logo': "logo.png"
     }
 
     console.log("DATA", JSON.stringify(formData))
     this.setState({ isLoading: true });
+
     const token = 'Bearer '+TOKEN
 
-    axios.post(baseURL + 'apartments', formData, {
+    axios.post(baseURL + 'houses', formData, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': token
+        'Authorization': token,
       },
     })
       .then((response) => {
@@ -219,109 +214,48 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
         <form onSubmit={this.onSubmit}>
           <div className="row form-group">
             <div className="title col-xs-12 col-sm-6 col-md-6">
-              <h4>Apartment Name</h4>
+              <h4> House Number</h4>
               <input type="text" required name="apartment_name" onChange={this.handleChange} id="" className="form-control" />
             </div>
             <div className="Price col-xs-12 col-sm-6 col-md-6">
-              <h4>Apartment Type</h4>
-              <input type="text" required name="apartment_type" onChange={this.handleChangetype} id="" className="form-control" />
-            </div>
-            <div className="title col-xs-12 col-sm-6 col-md-6">
-              <h4>Number of Floor</h4>
-              <input type="text" required name="number_of_floors" onChange={this.handleChangefloor} id="" className="form-control" />
-            </div>
-            <div className="Price col-xs-12 col-sm-6 col-md-6">
-              <h4>Number of Car Parking</h4>
-              <input type="number" required name="number_of_carparking" onChange={this.handleChangePark} id="" className="form-control" />
-            </div>
-            <div className="title col-xs-12 col-sm-6 col-md-6">
-              <h4>Number of Blocks</h4>
-              <input type="text" required name="number_blocks" id="" onChange={this.handleChangeBlocl} className="form-control" />
-            </div>
-            <div className="Price col-xs-12 col-sm-6 col-md-6">
-              <h4>County</h4>
-
+              <h4>Apartment</h4>
               <Select
                 options={this.County()}
                 onChange={this.onSelectChange}
-                placeholder="Select County"
+                placeholder="Select Apartment"
                 tabSelectsValue={false}
                 className='drop'
               />
               <br />
             </div>
             <div className="title col-xs-12 col-sm-6 col-md-6">
-              <h4>Constituency</h4>
+              <h4>House Size</h4>
+              <input type="text" required name="number_of_floors" onChange={this.handleChangefloor} id="" className="form-control" />
+            </div>
+            
+            <div className="Price col-xs-12 col-sm-6 col-md-6">
+              <h4>House Type</h4>
+              <input type="text" required name="number_of_carparking" onChange={this.handleChangePark} id="" className="form-control" />
+            </div>
+            <div className="title col-xs-12 col-sm-6 col-md-6">
+              <h4>Number of Bathrooms</h4>
+              <input type="text" required name="number_blocks" id="" onChange={this.handleChangeBlocl} className="form-control" />
+            </div>
+          
+            <div className="title col-xs-12 col-sm-6 col-md-6">
+              <h4>Caretaker</h4>
 
               <Select
                 options={this.Constituency()}
                 onChange={this.onSelectChangeConstitueny}
-                placeholder="Select Constituency"
+                placeholder="Select CareTaker"
                 tabSelectsValue={false}
                 className='drop'
               />
               <br />
             </div>
-            <div className="Price col-xs-12 col-sm-6 col-md-6">
-              <h4>Ward</h4>
-              <Select
-                options={this.Ward()}
-                onChange={this.onSelectChangeWard}
-                placeholder="Select Ward"
-                tabSelectsValue={false}
-                className='drop'
-              />
-              <br />
-            </div>
-            <div className="title col-xs-12 col-sm-6 col-md-6">
-              <h4>Landload</h4>
-
-              <Select
-                options={this.Landload()}
-                onChange={this.onSelectChangeLandLord}
-                placeholder="Select Ward"
-                tabSelectsValue={false}
-                className='drop'
-              />
-              <br />
-
-            </div>
-
-            <div className="Price col-xs-12 col-sm-6 col-md-6">
-              <h4>Generator</h4>
-              <select
-                name="generator"
-                className="form-control"
-                value={this.state.selectedBolean}
-                onChange={this.handleChangeBolean}
-                id="gender">
-                {<option>Generator</option>}
-
-                {
-                  this.state.boolean && this.state.boolean.length > 0
-                  && this.state.boolean.map((genderItem, i) =>
-                    <option key={i} value={genderItem.name}>{genderItem.name}</option>)
-                }
-              </select>
-
-            </div>
-            <div className="title col-xs-12 col-sm-6 col-md-6">
-              <h4>Lift</h4>
-              <select
-                name="lift"
-                className="form-control"
-                value={this.state.selectedBolean1}
-                onChange={this.handleChangeBolean1}
-                id="gender">
-                {<option>Lift</option>}
-
-                {
-                  this.state.boolean && this.state.boolean.length > 0
-                  && this.state.boolean.map((genderItem, i) =>
-                    <option key={i} value={genderItem.name}>{genderItem.name}</option>)
-                }
-              </select>
-            </div>
+         
+            
           </div>
           <br />
 
@@ -338,4 +272,4 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
   }
 }
 
-export default AddNewPropertyForm;
+export default AddHouse;

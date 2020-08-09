@@ -22,10 +22,10 @@ class LeftSide extends React.Component<LeftSideProps, {}> {
       <div className={`leftSide slimScroll${this.props.isExpand ? ' expanded' : ' minimized'}`}>
         <nav className="leftNav scrollable bigNav">
           <ul>
-            <li><Link to="/search">
+            {/* <li><Link to="/search">
               <Icon className="navIcon" name="compass" />
               <span className="navLabel">Search</span>
-            </Link></li>
+            </Link></li> */}
             <li className="hasSub hasSubActive">
               <Link to="/newproperty/sell" onClick={this.toggleActive}>
                 <Icon className="navIcon" name="plus-circle" />
@@ -35,13 +35,10 @@ class LeftSide extends React.Component<LeftSideProps, {}> {
               </Link>
               <ul className="colors secondUl">
                 <li><Link to="/newproperty/sell">
-                  Sell<Icon name="circle-o" className="icon-right" />
+                  Add Apartment<Icon name="circle-o" className="icon-right" />
                 </Link></li>
                 <li><Link to="/newproperty/rent">
-                  Rent<Icon name="circle-o" className="icon-right" />
-                </Link></li>
-                <li><Link to="/newproperty/renovation">
-                  Renovation<Icon name="circle-o" className="icon-right" />
+                  Add House<Icon name="circle-o" className="icon-right" />
                 </Link></li>
               </ul>
             </li>
@@ -72,11 +69,11 @@ class LeftSide extends React.Component<LeftSideProps, {}> {
                 <Icon className="openIcon arrowRight" name="angle-down" />
               </Link>
               <ul className="colors secondUl">
-                <li><Link to="/agent/myagents">
-                  My Agents<Icon name="circle-o" className="icon-right" />
+                <li><Link to="/user/users">
+                  LandLord/Caretaker<Icon name="circle-o" className="icon-right" />
                 </Link></li>
-                <li><Link to="/agent/search">
-                  Find Agents<Icon name="circle-o" className="icon-right" />
+                <li><Link to="/user/tenants">
+                  Tenants<Icon name="circle-o" className="icon-right" />
                 </Link></li>
               </ul>
             </li>

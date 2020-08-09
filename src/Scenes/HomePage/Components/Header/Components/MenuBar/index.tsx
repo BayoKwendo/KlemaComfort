@@ -64,6 +64,7 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
       ),
       (
         <li key="1"><a href="#" onClick={() => this.updateFormStatus('login')}>
+          
           {getTranslation(this.props.lang, 'Login')}
         </a></li>
       )
@@ -93,9 +94,9 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
         </a>
         <div className={'homeNav' + (this.state.isHandlerActive ? ' active' : '')} >
           <ul>
-            <li className="moreOption">
+            {/* <li className="moreOption">
               <Link to="/search?type=rent">{getTranslation(this.props.lang, 'Rent')}</Link>
-            </li>
+            </li> */}
             <li className="moreOption">
               <Link to="/listing">{getTranslation(this.props.lang, 'Listing')}</Link>
             </li>

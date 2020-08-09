@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './style.css';
-import AddHouse from '../AddHouse';
+import AddHouse from '../AddUser';
 
 class RentPropertyPage extends React.Component<{}, {}> {
   render() {

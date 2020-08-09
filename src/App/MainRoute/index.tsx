@@ -21,6 +21,7 @@ import ListHome from 'Scenes/Listings';
 import AgentPage from 'Scenes/AgentPage';
 import AdvicePage from 'Scenes/AdvicePage';
 import NewsPage from 'Scenes/NewsPage';
+import UsersPage from 'Scenes/Users';
 
 const mapStateToProps = (state: RootState) => ({
   lang: state.status.lang
@@ -49,6 +50,7 @@ class App extends React.Component<AppProps, {}> {
         <div className="globalContainer">
           <Route exact={true} path="/" component={HomePage} />
           <Route exact={true} path="/listing" component={ListHome}/>
+          <Route exact={true} path="/user/:action" component={UsersPage} />
 
           <Route exact={true} path="/wallet/:action?" component={WalletPage} />
           <Route exact={true} path="/search/:action?" component={SearchPage} />

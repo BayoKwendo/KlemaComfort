@@ -1,22 +1,22 @@
 import * as React from 'react';
 import './style.css';
-import AddHouse from '../AddHouse';
+import AddNewPropertyForm from '../AddTenant';
 
-class RentPropertyPage extends React.Component<{}, {}> {
+class SellPropertyPage extends React.Component<{}, {}> {
   render() {
     return (
-      <div className="rentPropertyPage">
+      <div className="sellPropertyPage">
         <div className="dashboardTitle">
-          <h3>Add House</h3>
+          <h3>Sell Property</h3>
           <h5>We'd love to find out more about you. It'll help us make
                 sure our website and apps tick the right boxes.</h5>
         </div>
         <div className="dashboardBody">
-          <AddHouse />
+          <AddNewPropertyForm />
         </div>
       </div>
     );
   }
 }
 
-export default RentPropertyPage;
+export default SellPropertyPage;

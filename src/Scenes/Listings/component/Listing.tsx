@@ -126,6 +126,7 @@ type ListingState = {
   search: any,
   lists: any[],
   ready: string,
+  Name :string
 };
 class Listing extends React.Component<{}, ListingState> {
   constructor() {
@@ -133,7 +134,8 @@ class Listing extends React.Component<{}, ListingState> {
     this.state = {
       lists: [],
       ready: "initial",
-      search: ""
+      search: "",
+      Name: ''
     };
   }
   componentDidMount() {
@@ -149,8 +151,13 @@ class Listing extends React.Component<{}, ListingState> {
       this.setState({
         ready: "loaded",
         lists: records
+      },
+      function(){
+      //  console.log("DATA", records.Fields.Name)
       });
-    });
+    }
+    );
+    
   }
   locationChange(e: { target: { value: any; }; }) {
     this.setState({
@@ -165,7 +172,12 @@ class Listing extends React.Component<{}, ListingState> {
   render() {
     const { lists, ready, search } = this.state;
     const filtered = lists.filter(list => {
-      return list.fields.Name.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+      return ( <>
+        {    list.fields.Name.toLowerCase().indexOf(search.toLowerCase()) !== -1}
+            
+ 
+        
+        </>);
     });
     return (
       <div>
@@ -196,18 +208,18 @@ class Listing extends React.Component<{}, ListingState> {
                     <option value="1">Single Room</option>
 
                     <option value="1">One Bedroom</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    <option value="1 Bedrooms">1</option>
+                    <option value="2 Bedrooms">2</option>
+                    <option value="3 Bedrooms">3</option>
+                    <option value="4 Bedrooms">4</option>
+                    <option value="5 Bedrooms">5</option>
                   </select>
                 </div>
                 <div className="PriceRange">
-                  <input type="text" id="range" name="range" placeholder="Price Range" />
+                  <input type="text" id="range" name="range" placeholder='Price Range' />
                 </div>
                 <div className="AreaRange">
-                  <input type="text" id="range2" name="range" placeholder="Area Range" />
+                  <input type="text" id="range2" name="range" placeholder='Area Range' />
                 </div>
                 <div className="button">
                   <button className="propt_btn">Search Properties</button>
