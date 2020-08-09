@@ -44,7 +44,7 @@ class UserMenu extends React.Component<UserMenuProps, UserMenuState> {
   }
   logout = () => {
     /* Test code */
-    localStorage.setItem('loginStatus', 'false');
+    localStorage.setItem('isLoggedIn', 'false');
     window.location.href = '/';
     /* End test code */
   }

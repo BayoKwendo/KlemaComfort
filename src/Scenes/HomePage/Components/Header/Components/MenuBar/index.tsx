@@ -57,11 +57,11 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
       );
     }
     return [
-      (
-        <li key="0"><a href="#" onClick={() => this.updateFormStatus('register')}>
-          {getTranslation(this.props.lang, 'Registration')}
-        </a></li>
-      ),
+      // (
+      //   <li key="0"><a href="#" onClick={() => this.updateFormStatus('register')}>
+      //     {getTranslation(this.props.lang, 'Registration')}
+      //   </a></li>
+      // ),
       (
         <li key="1"><a href="#" onClick={() => this.updateFormStatus('login')}>
           
@@ -113,6 +113,7 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
               <Link to="/agent/search">{getTranslation(this.props.lang, 'Find agent')}</Link>
             </li> */}
             {this.loginField()}
+            
             <li>
               <Link to="/newproperty/sell"><div className="btn btn-green">
                 {getTranslation(this.props.lang, 'List a Property')}

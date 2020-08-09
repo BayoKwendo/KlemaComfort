@@ -12,12 +12,13 @@
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "noImplicitReturns": true,
-    "noImplicitThis": true,
+    "noImplicitThis": false,
     "noImplicitAny": false,
     "strictNullChecks": false,
     "noUnusedLocals": true,
     "module": "es2015",
     "baseUrl": "./src"
+    
   },
   "exclude": [
     "node_modules",

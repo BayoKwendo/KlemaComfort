@@ -6,11 +6,15 @@ import SellPage from './Components/Sell';
 import RentPage from './Components/Rent';
 import RenovationPage from './Components/Renovation';
 import AddNewPropertyForm from './Components/AddNewPropertyForm';
+import ApartmentPhotos from './Components/ApartmentPhotos';
+import Posts from './Components/Posts';
 
-class NewPropertyPage extends React.Component<RouteComponentProps<{action: string}>, {}> {
+class NewPropertyPage extends React.Component<RouteComponentProps<{ action: string }>, {}> {
   newPropertyAction: {
     sell: JSX.Element;
     rent: JSX.Element;
+    photo: JSX.Element;
+    posts: JSX.Element;
     renovation: JSX.Element;
     default: JSX.Element;
   };
@@ -19,6 +23,8 @@ class NewPropertyPage extends React.Component<RouteComponentProps<{action: strin
     this.newPropertyAction = {
       sell: <SellPage />,
       rent: <RentPage />,
+      photo: <ApartmentPhotos />,
+      posts: <Posts/>,
       renovation: <RenovationPage />,
       default: <AddNewPropertyForm />
     };
@@ -30,6 +36,10 @@ class NewPropertyPage extends React.Component<RouteComponentProps<{action: strin
         return this.newPropertyAction.sell;
       case 'rent':
         return this.newPropertyAction.rent;
+      case 'photo':
+        return this.newPropertyAction.photo;
+      case 'posts':
+        return this.newPropertyAction.posts;
       case 'renovation':
         return this.newPropertyAction.renovation;
       default:

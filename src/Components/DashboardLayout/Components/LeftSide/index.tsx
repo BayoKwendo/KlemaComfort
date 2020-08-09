@@ -40,6 +40,12 @@ class LeftSide extends React.Component<LeftSideProps, {}> {
                 <li><Link to="/newproperty/rent">
                   Add House<Icon name="circle-o" className="icon-right" />
                 </Link></li>
+                <li><Link to="/newproperty/photo">
+                  Add Photo<Icon name="circle-o" className="icon-right" />
+                </Link></li>
+                <li><Link to="/newproperty/posts">
+                  Add Posts<Icon name="circle-o" className="icon-right" />
+                </Link></li>
               </ul>
             </li>
             <li className="hasSub hasSubActive">
@@ -52,7 +58,7 @@ class LeftSide extends React.Component<LeftSideProps, {}> {
               <ul className="colors secondUl">
                 <li><Link to="/property/mylisting">
                   My listing<Icon name="circle-o" className="icon-right" />
-              </Link></li>
+                </Link></li>
                 <li><Link to="/property/mywishlist">
                   My wishlist<Icon name="circle-o" className="icon-right" />
                 </Link></li>
@@ -64,7 +70,7 @@ class LeftSide extends React.Component<LeftSideProps, {}> {
             <li className="hasSub hasSubActive">
               <Link to="/agent/myagents" onClick={this.toggleActive}>
                 <Icon className="navIcon" name="user" />
-                <span className="navLabel">Agents</span>
+                <span className="navLabel">Users</span>
                 <Icon className="closeIcon arrowRight" name="angle-left" />
                 <Icon className="openIcon arrowRight" name="angle-down" />
               </Link>

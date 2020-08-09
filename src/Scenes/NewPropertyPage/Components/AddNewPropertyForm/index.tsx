@@ -68,14 +68,13 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
           name: 'NO'
         }],
     };
-    if(isLoggedIn == "true"){
-     
-      alert("You have to login first")
-      window.location.href = "/";
-    }  
+
+  
+
   }
   async componentDidMount() {
-    const token = 'Bearer '+TOKEN
+    
+    const token = 'Bearer ' + TOKEN
     const [
       countiesResponse, constituencyResponse, wardsResponse, landlordResponse] = await Promise.all([
         // axios.get(baseURL + 'users/1', { headers: { "Authorization": `Bearer ${window.user.data.access_token}` } }),
@@ -161,7 +160,7 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
 
     console.log("DATA", JSON.stringify(formData))
     this.setState({ isLoading: true });
-    const token = 'Bearer '+TOKEN
+    const token = 'Bearer ' + TOKEN
 
     axios.post(baseURL + 'apartments', formData, {
       headers: {
@@ -172,19 +171,19 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
       .then((response) => {
 
         if (response.data.status) {
-          this.setState({ statusMessage: response.data.status_message,isShowError: true, isLoading: false });
+          this.setState({ statusMessage: response.data.status_message, isShowError: true, isLoading: false });
           window.setTimeout(function () {
             window.location.reload();
           }, 2000);
         } else {
 
-          this.setState({ statusMessage: response.data.status_message,isShowError: true, isLoading: false });
+          this.setState({ statusMessage: response.data.status_message, isShowError: true, isLoading: false });
         }
       })
       .catch((error) => {
         console.log('bayoo', error.response)
 
-        this.setState({ statusMessage: error.response.data.status_message,isShowError: true, isLoading: false });
+        this.setState({ statusMessage: error.response.data.status_message, isShowError: true, isLoading: false });
 
       })
   }
@@ -211,6 +210,11 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
     this.setState({ number_blocks: e.target.value });
   }
   render() {
+    if (isLoggedIn == "false") {
+
+      alert("You have to login first")
+      window.location.href = "/";
+    }
     return (
       <div className="newPropertyForm">
         {this.state.isShowError ? <div className="alert alert-success"
