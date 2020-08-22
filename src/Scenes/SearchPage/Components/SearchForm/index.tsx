@@ -4,46 +4,54 @@ import SelectComponent from 'Components/SelectComponent';
 import SingelHouse from 'Components/SingleHouse';
 import SearchMap from '../SearchMap';
 import { Icon } from 'react-fa';
+import { TOKEN } from 'Helpers/token';
+import axios from 'axios';
+import { baseURL } from 'Helpers/baseURL';
 
-const houseData: any[] = [{
-  name: 'Modern Residence in New York',
-  address: ' 39 Remsen St, Brooklyn, NY 11201, USA',
-  beds: 3,
-  toilets: 2,
-  square: 20,
-  img: 'http://mariusn.com/themes/reales/images/prop/1-1.png'
-}, {
-  name: 'Hauntingly Beautiful Estate',
-  address: ' 169 Warren St, Brooklyn, NY 11201, USA',
-  beds: 3,
-  toilets: 2,
-  square: 20,
-  img: 'http://mariusn.com/themes/reales/images/prop/2-1.png'
-}, {
-  name: 'Modern Residence in New York',
-  address: ' 39 Remsen St, Brooklyn, NY 11201, USA',
-  beds: 3,
-  toilets: 2,
-  square: 20,
-  img: 'http://mariusn.com/themes/reales/images/prop/1-1.png'
-}, {
-  name: 'Hauntingly Beautiful Estate',
-  address: ' 169 Warren St, Brooklyn, NY 11201, USA',
-  beds: 3,
-  toilets: 2,
-  square: 20,
-  img: 'http://mariusn.com/themes/reales/images/prop/2-1.png'
-}];
+
+// const houseData: any[] = [{
+//   name: 'Modern Residence in New York',
+//   address: ' 39 Remsen St, Brooklyn, NY 11201, USA',
+//   beds: 3,
+//   toilets: 2,
+//   square: 20,
+//   img: 'http://mariusn.com/themes/reales/images/prop/1-1.png'
+// }, {
+//   name: 'Hauntingly Beautiful Estate',
+//   address: ' 169 Warren St, Brooklyn, NY 11201, USA',
+//   beds: 3,
+//   toilets: 2,
+//   square: 20,
+//   img: 'http://mariusn.com/themes/reales/images/prop/2-1.png'
+// }, {
+//   name: 'Modern Residence in New York',
+//   address: ' 39 Remsen St, Brooklyn, NY 11201, USA',
+//   beds: 3,
+//   toilets: 2,
+//   square: 20,
+//   img: 'http://mariusn.com/themes/reales/images/prop/1-1.png'
+// }, {
+//   name: 'Hauntingly Beautiful Estate',
+//   address: ' 169 Warren St, Brooklyn, NY 11201, USA',
+//   beds: 3,
+//   toilets: 2,
+//   square: 20,
+//   img: 'http://mariusn.com/themes/reales/images/prop/2-1.png'
+// }];
 
 interface SearchFormState {
   resultTab: 'list' | 'map';
+  apartments: any[],
+  statusMessage:string
 }
 
 class SearchForm extends React.Component<{}, SearchFormState> {
   constructor() {
     super();
     this.state = {
-      resultTab: 'list'
+      resultTab: 'list',
+      statusMessage:'',
+      apartments: []
     };
   }
   changeResultTab = (tab: 'list' | 'map') => {
@@ -53,11 +61,31 @@ class SearchForm extends React.Component<{}, SearchFormState> {
       });
     }
   }
+  componentDidMount() {
+    const config = { 
+      headers: {
+        "Authorization": `Bearer ` + TOKEN
+      }
+    };
+
+    axios.get(baseURL + 'apartments?landLord_id=7', config).then(res => {
+      this.setState({ statusMessage: res.data.status_message });
+      //console.log("LOOG" , res.data.status_message);
+      this.setState({
+        apartments: res.data,
+      },
+        function () {
+          console.log("recrd", res.data);
+        });
+
+    });
+
+  }
   resultList = () => {
     return (
       <div className="resultsList">
         <div className="row">
-          {houseData.map((data, index) => {
+          {this.state.apartments.map((data, index) => {
             return (
               <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6" key={index}>
                 <SingelHouse data={data} />
@@ -117,7 +145,7 @@ class SearchForm extends React.Component<{}, SearchFormState> {
         <div className="resultTable">
           <div className="resultTab">
             <ul>
-              <li 
+              <li
                 className={this.state.resultTab === 'list' ? 'active' : ''}
                 onClick={(e) => this.changeResultTab('list')}
               >

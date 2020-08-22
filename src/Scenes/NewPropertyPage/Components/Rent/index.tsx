@@ -8,8 +8,7 @@ class RentPropertyPage extends React.Component<{}, {}> {
       <div className="rentPropertyPage">
         <div className="dashboardTitle">
           <h3>Add House</h3>
-          <h5>We'd love to find out more about you. It'll help us make
-                sure our website and apps tick the right boxes.</h5>
+          <h5>Fill the below fields to add House</h5>
         </div>
         <div className="dashboardBody">
           <AddHouse />

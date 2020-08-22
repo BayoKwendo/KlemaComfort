@@ -17,11 +17,26 @@ import NewPropertyPage from 'Scenes/NewPropertyPage';
 import ListView from 'Scenes/Listings/component/ListView';
 import ListHome from 'Scenes/Listings';
 
-
 import AgentPage from 'Scenes/AgentPage';
 import AdvicePage from 'Scenes/AdvicePage';
+
 import NewsPage from 'Scenes/NewsPage';
 import UsersPage from 'Scenes/Users';
+import AccountPage from 'Scenes/Accounts';
+import InvoicePage from 'Scenes/Invoice';
+import ComplainPage from 'Scenes/Complants';
+import Posts from 'Scenes/AddPosts/Components/Posts';
+import LeasePage from 'Scenes/leases';
+import ComplainsLandLoard from 'Scenes/Complants/Components/Complains/LandLoard';
+import Transaction from 'Scenes/Accounts/Components/Account/Transactions';
+import AddPay from 'Scenes/Accounts/Components/Account/payments';
+import Wallet from 'Scenes/Accounts/Components/Account/Wallet';
+import LeaseLandlord from 'Scenes/leases/Components/Lease/leaseLandloard';
+import LeaseTenant from 'Scenes/leases/Components/Lease/leaseTenant';
+
+import AgentComplain from 'Scenes/Complants/Components/Complains/AgentComplain';
+import AddAgreement from 'Scenes/leases/Components/Lease/AddAgreement';
+import Map from 'Components/Maps/maps';
 
 const mapStateToProps = (state: RootState) => ({
   lang: state.status.lang
@@ -30,7 +45,7 @@ const mapDispatchToProps = (dispatch: Dispatch<{}>) => ({
   authUser: () => {
     dispatch(authenticate());
   }
-});
+} );
 
 interface AppProps {
   authUser: () => void;
@@ -62,6 +77,31 @@ class App extends React.Component<AppProps, {}> {
           <Route exact={true} path="/ListView/:id" component={ListView}/>
 
           <Route exact={true} path="/projects" component={NewsPage} />
+
+          <Route exact={true} path="/accounts" component={AccountPage} />
+          <Route exact={true} path="/agreement" component={AddAgreement} />
+
+          <Route exact={true} path="/accoucnts" component={Map} />
+
+          <Route exact={true} path="/leaseLandLord" component={LeaseLandlord} />
+          <Route exact={true} path="/agencomplain" component={AgentComplain} />
+         <Route exact={true} path="/leaseTenant" component={LeaseTenant} />
+
+          <Route exact={true} path="/complain/:action" component={ComplainPage} />
+
+          <Route exact={true} path="/invoice" component={InvoicePage} />
+          <Route exact={true} path="/posts" component={Posts} />
+          <Route exact={true} path="/complain" component={ComplainsLandLoard} />
+
+          <Route exact={true} path="/lease" component={LeasePage} />
+
+          <Route exact={true} path="/transaction" component={Transaction} />
+
+          <Route exact={true} path="/payments" component={AddPay} />
+          <Route exact={true} path="/walletss" component={Wallet} />
+
+
+
         </div>
       </Router>
     );

@@ -7,9 +7,8 @@ class SellPropertyPage extends React.Component<{}, {}> {
     return (
       <div className="sellPropertyPage">
         <div className="dashboardTitle">
-          <h3>Sell Property</h3>
-          <h5>We'd love to find out more about you. It'll help us make
-                sure our website and apps tick the right boxes.</h5>
+          <h3>Add Apartments</h3>
+          <h5>Fill the below fields to add an Apartment</h5>
         </div>
         <div className="dashboardBody">
           <AddNewPropertyForm />

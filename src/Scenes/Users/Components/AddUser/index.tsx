@@ -3,6 +3,7 @@ import './style.css';
 import axios from "axios";
 import Select from 'react-select';
 import { baseURL } from 'Helpers/baseURL';
+import { TOKEN } from 'Helpers/token';
 
 type ListingState = {
 
@@ -16,11 +17,12 @@ type ListingState = {
   constituency_id: string,
   landLord_id: string,
   ward_id: string,
-  statusMessage: string,
   mssdn: string,
   kra_pin: string,
   Name: string,
   counties: any[],
+  alert_error: string
+
   constituency: any[],
   wards: any[],
   landlord: any[],
@@ -28,6 +30,7 @@ type ListingState = {
   selectedBolean: string,
   selectedBolean1: string,
   isLoading: boolean,
+  statusMessage:string,
   isShowError: boolean,
   password: string
 
@@ -47,12 +50,15 @@ class AddUser extends React.Component<{}, ListingState> {
       number_of_carparking: '',
       search: '',
       number_blocks: '',
+        alert_error: '',
+
       county_id: '',
       constituency_id: '',
       landLord_id: '',
       ward_id: '',
       mssdn: '',
       password: '',
+
       kra_pin: '',
       isLoading: false,
       Name: '',
@@ -75,14 +81,14 @@ class AddUser extends React.Component<{}, ListingState> {
 
   }
   async componentDidMount() {
-    const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbF9hZGRyZXNzIjoic2FAb25mb25tZWRpYS5jb20iLCJyb2xlX2lkIjoxLCJtc2lzZG4iOiIyNTQ3MTMxMjI4MTkiLCJ1c2VybmFtZSI6InN1cGVydXNlciIsImZpcnN0X25hbWUiOiJzdXBlcnVzZXIiLCJsYXN0X25hbWUiOiJzdXBlcnVzZXIiLCJpZCI6MSwidGltZSI6IjIwMjAtMDgtMDhUMDU6MTg6MTMuMDAxWiIsImlhdCI6MTU5Njg2Mzg5MywiZXhwIjoxNTk2OTA3MDkzfQ.SX3043pDWJ2wScTfxX4unhUKPO_qgOxw5YYe3LnnBrQ'
+      const token = 'Bearer '+TOKEN
     const [
       countiesResponse, constituencyResponse, wardsResponse, landlordResponse] = await Promise.all([
         // axios.get(baseURL + 'users/1', { headers: { "Authorization": `Bearer ${window.user.data.access_token}` } }),
         axios.get(baseURL + "apartments", { headers: { "Authorization": token } }),
         axios.get(baseURL + 'constituencies', { headers: { "Authorization": token } }),
         axios.get(baseURL + 'roles', { headers: { "Authorization": token } }),
-        axios.get(baseURL + 'users?role_id=3', { headers: { "Authorization": token } }),
+        axios.get(baseURL + 'users', { headers: { "Authorization": token } }),
 
       ]);
 
@@ -92,11 +98,9 @@ class AddUser extends React.Component<{}, ListingState> {
       wards: wardsResponse.data,
       landlord: landlordResponse.data,
     },
-
       function () {
         console.log("bayo", countiesResponse.data)
-      }
-    );
+      } );
 
   }
 
@@ -160,7 +164,7 @@ class AddUser extends React.Component<{}, ListingState> {
 
     console.log("DATA", JSON.stringify(formData))
     this.setState({ isLoading: true });
-    const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbF9hZGRyZXNzIjoic2FAb25mb25tZWRpYS5jb20iLCJyb2xlX2lkIjoxLCJtc2lzZG4iOiIyNTQ3MTMxMjI4MTkiLCJ1c2VybmFtZSI6InN1cGVydXNlciIsImZpcnN0X25hbWUiOiJzdXBlcnVzZXIiLCJsYXN0X25hbWUiOiJzdXBlcnVzZXIiLCJpZCI6MSwidGltZSI6IjIwMjAtMDgtMDhUMDU6MTg6MTMuMDAxWiIsImlhdCI6MTU5Njg2Mzg5MywiZXhwIjoxNTk2OTA3MDkzfQ.SX3043pDWJ2wScTfxX4unhUKPO_qgOxw5YYe3LnnBrQ'
+    const token = 'Bearer '+TOKEN
 
     axios.post(baseURL + 'users', formData, {
       headers: {
@@ -171,19 +175,19 @@ class AddUser extends React.Component<{}, ListingState> {
       .then((response) => {
 
         if (response.data.status) {
-          this.setState({ statusMessage: response.data.status_message, isShowError: true, isLoading: false });
+          this.setState({ statusMessage: response.data.status_message, alert_error: "alert alert-success",  isShowError: true, isLoading: false });
           window.setTimeout(function () {
             window.location.reload();
           }, 2000);
         } else {
 
-          this.setState({ statusMessage: response.data.status_message, isShowError: true, isLoading: false });
+          this.setState({ statusMessage: response.data.status_message, alert_error: "alert alert-danger",  isShowError: true, isLoading: false });
         }
       })
       .catch((error) => {
         console.log('bayoo', error.response)
 
-        this.setState({ statusMessage: error.response.data.status_message, isShowError: true, isLoading: false });
+        this.setState({ statusMessage: error.response.data.status_message, alert_error: "alert alert-danger",  isShowError: true, isLoading: false });
 
       })
   }
@@ -223,16 +227,15 @@ class AddUser extends React.Component<{}, ListingState> {
     return (
       <div className="rentPropertyPage">
         <div className="dashboardTitle">
-          <h3>Add User</h3>
+          <h3>Add Landlord/CareTaker</h3>
 
-          <h5>We'd love to find out more about you. It'll help us make
-              sure our website and apps tick the right boxes.</h5>
+          <h5>Fill the below field to add Landlord/CareTaker</h5>
         </div>
         <div className="dashboardBody">
           <div className="newPropertyForm">
-            {this.state.isShowError ? <div className="alert alert-success"
-              style={{ fontSize: '15px' }}>
-              {this.state.statusMessage}</div> : null}
+          {this.state.isShowError ? <div className={this.state.alert_error}
+          style={{ fontSize: '15px' }}>
+          {this.state.statusMessage}</div> : null}
             <form onSubmit={this.onSubmit}>
               <div className="row form-group">
                 <div className="title col-xs-12 col-sm-6 col-md-6">
@@ -284,7 +287,7 @@ class AddUser extends React.Component<{}, ListingState> {
 
               <div className="row form-group rowBtn">
                 <button id="input" type="submit" className="btn btn-green btn-lg
-                                                                 text-white margin-left: '10px'" style={{ fontFamily: 'Fira Sans', backgroundColor: '#0070BA' }}>
+                                                                 text-white margin-left: '10px'">
                   {this.state.isLoading ? "Please Wait..." : "Submit"}  <i className="fa fa-refresh"></i>
                 </button> &nbsp;&nbsp;&nbsp;
 

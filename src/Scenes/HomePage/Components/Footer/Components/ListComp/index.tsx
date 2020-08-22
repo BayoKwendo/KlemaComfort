@@ -14,7 +14,7 @@ class ListComp extends React.Component<ListCompProps, {}> {
   }
   render() {
     return (
-      <div className="listComp col-xs-6 col-sm-6 col-md-3 col-lg-3">
+      <div className="listComp col-xs-4 col-sm-4 col-md-4 col-lg-4">
         <div className="listCompTitle osLight">
           {this.props.children}
         </div>

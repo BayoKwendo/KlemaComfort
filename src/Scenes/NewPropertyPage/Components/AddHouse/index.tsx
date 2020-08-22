@@ -26,10 +26,12 @@ type ListingState = {
   wards: any[],
   landlord: any[],
   boolean: any[],
+  alert_color: string,
   selectedBolean: string,
   selectedBolean1: string,
   isLoading: boolean,
-  isShowError: boolean
+  isShowError: boolean,
+  house: any[]
 
 };
 
@@ -45,6 +47,7 @@ class AddHouse extends React.Component<{}, ListingState> {
       statusMessage: '',
       number_of_carparking: '',
       search: '',
+      alert_color: "",
       number_blocks: '',
       county_id: '',
       constituency_id: '',
@@ -68,12 +71,31 @@ class AddHouse extends React.Component<{}, ListingState> {
         {
           name: 'NO'
         }],
+      house: [
+        {
+          name: 'Bedsitter'
+        },
+        {
+          name: 'Single Room'
+        },
+        {
+          name: 'One Bedroom'
+        },
+        {
+          name: 'Two Bedroom'
+        },
+        {
+          name: 'Three Bedroom'
+        },
+        {
+          name: 'Four Bedroom'
+        }],
     };
 
 
   }
   async componentDidMount() {
-    const token = 'Bearer '+ TOKEN
+    const token = 'Bearer ' + TOKEN
     const [
       countiesResponse, constituencyResponse, wardsResponse, landlordResponse] = await Promise.all([
         // axios.get(baseURL + 'users/1', { headers: { "Authorization": `Bearer ${window.user.data.access_token}` } }),
@@ -101,7 +123,7 @@ class AddHouse extends React.Component<{}, ListingState> {
 
 
   County() {
-    return (this.state.counties && this.state.counties.length > 0 &&
+    return (this.state.counties && (this.state.counties.length == 0 || this.state.counties.length > 0) &&
       this.state.counties.map((countyItem, i) =>
         ({ label: countyItem.apartment_name, value: countyItem.id })))
   }
@@ -111,7 +133,7 @@ class AddHouse extends React.Component<{}, ListingState> {
   };
 
   Ward() {
-    return (this.state.wards && this.state.wards.length > 0 &&
+    return (this.state.wards && (this.state.wards.length == 0 || this.state.wards.length > 0)&&
       this.state.wards.map((countyItem, i) =>
         ({ label: countyItem.ward_name, value: countyItem.id })))
   }
@@ -121,7 +143,7 @@ class AddHouse extends React.Component<{}, ListingState> {
 
 
   Constituency() {
-    return (this.state.constituency && this.state.constituency.length > 0 &&
+    return (this.state.constituency && (this.state.constituency.length == 0 || this.state.constituency.length > 0) &&
       this.state.constituency.map((countyItem, i) =>
         ({ label: countyItem.username, value: countyItem.id })))
   }
@@ -131,7 +153,7 @@ class AddHouse extends React.Component<{}, ListingState> {
 
 
   Landload() {
-    return (this.state.landlord && this.state.landlord.length > 0 &&
+    return (this.state.landlord && (this.state.landlord.length == 0 || this.state.landlord.length > 0) &&
       this.state.landlord.map((countyItem, i) =>
         ({ label: countyItem.username, value: countyItem.id })))
   }
@@ -141,7 +163,7 @@ class AddHouse extends React.Component<{}, ListingState> {
 
   onSubmit(e) {
     e.preventDefault();
-  
+
     let formData = {
 
       "house_number": this.state.apartment_name,
@@ -156,7 +178,7 @@ class AddHouse extends React.Component<{}, ListingState> {
     console.log("DATA", JSON.stringify(formData))
     this.setState({ isLoading: true });
 
-    const token = 'Bearer '+TOKEN
+    const token = 'Bearer ' + TOKEN
 
     axios.post(baseURL + 'houses', formData, {
       headers: {
@@ -167,19 +189,18 @@ class AddHouse extends React.Component<{}, ListingState> {
       .then((response) => {
 
         if (response.data.status) {
-          this.setState({ statusMessage: response.data.status_message,isShowError: true, isLoading: false });
+          this.setState({ statusMessage: response.data.status_message, alert_color: "alert alert-success", isShowError: true, isLoading: false });
           window.setTimeout(function () {
             window.location.reload();
           }, 2000);
         } else {
-
-          this.setState({ statusMessage: response.data.status_message,isShowError: true, isLoading: false });
+          this.setState({ statusMessage: response.data.status_message, isShowError: true, alert_color: "alert alert-danger", isLoading: false });
         }
       })
       .catch((error) => {
         console.log('bayoo', error.response)
 
-        this.setState({ statusMessage: error.response.data.status_message,isShowError: true, isLoading: false });
+        this.setState({ statusMessage: error.response.data.status_message, isShowError: true, alert_color: "alert alert-danger", isLoading: false });
 
       })
   }
@@ -199,16 +220,17 @@ class AddHouse extends React.Component<{}, ListingState> {
   handleChangefloor = (e) => {
     this.setState({ number_of_floors: e.target.value });
   }
-  handleChangePark = (e) => {
-    this.setState({ number_of_carparking: e.target.value });
+  handleChangePark = (event) => {
+    this.setState({ number_of_carparking: event.target.value });
   }
   handleChangeBlocl = (e) => {
     this.setState({ number_blocks: e.target.value });
   }
+  
   render() {
     return (
       <div className="newPropertyForm">
-        {this.state.isShowError ? <div className="alert alert-success"
+        {this.state.isShowError ? <div className={this.state.alert_color}
           style={{ fontSize: '15px' }}>
           {this.state.statusMessage}</div> : null}
         <form onSubmit={this.onSubmit}>
@@ -232,16 +254,31 @@ class AddHouse extends React.Component<{}, ListingState> {
               <h4>House Size</h4>
               <input type="text" required name="number_of_floors" onChange={this.handleChangefloor} id="" className="form-control" />
             </div>
-            
-            <div className="Price col-xs-12 col-sm-6 col-md-6">
+            {/* <div className="Price col-xs-12 col-sm-6 col-md-6">
               <h4>House Type</h4>
               <input type="text" required name="number_of_carparking" onChange={this.handleChangePark} id="" className="form-control" />
-            </div>
+            </div> */}
             <div className="title col-xs-12 col-sm-6 col-md-6">
-              <h4>Number of Bathrooms</h4>
-              <input type="text" required name="number_blocks" id="" onChange={this.handleChangeBlocl} className="form-control" />
+              <h4>House Type</h4>
+
+              <select
+                name="number_of_carparking"
+                className="form-control"
+                onChange={this.handleChangePark}
+                id="gender">
+                {<option>House Type</option>}
+
+                {
+                  this.state.house && this.state.house.length > 0
+                  && this.state.house.map((genderItem, i) =>
+                    <option key={i} value={genderItem.name}>{genderItem.name}</option>)
+                }
+              </select>
             </div>
-          
+          <div className="title col-xs-12 col-sm-6 col-md-6">
+              <h4>Number of Bathrooms</h4>
+              <input type="number" required name="number_blocks" id="" onChange={this.handleChangeBlocl} className="form-control" />
+            </div>
             <div className="title col-xs-12 col-sm-6 col-md-6">
               <h4>Caretaker</h4>
 
@@ -254,14 +291,14 @@ class AddHouse extends React.Component<{}, ListingState> {
               />
               <br />
             </div>
-         
-            
+
+
           </div>
           <br />
 
           <div className="row form-group rowBtn">
             <button id="input" type="submit" className="btn btn-green btn-lg
-                                                                 text-white margin-left: '10px'" style={{ fontFamily: 'Fira Sans', backgroundColor: '#0070BA' }}>
+                                                                 text-white margin-left: '10px'">
               {this.state.isLoading ? "Please Wait..." : "Submit"}  <i className="fa fa-refresh"></i>
             </button> &nbsp;&nbsp;&nbsp;
 

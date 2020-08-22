@@ -8,8 +8,7 @@ class ApartmentPhotos extends React.Component<{}, {}> {
       <div className="rentPropertyPage">
         <div className="dashboardTitle">
           <h3>Add Photos</h3>
-          <h5>We'd love to find out more about you. It'll help us make
-                sure our website and apps tick the right boxes.</h5>
+          <h5>Attach to your apartments and houses</h5>
         </div>
         <div className="dashboardBody">
           <AddPhoto />

@@ -3,6 +3,7 @@ import './style.css';
 import axios from "axios";
 import { baseURL } from 'Helpers/baseURL';
 import Select from 'react-select';
+import { TOKEN } from 'Helpers/token';
 
 type ListingState = {
 
@@ -17,6 +18,7 @@ type ListingState = {
   landLord_id: string,
   ward_id: string,
   statusMessage: string,
+  alert_error: string,
   mssdn: string,
   kra_pin: string,
   Name: string,
@@ -33,7 +35,10 @@ type ListingState = {
   isLoading: boolean,
   isShowError: boolean,
   password: string,
-  income: string
+  income: string,
+  houses: any[],
+  alert_color: string,
+
 
 
 
@@ -55,10 +60,13 @@ class AddTenant extends React.Component<{}, ListingState> {
       county_id: '',
       profession: '',
       family: '',
+      alert_color: '',
       constituency_id: '',
       landLord_id: '',
       ward_id: '',
+      houses: [],
       mssdn: '',
+      alert_error: '',
       password: '',
       kra_pin: '',
       isLoading: false,
@@ -82,7 +90,8 @@ class AddTenant extends React.Component<{}, ListingState> {
 
   }
   async componentDidMount() {
-    const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbF9hZGRyZXNzIjoic2FAb25mb25tZWRpYS5jb20iLCJyb2xlX2lkIjoxLCJtc2lzZG4iOiIyNTQ3MTMxMjI4MTkiLCJ1c2VybmFtZSI6InN1cGVydXNlciIsImZpcnN0X25hbWUiOiJzdXBlcnVzZXIiLCJsYXN0X25hbWUiOiJzdXBlcnVzZXIiLCJpZCI6MSwidGltZSI6IjIwMjAtMDgtMDhUMDk6NDk6NTkuNjY1WiIsImlhdCI6MTU5Njg4MDE5OSwiZXhwIjoxNTk2OTIzMzk5fQ.4o8v_Nhwe_lCpdWaqBWDjYEMaiuRlBeAg27zxpmMuZY'
+    const token = 'Bearer ' + TOKEN
+
     const [
       countiesResponse, constituencyResponse, wardsResponse, landlordResponse] = await Promise.all([
         // axios.get(baseURL + 'users/1', { headers: { "Authorization": `Bearer ${window.user.data.access_token}` } }),
@@ -99,25 +108,42 @@ class AddTenant extends React.Component<{}, ListingState> {
       wards: wardsResponse.data,
       landlord: landlordResponse.data,
     },
-
       function () {
         console.log("bayo", constituencyResponse.data)
       }
     );
-
   }
 
-
-
   County() {
-    return (this.state.counties && this.state.counties.length > 0 &&
+    return (this.state.counties && (this.state.counties.length > 0 || this.state.counties.length == 0) &&
       this.state.counties.map((countyItem, i) =>
         ({ label: countyItem.apartment_name, value: countyItem.id })))
   }
 
   onSelectChange = (value: { value: { toString: () => any; }; }) => {
-    this.setState({ county_id: value.value.toString() });
+    this.setState({ county_id: value.value.toString() },
+      function () {
+        fetch(baseURL + 'houses?apartment_id=' + value.value.toString(), { headers: { "Authorization": `Bearer ` + TOKEN } })
+          .then(response => response.json())
+          .then(
+            res => {
+              this.setState({ houses: res },
+                console.log("bayd", res)
+              )
+            }
+          )
+      });
   };
+
+  Constituency() {
+    return (this.state.houses && (this.state.houses.length == 0 || this.state.houses.length > 0) &&
+      this.state.houses.map((countyItem, i) =>
+        ({ label: countyItem.house_number, value: countyItem.id })))
+  }
+  onSelectChangeConstitueny = value => {
+    this.setState({ constituency_id: value.value.toString() });
+  };
+
 
   Ward() {
     return (this.state.wards && this.state.wards.length > 0 &&
@@ -128,15 +154,6 @@ class AddTenant extends React.Component<{}, ListingState> {
     this.setState({ ward_id: value.value.toString() });
   };
 
-
-  Constituency() {
-    return (this.state.constituency && this.state.constituency.length > 0 &&
-      this.state.constituency.map((countyItem, i) =>
-        ({ label: countyItem.constituency_name, value: countyItem.id })))
-  }
-  onSelectChangeConstitueny = value => {
-    this.setState({ constituency_id: value.value.toString() });
-  };
 
 
   Landload() {
@@ -173,12 +190,12 @@ class AddTenant extends React.Component<{}, ListingState> {
       "next_kin": this.state.next_kin,
       "profession": this.state.profession,
       "family_size": this.state.family,
-      "house_id": '1'
+      "house_id": this.state.constituency_id
 
       // 'school_logo': "logo.png"
     }
 
-    const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbF9hZGRyZXNzIjoic2FAb25mb25tZWRpYS5jb20iLCJyb2xlX2lkIjoxLCJtc2lzZG4iOiIyNTQ3MTMxMjI4MTkiLCJ1c2VybmFtZSI6InN1cGVydXNlciIsImZpcnN0X25hbWUiOiJzdXBlcnVzZXIiLCJsYXN0X25hbWUiOiJzdXBlcnVzZXIiLCJpZCI6MSwidGltZSI6IjIwMjAtMDgtMDhUMDk6NDk6NTkuNjY1WiIsImlhdCI6MTU5Njg4MDE5OSwiZXhwIjoxNTk2OTIzMzk5fQ.4o8v_Nhwe_lCpdWaqBWDjYEMaiuRlBeAg27zxpmMuZY'
+    const token = 'Bearer '+TOKEN
 
 
     console.log("DATA", JSON.stringify(formData))
@@ -193,19 +210,19 @@ class AddTenant extends React.Component<{}, ListingState> {
       .then((response) => {
 
         if (response.data.status) {
-          this.setState({ statusMessage: response.data.status_message, isShowError: true, isLoading: false });
-          // window.setTimeout(function () {
-          //   window.location.reload();
-          // }, 2000);
+          this.setState({ statusMessage: response.data.status_message,alert_color: "alert alert-success",  isShowError: true, isLoading: false });
+          window.setTimeout(function () {
+            window.location.reload();
+          }, 2000);
         } else {
 
-          this.setState({ statusMessage: response.data.status_message, isShowError: true, isLoading: false });
+          this.setState({ statusMessage: response.data.status_message,alert_color: "alert alert-danger", isShowError: true, isLoading: false });
         }
       })
       .catch((error) => {
         console.log('bayoo', error.response)
 
-        this.setState({ statusMessage: error.response.data.status_message, isShowError: true, isLoading: false });
+        this.setState({ statusMessage: error.response.data.status_message,alert_color: "alert alert-danger", isShowError: true, isLoading: false });
 
       })
   }
@@ -259,14 +276,13 @@ class AddTenant extends React.Component<{}, ListingState> {
       <div className="rentPropertyPage">
         <div className="dashboardTitle">
           <h3>Add Tenant</h3>
-          <h5>We'd love to find out more about you. It'll help us make
-              sure our website and apps tick the right boxes.</h5>
+          <h5>Fill the below fields to add tenant.</h5>
         </div>
         <div className="dashboardBody">
           <div className="newPropertyForm">
-            {this.state.isShowError ? <div className="alert alert-success"
-              style={{ fontSize: '15px' }}>
-              {this.state.statusMessage}</div> : null}
+          {this.state.isShowError ? <div className={this.state.alert_color}
+          style={{ fontSize: '15px' }}>
+          {this.state.statusMessage}</div> : null}
             <form onSubmit={this.onSubmit}>
               <div className="row form-group">
                 <div className="title col-xs-12 col-sm-6 col-md-6">
@@ -324,9 +340,21 @@ class AddTenant extends React.Component<{}, ListingState> {
                     tabSelectsValue={false}
                     className='drop'
                   />
-                  <br />
+                 
                 </div>
-                <div className="Price col-xs-12 col-sm-6 col-md-6">
+                <div className="title col-xs-12 col-sm-6 col-md-6">
+
+                  <h4>House</h4>
+                  <Select
+                    options={this.Constituency()}
+                    onChange={this.onSelectChangeConstitueny}
+                    placeholder="Select House"
+                    tabSelectsValue={false}
+                    className='drop'
+                  />
+                
+                </div>
+                <div className="title col-xs-12 col-sm-6 col-md-6">
                   <h4>Select Tenant</h4>
                   <Select
                     options={this.Ward()}
@@ -355,6 +383,7 @@ class AddTenant extends React.Component<{}, ListingState> {
                   </select>
                 </div>
                 <div className="title col-xs-12 col-sm-6 col-md-6">
+            
                   <h4>Password</h4>
                   <input type="text" required name="password" id="" onChange={this.handleChangePassword} className="form-control" />
                 </div>
@@ -364,7 +393,7 @@ class AddTenant extends React.Component<{}, ListingState> {
 
               <div className="row form-group rowBtn">
                 <button id="input" type="submit" className="btn btn-green btn-lg
-                                                                 text-white margin-left: '10px'" style={{ fontFamily: 'Fira Sans', backgroundColor: '#0070BA' }}>
+                                                                 text-white margin-left: '10px'">
                   {this.state.isLoading ? "Please Wait..." : "Submit"}  <i className="fa fa-refresh"></i>
                 </button> &nbsp;&nbsp;&nbsp;
 

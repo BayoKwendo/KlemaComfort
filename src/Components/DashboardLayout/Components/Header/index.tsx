@@ -29,7 +29,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
         <div className="logo">
           <Link to="/">
             <Icon className="fa fa-home marker" name="home" />
-            <span className="logoText">reales</span>
+            <span className="logoText">PrimCrib</span>
           </Link>
         </div>
         <a href="#" className="navHandler" onClick={(e) => this.props.clickToggle()}><Icon  name="bars" /></a>

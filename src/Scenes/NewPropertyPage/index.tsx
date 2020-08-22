@@ -7,7 +7,7 @@ import RentPage from './Components/Rent';
 import RenovationPage from './Components/Renovation';
 import AddNewPropertyForm from './Components/AddNewPropertyForm';
 import ApartmentPhotos from './Components/ApartmentPhotos';
-import Posts from './Components/Posts';
+import Billings from './Components/Billings';
 
 class NewPropertyPage extends React.Component<RouteComponentProps<{ action: string }>, {}> {
   newPropertyAction: {
@@ -24,7 +24,7 @@ class NewPropertyPage extends React.Component<RouteComponentProps<{ action: stri
       sell: <SellPage />,
       rent: <RentPage />,
       photo: <ApartmentPhotos />,
-      posts: <Posts/>,
+      posts: <Billings/>,
       renovation: <RenovationPage />,
       default: <AddNewPropertyForm />
     };
@@ -38,7 +38,7 @@ class NewPropertyPage extends React.Component<RouteComponentProps<{ action: stri
         return this.newPropertyAction.rent;
       case 'photo':
         return this.newPropertyAction.photo;
-      case 'posts':
+      case 'billings':
         return this.newPropertyAction.posts;
       case 'renovation':
         return this.newPropertyAction.renovation;
@@ -51,6 +51,7 @@ class NewPropertyPage extends React.Component<RouteComponentProps<{ action: stri
       <div className="infoPage">
         <Dashboard >
           <div className="infoWrapper">
+        
             {this.matchAction()}
           </div>
         </Dashboard>

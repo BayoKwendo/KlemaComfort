@@ -19,13 +19,13 @@ class SingleHouse extends React.Component<SingleHouseProps, {}> {
               <span className="icon-bubble"> 13</span>
             </div>
             <div className="figView"><span className="icon-eye" /></div>
-            <div className="figType">FOR SALE</div>
+              <div className="figType">FOR SALE</div>
           </div>
-          <h2>{this.props.data.name}</h2>
+          <h2>{this.props.data.apartment_name}</h2>
           <div className="cardAddress"><span className="icon-pointer" />
             {this.props.data.address}
-            </div>
-          <ul className="cardFeat">
+            </div> 
+           <ul className="cardFeat">
             <li><span className="fa fa-moon-o" /> {this.props.data.beds}</li>
             <li><span className="icon-drop" /> {this.props.data.toilets}</li>
             <li><span className="icon-frame" /> {this.props.data.square} Sq Ft</li>

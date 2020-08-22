@@ -29,7 +29,7 @@ class FooterContainer extends React.Component<{}, {}> {
       <div className="footerContainer">
         <div className="row">
             <ListComp list={this.listCompany}>Company</ListComp>
-            <ListComp list={this.listDiscover}>Discover</ListComp>
+            {/* <ListComp list={this.listDiscover}>Discover</ListComp> */}
             <GetInTouch>Get in Touch</GetInTouch>
             <Subscribe>Subscribe to Our Newsletter</Subscribe>
         </div>

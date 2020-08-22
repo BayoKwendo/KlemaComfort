@@ -29,6 +29,8 @@ type ListingState = {
   wards: any[],
   landlord: any[],
   boolean: any[],
+  houses:any[],
+  alert_color: string,
   selectedBolean: string,
   selectedBolean1: string,
   isLoading: boolean,
@@ -59,11 +61,13 @@ class AddPhoto extends React.Component<{}, ListingState> {
       landLord_id: '',
       ward_id: '',
       generator: '',
+      alert_color: '',
       csvfile: '',
       lift: '',
       isLoading: false,
       Name: '',
       counties: [],
+      houses: [],
       constituency: [],
       wards: [],
       landlord: [],
@@ -98,7 +102,7 @@ class AddPhoto extends React.Component<{}, ListingState> {
     },
 
       function () {
-        console.log("bayo", constituencyResponse.data)
+        console.log("bayo", countiesResponse.data)
       }
     );
 
@@ -113,27 +117,31 @@ class AddPhoto extends React.Component<{}, ListingState> {
   }
 
   onSelectChange = (value: { value: { toString: () => any; }; }) => {
-    this.setState({ county_id: value.value.toString() 
-      // function () {
-      //   fetch(baseURL + 'classes?branch_id=' + value.value.toString(), { headers: { "Authorization": `Bearer ${window.user.data.access_token}` } })
-      //     .then(response => response.json())
-      //     .then(
-      //       res => {
-      //         this.setState({ class: res },
-      //           console.log("bayd", res)
-      //         )
-      //       }
-      //     )
-      });
+    this.setState({
+      county_id: value.value.toString()},
+      function () {
+        fetch(baseURL + 'houses?apartment_id=' + value.value.toString(), { headers: { "Authorization": `Bearer `+TOKEN } })
+          .then(response => response.json())
+          .then(
+            res => {
+              this.setState({ houses: res },
+                console.log("bayd", res)
+              )
+            }
+          )
+    });
 
 
   };
 
   Constituency() {
-    return (this.state.constituency && this.state.constituency.length > 0 &&
-      this.state.constituency.map((countyItem, i) =>
+  
+    return (this.state.houses && (this.state.houses.length > 0||this.state.houses.length ==0) &&
+      this.state.houses.map((countyItem, i) =>
         ({ label: countyItem.house_number, value: countyItem.id })))
-  }
+
+}
+
   onSelectChangeConstitueny = value => {
     this.setState({ constituency_id: value.value.toString() });
   };
@@ -166,20 +174,17 @@ class AddPhoto extends React.Component<{}, ListingState> {
       .then((response) => {
 
         if (response.data.status) {
-          this.setState({ statusMessage: response.data.status_message, isShowError: true, isLoading: false });
+          this.setState({ statusMessage: response.data.status_message,alert_color: "alert alert-success", isShowError: true, isLoading: false });
           window.setTimeout(function () {
             window.location.reload();
           }, 2000);
         } else {
-
-          this.setState({ statusMessage: response.data.status_message, isShowError: true, isLoading: false });
+          this.setState({ statusMessage: response.data.status_message,alert_color: "alert alert-danger", isShowError: true, isLoading: false });
         }
       })
       .catch((error) => {
         console.log('bayoo', error.response)
-
-        this.setState({ statusMessage: error.response.data.status_message, isShowError: true, isLoading: false });
-
+        this.setState({ statusMessage: error.response.data.status_message,alert_color: "alert alert-danger", isShowError: true, isLoading: false });
       })
   }
 
@@ -203,7 +208,7 @@ class AddPhoto extends React.Component<{}, ListingState> {
     data.append("image", this.state.csvfile);
     // console.log("DATA", data);
 
-    axios.post(baseURL + 'apartments/'+this.state.county_id+'/galleries', data, {
+    axios.post(baseURL + 'apartments/' + this.state.county_id + '/galleries', data, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -212,15 +217,18 @@ class AddPhoto extends React.Component<{}, ListingState> {
     }).then((response) => {
 
       if (response.data.status) {
-        this.setState({ statusMessage: response.data.status_message, isLoading: false,isShowError: true });
+        this.setState({ statusMessage: response.data.status_message,alert_color: "alert alert-success", isLoading: false, isShowError: true });
         console.log("bayo", response.data)
+        window.setTimeout(function () {
+          window.location.reload();
+        }, 2000);
       } else {
-        this.setState({ statusMessage: response.data.status_message, isLoading: false, isShowError: true });
+        this.setState({ statusMessage: response.data.status_message, isLoading: false, alert_color: "alert alert-danger", isShowError: true });
       }
 
     }).catch((error) => {
       console.log('bayoo', error.response)
-      this.setState({});
+      this.setState({ statusMessage: error.response.data.status_message, isLoading: false, alert_color: "alert alert-danger", isShowError: true });
     })
   }
 
@@ -233,22 +241,25 @@ class AddPhoto extends React.Component<{}, ListingState> {
     data.append("image", this.state.csvfile);
     // console.log("DATA", data);
 
-    axios.post(baseURL + 'houses/'+this.state.county_id+'/galleries', data, {
+    axios.post(baseURL + 'houses/' + this.state.county_id + '/galleries', data, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + TOKEN
       },
-    }).then( (response) => {
+    }).then((response) => {
       if (response.data.status) {
-        this.setState({ statusMessage: response.data.status_message, isLoading: false, isShowError: true });
+        this.setState({ statusMessage: response.data.status_message,alert_color: "alert alert-success", isLoading: false, isShowError: true });
         console.log("bayo", response.data)
-       }else {
-        this.setState({ statusMessage: response.data.status_message, isLoading: false,isShowError: true });
+        window.setTimeout(function () {
+          window.location.reload();
+        }, 2000);
+      } else {
+        this.setState({ statusMessage: response.data.status_message, isLoading: false,alert_color: "alert alert-danger",  isShowError: true });
       }
-    } ).catch((error) => {
+    }).catch((error) => {
       console.log('bayoo', error.response)
-      this.setState({});
+      this.setState({ statusMessage: error.response.data.status_message, isLoading: false, alert_color: "alert alert-danger", isShowError: true });
     })
   }
 
@@ -272,7 +283,7 @@ class AddPhoto extends React.Component<{}, ListingState> {
 
     return (
       <div className="newPropertyForm">
-        {this.state.isShowError ? <div className="alert alert-success"
+        {this.state.isShowError ? <div className={this.state.alert_color}
           style={{ fontSize: '15px' }}>
           {this.state.statusMessage}</div> : null}
         <form onSubmit={this.onSubmit}>
@@ -280,6 +291,7 @@ class AddPhoto extends React.Component<{}, ListingState> {
 
           {showComponent && (
             <div className="title col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
+              <br></br><br /><br />
               <h4>For House or Apaertment</h4>
               <select
                 name="lift"
@@ -288,7 +300,6 @@ class AddPhoto extends React.Component<{}, ListingState> {
                 onChange={this.handleChangeBolean1}
                 id="gender">
                 {<option>For House or Apaertment?</option>}
-
                 {
                   this.state.boolean && this.state.boolean.length > 0
                   && this.state.boolean.map((genderItem, i) =>
@@ -335,12 +346,17 @@ class AddPhoto extends React.Component<{}, ListingState> {
                       onChange={this.handleChangeCSV}
                     />
                     <p />
-                    <button id="input" onClick={this.importCSV} className="btn btn-green btn-lg
-                                                                 text-white margin-left: '10px'" style={{ fontFamily: 'Fira Sans', backgroundColor: '#0070BA' }}>
-                      {this.state.isLoading ? "Please Wait..." : "Import now!"}  <i className="fa fa-refresh"></i>
-                    </button>
+
                   </div>
                 </div>
+
+              </div>
+
+              <div className="text-center title col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
+                <button id="input" onClick={this.importCSV} className="btn btn-green btn-lg
+                                                                 text-white margin-left: '10px'" style={{ fontFamily: 'Fira Sans', backgroundColor: '#0070BA' }}>
+                  {this.state.isLoading ? "Please Wait..." : "Import now!"}  <i className="fa fa-refresh"></i>
+                </button>
               </div>
 
             </>
@@ -371,13 +387,16 @@ class AddPhoto extends React.Component<{}, ListingState> {
                       onChange={this.handleChangeCSV}
                     />
                     <p />
-                    <button id="input" onClick={this.importCSVs} className="btn btn-green btn-lg
-                                                                 text-white margin-left: '10px'" style={{ fontFamily: 'Fira Sans', backgroundColor: '#0070BA' }}>
-                      {this.state.isLoading ? "Please Wait..." : "Import now!"}  <i className="fa fa-refresh"></i>
-                    </button>
 
                   </div>
                 </div>
+              </div>
+
+              <div className="text-center title col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
+                <button id="input" onClick={this.importCSV} className="btn btn-green btn-lg
+                                                                 text-white margin-left: '10px'" >
+                  {this.state.isLoading ? "Please Wait..." : "Import now!"}  <i className="fa fa-refresh"></i>
+                </button>
               </div>
             </>
           )}

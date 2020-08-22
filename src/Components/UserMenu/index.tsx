@@ -2,6 +2,7 @@ import * as React from 'react';
 import './style.css';
 import { Link } from 'react-router-dom';
 import { Icon } from 'react-fa';
+import { NAME } from 'Helpers/token';
 
 interface UserMenuProps {
 
@@ -53,14 +54,13 @@ class UserMenu extends React.Component<UserMenuProps, UserMenuState> {
       <div 
         className={`userMenuContainer${this.state.showMenu ? ' open' : ''}`} 
         onClick={this.showToggle}
-        ref={(div) => {this.wrapperRef = div; }}
-      >
+        ref={(div) => {this.wrapperRef = div; }}>
         <a href="#" className="userHandler dropdown-toggle" data-toggle="dropdown">
           <Icon name="user-o" /><span className="counter">5</span></a>
         <a href="#" className="headerUser dropdown-toggle" data-toggle="dropdown">
           <img className="avatar headerAvatar pull-left" src="http://mariusn.com/themes/reales/images/avatar-1.png" />
           <div className="userTop pull-left">
-            <span className="headerUserName">John Smith</span>
+    <span className="headerUserName">{NAME}</span>
             <Icon name="angle-down" />
           </div>
           <div className="clearfix" />
@@ -72,7 +72,7 @@ class UserMenu extends React.Component<UserMenuProps, UserMenuState> {
               src="http://mariusn.com/themes/reales/images/avatar-1.png"
               alt="avatar"
             />
-            <div className="mobAvatarName">John Smith</div>
+            <div className="mobAvatarName">{NAME}</div>
           </div>
           <ul>
             <li><Link to="/wallet"><span className="walletIcon fa" />Wallet</Link></li>

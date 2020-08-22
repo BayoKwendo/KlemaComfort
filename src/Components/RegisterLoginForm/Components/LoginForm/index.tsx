@@ -49,7 +49,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
       login: true,
     };
 
-    if( isLoggedIn == " true "){
+    if (isLoggedIn == " true ") {
       window.location.href = "/newproperty/sell";
     }
   }
@@ -106,15 +106,16 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        })
+      })
         .then((response) => {
           if (response.data.status) {
             localStorage.setItem("currentUser", JSON.stringify(response.data));
             localStorage.setItem("user_role", response.data.response.user.role_id);
             localStorage.setItem("token", response.data.response.token);
             localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("fullname", response.data.response.user.first_name + " " + response.data.response.user.last_name)
+            localStorage.setItem("id", response.data.response.user.id);
             currentUserSubject.next(response.data);
-
             this.setState({
               statusMessage: "Login Success! Redirecting....",
               isShowError: true,
@@ -122,13 +123,31 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
               submitted: true,
               isLoggedIn: true
             });
-            window.setTimeout(() => {
-              window.location.href = "/newproperty/sell";
-              this.setState({ isLoading: false });
 
-            }, 2000);
+            if (response.data.response.user.role_id == 1) {
+              window.setTimeout(() => {
+                window.location.href = "/user/role";
+                this.setState({ isLoading: false });
 
-          } else {
+              }, 2000);
+
+            } if (response.data.response.user.role_id == 3) {
+              window.setTimeout(() => {
+                window.location.href = "/leaseLandLord";
+                this.setState({ isLoading: false });
+
+              }, 2000);
+
+            }
+            else if (response.data.response.user.role_id == 4) {
+              window.setTimeout(() => {
+                window.location.href = "/leaseTenant";
+                this.setState({ isLoading: false });
+
+              }, 2000);
+            }
+          }
+          else {
 
             this.setState({});
             this.setState({
@@ -198,7 +217,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
                 ) : null}
               </>
               <div className="modal-header">
-                <h4 className="modal-title">Sign In</h4>
+                <h4 className="modal-title" style={{color: "black"}}>Sign In</h4>
               </div>
               <div className="modal-body">
                 <form role="loginForm form" onSubmit={this.onSubmit}>

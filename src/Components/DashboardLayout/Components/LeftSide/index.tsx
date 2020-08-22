@@ -2,6 +2,7 @@ import * as React from 'react';
 import './style.css';
 import { Icon } from 'react-fa';
 import { Link } from 'react-router-dom';
+import { ROLE } from 'Helpers/token';
 
 interface LeftSideProps {
   isExpand: boolean;
@@ -22,91 +23,164 @@ class LeftSide extends React.Component<LeftSideProps, {}> {
       <div className={`leftSide slimScroll${this.props.isExpand ? ' expanded' : ' minimized'}`}>
         <nav className="leftNav scrollable bigNav">
           <ul>
-            {/* <li><Link to="/search">
-              <Icon className="navIcon" name="compass" />
-              <span className="navLabel">Search</span>
-            </Link></li> */}
-            <li className="hasSub hasSubActive">
-              <Link to="/newproperty/sell" onClick={this.toggleActive}>
-                <Icon className="navIcon" name="plus-circle" />
-                <span className="navLabel">Add Property</span>
-                <Icon className="closeIcon arrowRight" name="angle-left" />
-                <Icon className="openIcon arrowRight" name="angle-down" />
-              </Link>
-              <ul className="colors secondUl">
-                <li><Link to="/newproperty/sell">
-                  Add Apartment<Icon name="circle-o" className="icon-right" />
+            {ROLE == '3' ?
+              <>
+
+                <li><Link to="/leaseLandLord">
+                  <Icon className="navIcon" name="home" />
+                  <span className="navLabel">Lease</span>
                 </Link></li>
-                <li><Link to="/newproperty/rent">
-                  Add House<Icon name="circle-o" className="icon-right" />
+
+                <li><Link to="/complain">
+                  <Icon className="navIcon" name="exclamation-triangle" />
+                  <span className="navLabel">Complians</span>
                 </Link></li>
-                <li><Link to="/newproperty/photo">
-                  Add Photo<Icon name="circle-o" className="icon-right" />
+                <li><Link to="/accounts">
+                  <Icon className="navIcon" name="money" />
+                  <span className="navLabel">Accounts</span>
                 </Link></li>
-                <li><Link to="/newproperty/posts">
-                  Add Posts<Icon name="circle-o" className="icon-right" />
+
+                <li><Link to="/transaction">
+                  <Icon className="navIcon" name="money" />
+                  <span className="navLabel">Transactions</span>
                 </Link></li>
-              </ul>
-            </li>
-            <li className="hasSub hasSubActive">
-              <Link to="/property/mylisting" onClick={this.toggleActive}>
-                <Icon className="navIcon icon-home" name="home" />
-                <span className="navLabel">Properties</span>
-                <Icon className="closeIcon arrowRight" name="angle-left" />
-                <Icon className="openIcon arrowRight" name="angle-down" />
-              </Link>
-              <ul className="colors secondUl">
-                <li><Link to="/property/mylisting">
-                  My listing<Icon name="circle-o" className="icon-right" />
+              </>
+
+              : null}
+
+            {ROLE == '4' ?
+              <>
+                <li><Link to="/leaseTenant">
+                  <Icon className="navIcon" name="home" />
+                  <span className="navLabel">Lease</span>
                 </Link></li>
-                <li><Link to="/property/mywishlist">
-                  My wishlist<Icon name="circle-o" className="icon-right" />
+
+                <li><Link to="/agreement">
+                  <Icon className="navIcon" name="plus-square" />
+
+                  <span className="navLabel">Add-Agreement</span>
                 </Link></li>
-                <li><Link to="/property/myviewing">
-                  My viewing<Icon name="circle-o" className="icon-right" />
+
+                <li className="hasSub hasSubActive">
+                  <Link to="/complain/complain" onClick={this.toggleActive}>
+                    <Icon className="navIcon" name="exclamation-triangle" />
+                    <span className="navLabel">Complains</span>
+                    <Icon className="closeIcon arrowRight" name="angle-left" />
+                    <Icon className="openIcon arrowRight" name="angle-down" />
+                  </Link>
+                  <ul className="colors secondUl">
+                    <li><Link to="/complain/add">
+                      Add Complain<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    <li><Link to="/complain/complain">
+                      Complain<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+
+                  </ul>
+                </li>
+
+                <li><Link to="/payments">
+                  <Icon className="navIcon" name="money" />
+                  <span className="navLabel">Payments</span>
                 </Link></li>
-              </ul>
-            </li>
-            <li className="hasSub hasSubActive">
-              <Link to="/agent/myagents" onClick={this.toggleActive}>
-                <Icon className="navIcon" name="user" />
-                <span className="navLabel">Users</span>
-                <Icon className="closeIcon arrowRight" name="angle-left" />
-                <Icon className="openIcon arrowRight" name="angle-down" />
-              </Link>
-              <ul className="colors secondUl">
-                <li><Link to="/user/users">
-                  LandLord/Caretaker<Icon name="circle-o" className="icon-right" />
+                <li><Link to="/transaction">
+                  <Icon className="navIcon" name="money" />
+                  <span className="navLabel">Transactions</span>
                 </Link></li>
-                <li><Link to="/user/tenants">
-                  Tenants<Icon name="circle-o" className="icon-right" />
+                <li><Link to="/walletss">
+                  <Icon className="navIcon" name="bank" />
+                  <span className="navLabel">Wallets</span>
                 </Link></li>
-              </ul>
-            </li>
-            <li className="hasSub hasSubActive">
-              <Link to="/advice/buying" onClick={this.toggleActive}>
-                <Icon className="navIcon" name="comments" />
-                <span className="navLabel">Advice</span>
-                <Icon className="closeIcon arrowRight" name="angle-left" />
-                <Icon className="openIcon arrowRight" name="angle-down" />
-                {/* <span className="badge bg-yellow">5</span> */}
-              </Link>
-              <ul className="colors secondUl">
-                <li><Link to="/advice/buying">
-                  Buying<Icon name="circle-o" className="icon-right" />
+
+              </>
+
+              : null}
+            {ROLE == '1' ?
+              <>
+                <li className="hasSub hasSubActive">
+                  <Link to="/user/role" onClick={this.toggleActive}>
+                    <Icon className="navIcon" name="user" />
+                    <span className="navLabel">Users</span>
+                    <Icon className="closeIcon arrowRight" name="angle-left" />
+                    <Icon className="openIcon arrowRight" name="angle-down" />
+                  </Link>
+
+                  <ul className="colors secondUl">
+                    <li><Link to="/user/role">
+                      LandLords<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    <li><Link to="/user/care">
+                      Caretakers<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    <li><Link to="/user/tenant">
+                      Tenants<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    <li><Link to="/user/users">
+                      Add LandLord & Caretaker<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    <li><Link to="/user/tenants">
+                      Add Tenants<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    <li><Link to="/user/lease">
+                      Add Lease<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                  </ul>
+                </li>
+                <li className="hasSub hasSubActive">
+                  <Link to="/newproperty/sell" onClick={this.toggleActive}>
+                    <Icon className="navIcon" name="plus-circle" />
+                    <span className="navLabel">Add Property</span>
+                    <Icon className="closeIcon arrowRight" name="angle-left" />
+                    <Icon className="openIcon arrowRight" name="angle-down" />
+                  </Link>
+                  <ul className="colors secondUl">
+                    <li><Link to="/newproperty/sell">
+                      Add Apartment<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    <li><Link to="/newproperty/rent">
+                      Add House<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    <li><Link to="/newproperty/billings">
+                      Add Billings<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    <li><Link to="/newproperty/photo">
+                      Add Photo<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                  </ul>
+                </li>
+                <li><Link to="/posts">
+                  <Icon className="navIcon" name="plus-square" />
+                  <span className="navLabel">Add Posts</span>
                 </Link></li>
-                <li><Link to="/advice/selling">
-                  Selling<Icon name="circle-o" className="icon-right" />
+                <li><Link to="/lease">
+                  <Icon className="navIcon" name="home" />
+                  <span className="navLabel">Lease</span>
                 </Link></li>
-                <li><Link to="/advice/design">
-                  Design<Icon name="circle-o" className="icon-right" />
+                <li><Link to="/agencomplain">
+                  <Icon className="navIcon" name="exclamation-triangle" />
+                  <span className="navLabel">Complians</span>
                 </Link></li>
-                <li><Link to="/advice/renovations">
-                  Renovations<Icon name="circle-o" className="icon-right" />
+
+                <li><Link to="/accounts">
+                  <Icon className="navIcon" name="money" />
+                  <span className="navLabel">Accounts</span>
                 </Link></li>
-              </ul>
-            </li>
+                <li><Link to="/invoice">
+                  <Icon className="navIcon" name="file" />
+                  <span className="navLabel">Invoice</span>
+                </Link></li>
+                {/* <li><Link to="/search">
+                  <Icon className="navIcon" name="compass" />
+                  <span className="navLabel">Search</span>
+                </Link></li> */}
+
+
+              </>
+
+              : null}
           </ul>
+
+
         </nav>
       </div>
     );

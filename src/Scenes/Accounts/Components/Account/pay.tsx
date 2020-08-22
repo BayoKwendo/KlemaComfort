@@ -1,11 +1,9 @@
 import * as React from 'react';
-import './style.css';
 import axios from "axios";
 import { baseURL } from 'Helpers/baseURL';
 import { TOKEN } from 'Helpers/token';
 import Select from 'react-select';
 
-import "./csv.css";
 
 type ListingState = {
 
@@ -22,12 +20,16 @@ type ListingState = {
   landLord_id: string,
   ward_id: string,
   statusMessage: string,
+  alert_color: string,
+
   generator: string,
   lift: string,
+  houses: any[],
   Name: string,
   counties: any[],
   constituency: any[],
   wards: any[],
+  complian: any[],
   landlord: any[],
   boolean: any[],
   selectedBolean: string,
@@ -35,12 +37,13 @@ type ListingState = {
   isLoading: boolean,
   isShowError: boolean,
   hide1Component: boolean,
-  csvfile: string
+  csvfile: string,
+  data:any[]
 
 };
 
 
-class AddPosts extends React.Component<{}, ListingState> {
+class Payment extends React.Component<{}, ListingState> {
   constructor() {
     super();
     this.onSubmit = this.onSubmit.bind(this);
@@ -53,6 +56,7 @@ class AddPosts extends React.Component<{}, ListingState> {
       search: '',
       number_blocks: '',
       county_id: '',
+      alert_color: "",
       showComponent: true,
       hideComponent: false,
       hide1Component: false,
@@ -62,9 +66,12 @@ class AddPosts extends React.Component<{}, ListingState> {
       generator: '',
       csvfile: '',
       lift: '',
+      houses: [],
       isLoading: false,
       Name: '',
+      complian: [],
       counties: [],
+      data:[],
       constituency: [],
       wards: [],
       landlord: [],
@@ -87,51 +94,72 @@ class AddPosts extends React.Component<{}, ListingState> {
     const [
       countiesResponse, constituencyResponse] = await Promise.all([
         // axios.get(baseURL + 'users/1', { headers: { "Authorization": `Bearer ${window.user.data.access_token}` } }),
-        axios.get(baseURL + "apartments", { headers: { "Authorization": token } }),
-        axios.get(baseURL + 'houses', { headers: { "Authorization": token } }),
+        axios.get(baseURL + "tenants", { headers: { "Authorization": token } }),
+        axios.get(baseURL + 'users', { headers: { "Authorization": token } }),
 
 
       ]);
 
     this.setState({
-      counties: countiesResponse.data,
-      constituency: constituencyResponse.data,
+      complian: countiesResponse.data,
+      houses: constituencyResponse.data,
     },
 
       function () {
-        console.log("bayo", constituencyResponse.data)
+        console.log("bayo", countiesResponse.data)
       }
     );
+
+
+    var data = [];
+    for (let i = 0; i < this.state.complian.length; i++) {
+      //alert(this.state.users[i].id);
+      for (let j = 0; j < this.state.houses.length; j++) {
+        var house_id = this.state.complian[i].user_id;
+        //   var user_id = this.state.complian[i].user_id;
+        console.log("EVANS", this.state.houses[j].id);
+
+        // var house_id = this.state.houses[j].id;
+        if (house_id == this.state.houses[j].id) {
+
+             data.push(Object.assign(this.state.complian[i], this.state.houses[j]))
+          this.setState({
+            data: data
+          })
+          console.log("bayd", this.state.data)
+
+        }
+      }
+    }
 
   }
 
   County() {
-    return (this.state.counties && this.state.counties.length > 0 &&
-      this.state.counties.map((countyItem, i) =>
-        ({ label: countyItem.apartment_name, value: countyItem.id })))
+    return (this.state.data && (this.state.data.length == 0 || this.state.data.length) > 0 &&
+      this.state.data.map((countyItem, i) =>
+        ({ label: countyItem.first_name +" "+countyItem.last_name, value: countyItem.id })))
   }
 
   onSelectChange = (value: { value: { toString: () => any; }; }) => {
     this.setState({
       county_id: value.value.toString()
-      // function () {
-      //   fetch(baseURL + 'classes?branch_id=' + value.value.toString(), { headers: { "Authorization": `Bearer ${window.user.data.access_token}` } })
-      //     .then(response => response.json())
-      //     .then(
-      //       res => {
-      //         this.setState({ class: res },
-      //           console.log("bayd", res)
-      //         )
-      //       }
-      //     )
-    });
-
-
+    },
+      function () {
+        fetch(baseURL + 'houses?apartment_id=' + value.value.toString(), { headers: { "Authorization": `Bearer ` + TOKEN } })
+          .then(response => response.json())
+          .then(
+            res => {
+              this.setState({ houses: res },
+                console.log("bayd", res)
+              )
+            }
+          )
+      });
   };
 
   Constituency() {
-    return (this.state.constituency && this.state.constituency.length > 0 &&
-      this.state.constituency.map((countyItem, i) =>
+    return (this.state.houses && (this.state.houses.length == 0 || this.state.houses.length > 0) &&
+      this.state.houses.map((countyItem, i) =>
         ({ label: countyItem.house_number, value: countyItem.id })))
   }
   onSelectChangeConstitueny = value => {
@@ -141,27 +169,25 @@ class AddPosts extends React.Component<{}, ListingState> {
 
   onSubmit(e) {
     e.preventDefault();
-    event.preventDefault();
-    console.log("fileformat", this.state.csvfile)
-    var data = new FormData();
+
     this.setState({ isLoading: true });
 
     // data.append("image", this.state.csvfile);
 
     let formData = {
 
-      "title": this.state.number_of_floors,
-      "slug": this.state.number_of_carparking,
-      "body": this.state.number_blocks,
-      "apartment_id": this.state.county_id,
-      "image": this.state.csvfile
+      "msisdn": this.state.number_of_floors,
+      "amount": this.state.number_of_carparking,
+      "customer_type": "tenant",
+      "customer_id":this.state.county_id,
+
       // 'school_logo': "logo.png"
     }
 
     console.log("DATA", JSON.stringify(formData))
     // console.log("DATA", data);
 
-    axios.post(baseURL + 'posts', data, {
+    axios.post(baseURL + 'mpesapayments', formData, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -170,15 +196,15 @@ class AddPosts extends React.Component<{}, ListingState> {
     }).then((response) => {
 
       if (response.data.status) {
-        this.setState({ statusMessage: response.data.status_message, isLoading: false, isShowError: true });
+        this.setState({ statusMessage: response.data.status_message, alert_color: "alert alert-success", isLoading: false, isShowError: true });
         console.log("bayo", response.data)
       } else {
-        this.setState({ statusMessage: response.data.statusMessage, isLoading: false, isShowError: true });
+        this.setState({ statusMessage: response.data.status_message, isLoading: false, alert_color: "alert alert-danger", isShowError: true });
       }
 
     }).catch((error) => {
       console.log('bayoo', error.response)
-   //   this.setState({ statusMessage: response.data.status_message, isLoading: false, isShowError: true });
+      this.setState({ statusMessage: error.response.data.statusMessage, isLoading: false, alert_color: "alert alert-danger", isShowError: true });
     })
 
   }
@@ -186,22 +212,8 @@ class AddPosts extends React.Component<{}, ListingState> {
   handleChangeBolean1 = (event) => {
     this.setState({ selectedBolean1: event.target.value },);
 
-    if (event.target.value == "House") {
-      this.setState({ hideComponent: true, showComponent: true, hide1Component: false },);
-    } else if (event.target.value == "Apartment") {
-      this.setState({ hideComponent: false, showComponent: true, hide1Component: true },);
-    } else {
-      this.setState({ hideComponent: false, showComponent: true, hide1Component: false },);
-    }
   };
 
-
-  handleChangeCSV = event => {
-    console.log("FETCHER", event.target.files);
-    this.setState({
-      csvfile: event.target.files[0]
-    });
-  };
 
 
 
@@ -219,58 +231,39 @@ class AddPosts extends React.Component<{}, ListingState> {
 
     return (
       <div className="newPropertyForm">
-        {this.state.isShowError ? <div className="alert alert-success"
+        {this.state.isShowError ? <div className={this.state.alert_color}
           style={{ fontSize: '15px' }}>
           {this.state.statusMessage}</div> : null}
         <form onSubmit={this.onSubmit}>
-
-
           <>
-          
+
             <div className="title col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
-              <h4>Title</h4>
-              <input type="text" required name="title" onChange={this.handleChangefloor} id="" className="form-control" />
-            </div>
-            <div className="Price col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
-                <h4>Apartment</h4>
-                <Select
-                  options={this.County()}
-                  onChange={this.onSelectChange}
-                  placeholder="Select Apartment"
-                  tabSelectsValue={false}
-                  className='drop'
-                />
-                <br />
-              </div>
-            <div className="Price col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
-              <h4>Slug</h4>
-              <input type="text" required name="slug" onChange={this.handleChangePark} id="" className="form-control" />
-            </div>
-            <div className="title col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
-              <h4>Body</h4>
-              <input type="text" required name="body" id="" onChange={this.handleChangeBlocl} className="form-control" />
+              <h4>Phone Number</h4>
+              <input type="number" required name="title" onChange={this.handleChangefloor} id="" className="form-control" />
             </div>
 
-            <div className="wrapper text-center title col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
-              <div className="section1"><br />
-                <div className="container">
-                  <h2 style={{ marginBottom: '20px' }}>Import Image File!</h2>
-                  <input
-                    className="csv-input"
-                    type="file"
-                    name="file"
-                    placeholder={null}
-                    onChange={this.handleChangeCSV}
-                  />
-                  <p />
-
-                </div>
-              </div>
+            <div className="Price col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
+              <h4>Amount</h4>
+              <input type="number" required name="slug" onChange={this.handleChangePark} id="" className="form-control" />
             </div>
+
+
+            <div className="Price col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
+              <h4>Tenants</h4>
+              <Select
+                options={this.County()}
+                onChange={this.onSelectChange}
+                placeholder="Select Tenant"
+                tabSelectsValue={false}
+                className='drop'
+              />
+              <br />
+            </div>
+
             <div className=" text-center title col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
               <button id="input" type="submit" className="btn btn-green btn-lg
                                                                  text-white margin-left: '10px'" style={{ fontFamily: 'Fira Sans', backgroundColor: '#0070BA' }}>
-                {this.state.isLoading ? "Please Wait..." : "Post Now!"}  <i className="fa fa-refresh"></i>
+                {this.state.isLoading ? "Please Wait..." : "Pay"}  <i className="fa fa-refresh"></i>
               </button>
             </div>
           </>
@@ -284,4 +277,4 @@ class AddPosts extends React.Component<{}, ListingState> {
   }
 }
 
-export default AddPosts;
+export default Payment;

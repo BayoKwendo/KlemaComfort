@@ -6,7 +6,7 @@ import RLForm from 'Components/RegisterLoginForm';
 import UserMenu from 'Components/UserMenu';
 import { Link } from 'react-router-dom';
 import { getTranslation, SupportedLanguage } from 'Services/Geo';
-import LanguageSelector from 'Components/LanguageSelector';
+// import LanguageSelector from 'Components/LanguageSelector';
 import { RootState } from 'Redux/Store';
 
 const mapStateToProps = (state: RootState) => ({
@@ -63,7 +63,7 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
       //   </a></li>
       // ),
       (
-        <li key="1"><a href="#" onClick={() => this.updateFormStatus('login')}>
+         <li key="1"><a href="#" onClick={() => this.updateFormStatus('login')}>
           
           {getTranslation(this.props.lang, 'Login')}
         </a></li>
@@ -77,7 +77,7 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
     return (
       <div className="menuBar">
         <div className="langSelectorWrapper">
-         // <LanguageSelector />
+        
         </div>
         <a href="/">
           <div className="homeLogo osLight">

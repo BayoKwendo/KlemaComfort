@@ -27,6 +27,8 @@ type ListingState = {
   wards: any[],
   landlord: any[],
   boolean: any[],
+  alert_color: string,
+  apartments: any [],
   selectedBolean: string,
   selectedBolean1: string,
   isLoading: boolean,
@@ -52,6 +54,7 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
       generator: '',
       lift: '',
       isLoading: false,
+      alert_color: "",
       Name: '',
       counties: [],
       constituency: [],
@@ -67,13 +70,17 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
         {
           name: 'NO'
         }],
-    };
-
-  
-
-  }
-  async componentDidMount() {
+      apartments: [
+        {
+          name: 'commercial'
+        },
+        {
+          name: 'residential'
+        }],
+    }; }
     
+  async componentDidMount() {
+
     const token = 'Bearer ' + TOKEN
     const [
       countiesResponse, constituencyResponse, wardsResponse, landlordResponse] = await Promise.all([
@@ -93,7 +100,7 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
     },
 
       function () {
-        console.log("bayo", constituencyResponse.data)
+        console.log("landloard", landlordResponse.data)
       }
     );
 
@@ -132,7 +139,7 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
 
 
   Landload() {
-    return (this.state.landlord && this.state.landlord.length > 0 &&
+    return (this.state.landlord && (this.state.landlord.length == 0 || this.state.landlord.length > 0) &&
       this.state.landlord.map((countyItem, i) =>
         ({ label: countyItem.username, value: countyItem.id })))
   }
@@ -171,19 +178,19 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
       .then((response) => {
 
         if (response.data.status) {
-          this.setState({ statusMessage: response.data.status_message, isShowError: true, isLoading: false });
+          this.setState({ statusMessage: response.data.status_message, alert_color: "alert alert-success", isShowError: true, isLoading: false });
           window.setTimeout(function () {
             window.location.reload();
           }, 2000);
         } else {
 
-          this.setState({ statusMessage: response.data.status_message, isShowError: true, isLoading: false });
+          this.setState({ statusMessage: response.data.status_message, alert_color: "alert alert-danger", isShowError: true, isLoading: false });
         }
       })
       .catch((error) => {
         console.log('bayoo', error.response)
 
-        this.setState({ statusMessage: error.response.data.status_message, isShowError: true, isLoading: false });
+        this.setState({ statusMessage: error.response.data.status_message, alert_color: "alert alert-danger", isShowError: true, isLoading: false });
 
       })
   }
@@ -217,7 +224,7 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
     }
     return (
       <div className="newPropertyForm">
-        {this.state.isShowError ? <div className="alert alert-success"
+        {this.state.isShowError ? <div className={this.state.alert_color}
           style={{ fontSize: '15px' }}>
           {this.state.statusMessage}</div> : null}
         <form onSubmit={this.onSubmit}>
@@ -228,11 +235,29 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
             </div>
             <div className="Price col-xs-12 col-sm-6 col-md-6">
               <h4>Apartment Type</h4>
-              <input type="text" required name="apartment_type" onChange={this.handleChangetype} id="" className="form-control" />
+              <select
+                name="apartment_type"
+                className="form-control"
+                value={this.state.apartment_type}
+                onChange={this.handleChangetype}
+                id="gender">
+                {<option>Apartment Type</option>}
+
+                {
+                  this.state.apartments && this.state.apartments.length > 0
+                  && this.state.apartments.map((genderItem, i) =>
+                    <option key={i} value={genderItem.name}>{genderItem.name}</option>)
+                }
+              </select>
+
             </div>
+            {/* <div className="Price col-xs-12 col-sm-6 col-md-6">
+              <h4></h4>
+              <input type="text" required name="apartment_type" onChange={this.handleChangetype} id="" className="form-control" />
+            </div> */}
             <div className="title col-xs-12 col-sm-6 col-md-6">
               <h4>Number of Floor</h4>
-              <input type="text" required name="number_of_floors" onChange={this.handleChangefloor} id="" className="form-control" />
+              <input type="number" required name="number_of_floors" onChange={this.handleChangefloor} id="" className="form-control" />
             </div>
             <div className="Price col-xs-12 col-sm-6 col-md-6">
               <h4>Number of Car Parking</h4>
@@ -240,7 +265,7 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
             </div>
             <div className="title col-xs-12 col-sm-6 col-md-6">
               <h4>Number of Blocks</h4>
-              <input type="text" required name="number_blocks" id="" onChange={this.handleChangeBlocl} className="form-control" />
+              <input type="number" required name="number_blocks" id="" onChange={this.handleChangeBlocl} className="form-control" />
             </div>
             <div className="Price col-xs-12 col-sm-6 col-md-6">
               <h4>County</h4>
@@ -278,12 +303,12 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
               <br />
             </div>
             <div className="title col-xs-12 col-sm-6 col-md-6">
-              <h4>Landload</h4>
+              <h4>Landlord</h4>
 
               <Select
                 options={this.Landload()}
                 onChange={this.onSelectChangeLandLord}
-                placeholder="Select Ward"
+                placeholder="Select Landlord"
                 tabSelectsValue={false}
                 className='drop'
               />
@@ -309,7 +334,7 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
               </select>
 
             </div>
-            <div className="title col-xs-12 col-sm-6 col-md-6">
+            <div className=" col-xs-12  col-md-6 col-md-offset-3">
               <h4>Lift</h4>
               <select
                 name="lift"
@@ -327,11 +352,11 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
               </select>
             </div>
           </div>
-          <br />
+          <br /><br/>
 
           <div className="row form-group rowBtn">
             <button id="input" type="submit" className="btn btn-green btn-lg
-                                                                 text-white margin-left: '10px'" style={{ fontFamily: 'Fira Sans', backgroundColor: '#0070BA' }}>
+                                                                 text-white margin-left: '10px'">
               {this.state.isLoading ? "Please Wait..." : "Submit"}  <i className="fa fa-refresh"></i>
             </button> &nbsp;&nbsp;&nbsp;
 
