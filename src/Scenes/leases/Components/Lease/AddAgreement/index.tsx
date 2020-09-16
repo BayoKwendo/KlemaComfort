@@ -199,7 +199,7 @@ class AddAgreement extends React.Component<{}, ListingState> {
 
     const item = localStorage.getItem("item")
 
-    alert(item)
+   // alert(item)
     data.append("image", this.state.csvfile);
     // console.log("DATA", data);
 
