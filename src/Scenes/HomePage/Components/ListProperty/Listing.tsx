@@ -121,9 +121,11 @@ class Listing extends React.Component<{}, ListingState> {
     },
 
       function () {
-        console.log('bayo', constituencyResponse.data)
       }
     );
+
+    console.log('bayo', this.state.counties)
+
 
 
 
@@ -142,7 +144,7 @@ class Listing extends React.Component<{}, ListingState> {
         image: imageResponse.data
       },
         function () {
-          console.log('bayo', this.state.ima)
+       //   console.log('bayo', this.state.ima)
         }
       );
       // console.log('image', this.state.image)
