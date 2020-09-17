@@ -94,7 +94,7 @@ class AgentComplain extends React.Component<{}, any> {
 
     const [complainResponse, usersResponse, houseResponse, apartmentResponse] = await Promise.all([
       axios.get(baseURL + "complaints", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-      axios.get(baseURL + "users", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      axios.get(baseURL + "users?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "houses", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "apartments", { headers: { "Authorization": `Bearer ` + TOKEN } }),
 

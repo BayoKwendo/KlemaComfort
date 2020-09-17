@@ -145,7 +145,7 @@ class AddLease extends React.Component<{}, ListingState> {
        
         axios.all([
           axios.get(baseURL + 'tenants?house_id=' + value.value.toString(), { headers: { "Authorization": `Bearer ` + TOKEN } }),
-          axios.get(baseURL + "users?role_id=4", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+          axios.get(baseURL + "users?role_id=4&&limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
         ]).then(axios.spread((complainResponse, usersResponse) => {
           this.setState(
             {

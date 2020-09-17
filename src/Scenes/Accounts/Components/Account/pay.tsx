@@ -95,7 +95,7 @@ class Payment extends React.Component<{}, ListingState> {
       countiesResponse, constituencyResponse] = await Promise.all([
         // axios.get(baseURL + 'users/1', { headers: { "Authorization": `Bearer ${window.user.data.access_token}` } }),
         axios.get(baseURL + "tenants", { headers: { "Authorization": token } }),
-        axios.get(baseURL + 'users', { headers: { "Authorization": token } }),
+        axios.get(baseURL + 'users?LIMIT=1000', { headers: { "Authorization": token } }),
 
 
       ]);

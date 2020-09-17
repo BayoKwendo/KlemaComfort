@@ -179,7 +179,7 @@ class LeaseTenant extends React.Component<{}, any> {
       axios.get(baseURL + "tenants", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "houses", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "apartments", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-      axios.get(baseURL + "users", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      axios.get(baseURL + "users?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
     ]);
 
     this.setState(

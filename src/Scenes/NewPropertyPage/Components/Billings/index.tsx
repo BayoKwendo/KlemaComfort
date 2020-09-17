@@ -18,4 +18,4 @@ class Billings extends React.Component<{}, {}> {
   }
 }
 
-export default Billings
+export default Billings ;

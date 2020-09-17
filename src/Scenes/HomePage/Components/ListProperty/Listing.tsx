@@ -1,13 +1,12 @@
 import * as React from 'react';
-import styled from "styled-components";
-import axios from "axios";
-import { Link } from "react-router-dom";
-
+import styled from 'styled-components';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { baseURL } from 'Helpers/baseURL';
 import ListItems from 'Scenes/Listings/component/ListItems';
 import * as moment from 'moment';
 
-const Loader = require("../../loader.gif");
+const Loader = require('../../loader.gif');
 
 const List = styled.div`
   padding: 50px 0;
@@ -77,18 +76,18 @@ class Listing extends React.Component<{}, ListingState> {
     super();
     this.state = {
       lists: [],
-      ready: "initial",
-      search: "",
+      ready: 'initial',
+      search: '',
       counties: [],
       imageone: [],
       bill: [],
       counties1: [],
       imageone1: [],
       bill1: [],
-      amount: "",
+      amount: '',
       constituency: [],
       image: [],
-      activePage: "15",
+      activePage: '15',
 
       Name: ''
     };
@@ -97,16 +96,16 @@ class Listing extends React.Component<{}, ListingState> {
 
   async componentDidMount() {
     this.setState({
-      ready: "loading"
+      ready: 'loading'
     });
     const config = {
     }; const [
       countiesResponse, constituencyResponse, billingResponse, countiesResponse1, constituencyResponse1, billingResponse1] = await Promise.all([
-        // axios.get(baseURL + 'users/1', { headers: { "Authorization": `Bearer ${window.user.data.access_token}` } }),
-        axios.get(baseURL + "posts?limit=3", config),
+        // axios.get(baseURL + 'users/1', { headers: { 'Authorization': `Bearer ${window.user.data.access_token}` } }),
+        axios.get(baseURL + 'posts?limit=3', config),
         axios.get(baseURL + 'apartments', config),
         axios.get(baseURL + 'billings?bill_type_id=2', config),
-        axios.get(baseURL + "counties", config),
+        axios.get(baseURL + 'counties', config),
         axios.get(baseURL + 'constituencies', config),
         axios.get(baseURL + 'wards', config)
       ]);
@@ -118,11 +117,11 @@ class Listing extends React.Component<{}, ListingState> {
       counties1: countiesResponse1.data,
       imageone1: constituencyResponse1.data,
       bill1: billingResponse1.data,
-      ready: "loaded",
+      ready: 'loaded',
     },
 
       function () {
-        console.log("bayo", constituencyResponse.data)
+        console.log('bayo', constituencyResponse.data)
       }
     );
 
@@ -143,10 +142,10 @@ class Listing extends React.Component<{}, ListingState> {
         image: imageResponse.data
       },
         function () {
-          console.log("bayo", this.state.ima)
+          console.log('bayo', this.state.ima)
         }
       );
-      // console.log("image", this.state.image)
+      // console.log('image', this.state.image)
 
       // //alert(this.state.users[i].id);
       for (let j = 0; j < this.state.constituency.length; j++) {
@@ -177,7 +176,7 @@ class Listing extends React.Component<{}, ListingState> {
                             this.setState({
                               lists: data
                             })
-                            console.log("LISTS", this.state.lists);
+                            console.log('LISTS', this.state.lists);
 
                           }
                         }
@@ -205,7 +204,6 @@ class Listing extends React.Component<{}, ListingState> {
 
     this.setState({
       search: e.target.value
-    }, function () {
     });
 
   }
@@ -231,8 +229,8 @@ class Listing extends React.Component<{}, ListingState> {
       <div>
 
         <List>
-          <div className="listgroup">
-            <div className="">
+          <div className='listgroup'>
+            <div className=''>
 
               <form>
 
@@ -241,21 +239,21 @@ class Listing extends React.Component<{}, ListingState> {
             </div>
             <ListRight>
               <div >
-                {lists.length ? "" : <h3>There are no list items</h3>}
-                {ready === "loading" ? (
-                  <div className="loader">
-                    <img src={Loader} className="Image" alt="loader" />
+                {lists.length ? '' : <h3>There are no list items</h3>}
+                {ready === 'loading' ? (
+                  <div className='loader'>
+                    <img src={Loader} className='Image' alt='loader' />
                   </div>
                 ) : (
-                    ""
+                    ''
                   )}
               </div>
-              <div className="right">
+              <div className='right'>
                 {filtered.map(list => (
                   <div key={list.id}>
                     <Link to={`/Listview/${list.post_id}`}>
-                      <ListItems image={list.s3_url ? list.s3_url : ""} >
-                        <h4 className="text-center">{list.title}</h4>
+                      <ListItems image={list.s3_url ? list.s3_url : ''} >
+                        <h4 className='text-center'>{list.title}</h4>
                         <h4>ksh. {list.amount} {list.billing_frequency}  </h4>
                         <h5>{list.body}</h5>
                         <Info>

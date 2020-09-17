@@ -132,7 +132,7 @@ class TENANTS extends React.Component<{}, any> {
       axios.get(baseURL + "tenants", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "houses", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "apartments", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-      axios.get(baseURL + "users", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      axios.get(baseURL + "users?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
 
 
     ]);
@@ -145,7 +145,7 @@ class TENANTS extends React.Component<{}, any> {
         isLoading: false
       },
       function () {
-        console.log("teachers", tenantResponse.data);
+        console.log("teachers", apartmentResponse.data);
       });
     /// var data = [];
 

@@ -124,7 +124,7 @@ class CARETAKER extends React.Component<{}, any> {
 
     const [usersResponse, complainResponse, houseResponse, apartmentResponse,] = await Promise.all([
 
-      axios.get(baseURL + "users", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      axios.get(baseURL + "users?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "roles", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "houses", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "apartments", { headers: { "Authorization": `Bearer ` + TOKEN } }),

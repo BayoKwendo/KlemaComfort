@@ -95,8 +95,11 @@ class Invoice extends React.Component<{}, any> {
               <div className="alert alert-success" > {this.state.statusMessage}
               </div> : null
             }
-            < ReactDatatable config={config}
-              records={this.state.accountDats}
+            < ReactDatatable
+              config={config}
+              records={
+                this.state.accountDats
+              }
               id="tsc"
               columns={columns}
               loading={this.state.isLoading}

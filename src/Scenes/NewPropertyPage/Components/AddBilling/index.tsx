@@ -38,7 +38,6 @@ type ListingState = {
   isShowError: boolean,
   hide1Component: boolean,
   csvfile: string
-
 };
 
 
@@ -115,6 +114,7 @@ class AddBilling extends React.Component<{}, ListingState> {
 
 
   County() {
+    
     return (this.state.counties && this.state.counties.length > 0 &&
       this.state.counties.map((countyItem, i) =>
         ({ label: countyItem.apartment_name, value: countyItem.id })))

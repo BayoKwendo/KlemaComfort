@@ -158,7 +158,7 @@ class LeaseLandlord extends React.Component<{}, any> {
       axios.get(baseURL + "tenants", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "houses", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "apartments?landLord_id="+ID, { headers: { "Authorization": `Bearer ` + TOKEN } }),
-      axios.get(baseURL + "users", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      axios.get(baseURL + "users?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
 
 
     ]);

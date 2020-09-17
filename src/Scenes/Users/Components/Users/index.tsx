@@ -109,7 +109,7 @@ class USERS extends React.Component<{}, any> {
 
     const [usersResponse, complainResponse, houseResponse, apartmentResponse,] = await Promise.all([
 
-      axios.get(baseURL + "users", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      axios.get(baseURL + "users?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "roles", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "houses", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "apartments", { headers: { "Authorization": `Bearer ` + TOKEN } }),
@@ -117,14 +117,15 @@ class USERS extends React.Component<{}, any> {
     ]);
     this.setState(
       {
-        complian: complainResponse.data,
         users: usersResponse.data,
+        complian: complainResponse.data,
+
         houses: houseResponse.data,
         apartment: apartmentResponse.data,
         isLoading: false
       },
       function () {
-        console.log("teachers", complainResponse.data);
+        console.log("teachers", usersResponse.data);
       });
     /// var data = [];
 
@@ -146,7 +147,7 @@ class USERS extends React.Component<{}, any> {
             // var house_id = this.state.houses[j].id;
             if (user_role == this.state.complian[j].id) {
 
-              data.push(Object.assign(index, this.state.users[i], this.state.apartment[l]))
+              data.push(Object.assign(index, this.state.users[i], this.state.complian[j], this.state.apartment[l]))
               this.setState({
                 data: data
               });
