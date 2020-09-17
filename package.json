@@ -1,7 +1,7 @@
 {
   "name": "reacttypescriptinit",
   "version": "0.1.0",
-  "homepage" : "/",
+  "homepage" : "https://agencyke.com",
   "private": true,
   "dependencies": {
     "@ashvin27/react-datatable": "^1.5.3",
