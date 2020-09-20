@@ -5,6 +5,7 @@ import { baseURL } from 'Helpers/baseURL';
 import { TOKEN } from 'Helpers/token';
 import ReactDatatable from '@ashvin27/react-datatable';
 import Dashboard from 'Components/DashboardLayout';
+import * as moment from 'moment';
 
 
 // interface ListingState {
@@ -17,12 +18,39 @@ import Dashboard from 'Components/DashboardLayout';
 
 const columns = [
   {
-    key: "id",
+    key: "idx",
     text: "#",
     TrOnlyClassName: 'tsc',
     className: "tsc",
     align: "left",
 
+  },
+  {
+    key: "first_name",
+    text: "Tenant Name",
+    TrOnlyClassName: 'tsc',
+    className: "tsc",
+    align: "left",
+  }, {
+    key: "last_name",
+    text: "Last Name",
+    TrOnlyClassName: 'tsc',
+    className: "tsc",
+    align: "left",
+  },
+  {
+    key: "id_number",
+    text: "ID Number",
+    TrOnlyClassName: 'tsc',
+    className: "tsc",
+    align: "left",
+  },
+  {
+    key: "msisdn",
+    text: "Phone Number",
+    TrOnlyClassName: 'tsc',
+    className: "tsc",
+    align: "left",
   },
   {
     key: "current_amount",
@@ -32,37 +60,27 @@ const columns = [
     align: "left",
   },
   {
-    key: "amount_transacted",
-    text: "Amount Transacted",
+    key: "total_deposits",
+    text: "Total Deposits",
     TrOnlyClassName: 'tsc',
     className: "tsc",
     align: "left",
   },
 
   {
-    key: "total_amount",
-    text: "Ttoal Amount",
+    key: "amount_used",
+    text: "Amount Used",
     TrOnlyClassName: 'tsc',
     className: "tsc",
     align: "left",
   },
-  
-
   {
-    key: "customer_type",
+    key: "dates",
+    text: "Created At",
     TrOnlyClassName: 'tsc',
     className: "tsc",
-    text: "Customer Type",
-    align: "left"
-  },
-  {
-    key: "status",
-    TrOnlyClassName: 'tsc',
-    className: "tsc",
-    text: "Status",
-    align: "left"
-  },
-
+    align: "left",
+  }
 ];
 
 
@@ -90,25 +108,42 @@ class Wallet extends React.Component<{}, any> {
 
 
   }
-  componentDidMount() {
-    const config = {
-      headers: {
-        "Authorization": `Bearer ` + TOKEN
-      }
-    };
-    axios.get(baseURL + 'wallets?customer_id=7', config).then(res => {
 
-      this.setState({ statusMessage: res.data.status_message, isShowError: false, isLoading: false });
-      //console.log("LOOG" , res.data.status_message);
-      this.setState({
-        accountDats: res.data,
-        isLoading: false,
+  async componentDidMount() {
+    const [walletResponse, usersResponse] = await Promise.all([
+      axios.get(baseURL + "wallets", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      axios.get(baseURL + "users?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+
+
+    ]);
+    this.setState(
+      {
+        wallet: walletResponse.data,
+        users: usersResponse.data,
+        isLoading: false
       },
-        function () {
-          console.log("recrd", res.data);
-        });
+      function () {
+        console.log("lease", walletResponse.data);
+      });
+    /// var data = [];
 
-    });
+    var data = [];
+    for (let i = 0; i < this.state.wallet.length; i++) {
+      //alert(this.state.users[i].id);
+      let index = { idx: i + 1 };
+
+      for (let j = 0; j < this.state.users.length; j++) {
+        //   var user_id = this.state.complian[i].user_id;       
+
+        if (this.state.users[j].id == this.state.wallet[i].customer_id) {
+          let date = { dates: moment(this.state.wallet[i].created_at).format('DD MMM, YYYY HH:MM') };
+          data.push(Object.assign(index, this.state.wallet[i], this.state.users[j], date))
+          this.setState({
+            data: data
+          });
+        }
+      }
+    }
   }
 
   render() {
@@ -119,7 +154,7 @@ class Wallet extends React.Component<{}, any> {
           <div className="searchFormWrapper">
             <div className="dashboardTitle">
               <h3>Wallet</h3>
-              <h5>Below are the wallet that have been made.</h5>
+              {/* <h5>Below are the wallet that have been made.</h5> */}
             </div>
             <div className="dashboardBody">
 
@@ -131,7 +166,7 @@ class Wallet extends React.Component<{}, any> {
                 }
                 < ReactDatatable
                   config={config}
-                  records={this.state.accountDats}
+                  records={this.state.data}
                   id="tsc"
                   columns={columns}
                   loading={this.state.isLoading}

@@ -145,7 +145,7 @@ class AddLease extends React.Component<{}, ListingState> {
        
         axios.all([
           axios.get(baseURL + 'tenants?house_id=' + value.value.toString(), { headers: { "Authorization": `Bearer ` + TOKEN } }),
-          axios.get(baseURL + "users?role_id=4&&limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+          axios.get(baseURL + "users?role_id=4&&limit=1000000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
         ]).then(axios.spread((complainResponse, usersResponse) => {
           this.setState(
             {
@@ -162,9 +162,11 @@ class AddLease extends React.Component<{}, ListingState> {
                   //   var user_id = this.state.complian[i].user_id;
                   let index = { idx: i + 1 };
                   let id = { customer_id: this.state.complian[i].id };
+
+                  let user_id = { userid: this.state.users[j].id };
                   // var house_id = this.state.houses[j].id;
                   if (house_id == this.state.users[j].id) {
-                    data.push(Object.assign(index, this.state.complian[i], this.state.users[j], id))
+                    data.push(Object.assign(index, this.state.complian[i],user_id, this.state.users[j], id))
                     this.setState({
                       data: data
                     })
@@ -185,7 +187,7 @@ class AddLease extends React.Component<{}, ListingState> {
   Landload() {
     return (this.state.data && (this.state.data.length > 0 || this.state.data.length == 0) &&
       this.state.data.map((countyItem, i) =>
-        ({ label: countyItem.username, value: countyItem.customer_id })))
+        ({ label: countyItem.username, value: countyItem.userid })))
   }
   onSelectChangeLandLord = value => {
     this.setState({ landLord_id: value.value.toString() });

@@ -21,11 +21,12 @@ interface LoginFormState {
   alert_error_color: string;
   isLoggedIn: boolean;
   isChecked: boolean;
-  successShow: boolean;
   statusMessage: string;
+  successShow: boolean;
   isShowSuccess: boolean;
   submitted: boolean;
   isShowError: boolean;
+  alert_color: string,
   login: boolean;
 }
 class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
@@ -37,13 +38,15 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
       isLoading: false,
       password: '',
       error: '',
+      alert_color: '',
+
       errorShow: false,
       isShowError: false,
       alert_error_color: '',
       isLoggedIn: false,
       isChecked: false,
-      successShow: false,
       statusMessage: '',
+      successShow: false,
       isShowSuccess: false,
       submitted: false,
       login: true,
@@ -116,14 +119,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
             localStorage.setItem("fullname", response.data.response.user.first_name + " " + response.data.response.user.last_name)
             localStorage.setItem("id", response.data.response.user.id);
             currentUserSubject.next(response.data);
-            this.setState({
-              statusMessage: "Login Success! Redirecting....",
-              isShowError: true,
-              errorShow: false,
-              submitted: true,
-              isLoggedIn: true
-            });
-
+            this.setState({ statusMessage: response.data.status_message, alert_color: "alert alert-success", isLoading: false, isShowError: true });
             if (response.data.response.user.role_id == 1) {
               window.setTimeout(() => {
                 window.location.href = "/user/role";
@@ -149,24 +145,12 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
           }
           else {
 
-            this.setState({});
-            this.setState({
-              alert_error_color: "alert alert-danger",
-              errorShow: true,
-              error: "Wrong Email or Password",
-              submitted: true,
-              isLoading: false
-            });
+            this.setState({ statusMessage: response.data.status_message, isLoading: false, alert_color: "alert alert-danger", isShowError: true });
             this.setState({});
           }
         }).catch(error => {
-          this.setState({
-            alert_error_color: "alert alert-danger",
-            errorShow: true,
-            error: "Wrong Email or Password",
-            submitted: true,
-            isLoading: false
-          });
+
+          this.setState({ statusMessage: error.response.data.statusMessage, isLoading: false, alert_color: "alert alert-danger", isShowError: true });
         });
       this.setState({ password: "", email: "" });
     }
@@ -183,41 +167,13 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
           <div className="modal-dialog modal-sm">
             <div className="modal-content">
               <>
-                {this.state.submitted ? (
-                  <>
-                    {this.state.errorShow && (
-                      <div>
-                        {this.state.errorShow ? (
-                          <div
-                            className={this.state.alert_error_color}
-                            style={{ fontSize: "13px", fontWeight: 'normal' }}
-                          >
-                            <p
-                              style={{ textAlign: "left", marginLeft: "20px" }}
-                            >
-                              {this.state.error}{" "}
-                              {this.state.isLoggedIn ? (
-                                <span>
-
-                                </span>
-                              ) : null}
-                            </p>
-                          </div>
-                        ) : null}
-                      </div>
-                    )}
-                    {this.state.isShowError ? (
-                      <div
-                        className="alert alert-success"
-                        style={{ fontSize: "13px" }}>
-                        {this.state.statusMessage}
-                      </div>
-                    ) : null}
-                  </>
-                ) : null}
+                {this.state.isShowError ? <div className={this.state.alert_color}
+                  style={{ fontSize: '15px' }}>
+                  {this.state.statusMessage}</div> : null}
               </>
               <div className="modal-header">
-                <h4 className="modal-title" style={{color: "black"}}>Sign In</h4>
+                <br/>
+                <h4 className="modal-title" style={{ color: "black" }}>Sign In</h4>
               </div>
               <div className="modal-body">
                 <form role="loginForm form" onSubmit={this.onSubmit}>

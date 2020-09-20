@@ -325,7 +325,6 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
                 onChange={this.handleChangeBolean}
                 id="gender">
                 {<option>Generator</option>}
-
                 {
                   this.state.boolean && this.state.boolean.length > 0
                   && this.state.boolean.map((genderItem, i) =>

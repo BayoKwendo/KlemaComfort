@@ -147,27 +147,17 @@ class TENANTS extends React.Component<{}, any> {
       function () {
         console.log("teachers", apartmentResponse.data);
       });
-    /// var data = [];
-
     var data = [];
-    
     for (let j = 0; j < (this.state.houses.length || da ); j++) {
-      //   var user_id = this.state.complian[i].user_id;
       var house_id = this.state.houses[j].id;
       for (let l = 0; l < this.state.apartment.length; l++) {
-
-
         var apartment_id = this.state.houses[j].apartment_id;
-
         if (apartment_id == this.state.apartment[l].id) {
           for (let k = 0; k < this.state.users.length; k++) {
-
             var user_id = this.state.users[k].user_id;
             for (let m = 0; m < this.state.tenants.length; m++) {
-              //console.log("EVANS", this.state.users[k].house_id);
               if (user_id == this.state.tenants[m].id) {
                 if (house_id == this.state.users[k].house_id) {
-
                   let index = { idx: k + 1 };
                   data.push(Object.assign(index, this.state.houses[j], this.state.apartment[l], this.state.users[k], this.state.tenants[m]))
                   this.setState({

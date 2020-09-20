@@ -156,7 +156,6 @@ class CARETAKER extends React.Component<{}, any> {
               for (let j = 0; j < this.state.complian.length; j++) {
                 var user_role = this.state.users[i].role_id
                 if (user_role == this.state.complian[j].id) {
-                 
                   data.push(Object.assign( index,this.state.houses[l],this.state.apartment[k], this.state.users[i],this.state.complian[j],))
                   this.setState({
                     data: data
@@ -167,7 +166,6 @@ class CARETAKER extends React.Component<{}, any> {
             }
           }
         }
-
       }
     }
   }

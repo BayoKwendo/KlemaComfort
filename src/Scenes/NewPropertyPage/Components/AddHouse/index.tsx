@@ -73,22 +73,22 @@ class AddHouse extends React.Component<{}, ListingState> {
         }],
       house: [
         {
-          name: 'Bedsitter'
+          name: 'bedsitter'
         },
         {
-          name: 'Single Room'
+          name: 'single room'
         },
         {
-          name: 'One Bedroom'
+          name: '1 bedroom'
         },
         {
-          name: 'Two Bedroom'
+          name: '2 bedroom'
         },
         {
-          name: 'Three Bedroom'
-        },
+          name: '3 bedroom'
+        }, 
         {
-          name: 'Four Bedroom'
+          name: '4 bedroom'
         }],
     };
 

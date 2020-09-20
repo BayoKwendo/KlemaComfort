@@ -131,29 +131,21 @@ class USERS extends React.Component<{}, any> {
 
     var data = [];
     var da = 0
-    for (let l = 0; l < this.state.apartment.length; l++) {
-
+  
+    for (let l = 0; l < (this.state.apartment.length || da); l++) {
       let index = { idx: l + 1 };
-
       for (let i = 0; i < (this.state.users.length || da); i++) {
-
         //  var user_role = this.state.users[i].role_id;
         var user_id = this.state.users[i].id;
         if (user_id == this.state.apartment[l].landLord_id) {
           for (let j = 0; j < this.state.complian.length; j++) {
             var user_role = this.state.users[i].role_id;
-            //   var user_id = this.state.complian[i].user_id;
-
-            // var house_id = this.state.houses[j].id;
             if (user_role == this.state.complian[j].id) {
-
               data.push(Object.assign(index, this.state.users[i], this.state.complian[j], this.state.apartment[l]))
               this.setState({
                 data: data
               });
             }
-            // }
-            // }
           }
         }
 

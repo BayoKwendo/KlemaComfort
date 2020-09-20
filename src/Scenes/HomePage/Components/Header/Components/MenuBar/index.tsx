@@ -79,12 +79,10 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
         <div className="langSelectorWrapper">
         
         </div>
-        <a href="/">
           <div className="homeLogo osLight">
             <Icon name="home" size="2x" /> 
-            <span>PrimeCrib</span>
+            <span>AgencyKe</span>
           </div>
-        </a>
         <a 
           href="#" 
           className={'homeNavHandler visible-xs' + (this.state.isHandlerActive ? ' active' : '')} 

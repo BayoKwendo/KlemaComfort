@@ -77,10 +77,10 @@ class AddBilling extends React.Component<{}, ListingState> {
       isShowError: false,
       boolean: [
         {
-          name: 'ONCE'
+          name: 'MONTHLY'
         },
         {
-          name: 'MONTHLY'
+          name: 'ONCE'
         }],
     };
 
@@ -114,7 +114,7 @@ class AddBilling extends React.Component<{}, ListingState> {
 
 
   County() {
-    
+
     return (this.state.counties && this.state.counties.length > 0 &&
       this.state.counties.map((countyItem, i) =>
         ({ label: countyItem.apartment_name, value: countyItem.id })))
@@ -212,7 +212,7 @@ class AddBilling extends React.Component<{}, ListingState> {
 
 
   render() {
-   
+
     return (
       <div className="newPropertyForm">
         {this.state.isShowError ? <div className={this.state.alert_color}
@@ -258,7 +258,7 @@ class AddBilling extends React.Component<{}, ListingState> {
           <div className="Price col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
             <h4>Amount (ksh)</h4>
             <input type="number" required name="number_blocks" id="" onChange={this.handleChangeBlocl} className="form-control" />
-            <br/>
+            <br />
           </div>
 
 
@@ -276,12 +276,12 @@ class AddBilling extends React.Component<{}, ListingState> {
                 && this.state.boolean.map((genderItem, i) =>
                   <option key={i} value={genderItem.name}>{genderItem.name}</option>)
               }
-            </select><br /><br/>
+            </select><br /><br />
           </div>
 
 
           <div className="text-center title col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
-            <button id="input" type="submit"  className="btn btn-green btn-lg
+            <button id="input" type="submit" className="btn btn-green btn-lg
                                                                  text-white margin-left: '10px'" style={{ fontFamily: 'Fira Sans', backgroundColor: '#0070BA' }}>
               {this.state.isLoading ? "Please Wait..." : "Submit!"}  <i className="fa fa-refresh"></i>
             </button>

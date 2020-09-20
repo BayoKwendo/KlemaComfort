@@ -148,10 +148,22 @@ class LeftSide extends React.Component<LeftSideProps, {}> {
                     </Link></li>
                   </ul>
                 </li>
-                <li><Link to="/posts">
-                  <Icon className="navIcon" name="plus-square" />
-                  <span className="navLabel">Add Posts</span>
-                </Link></li>
+
+                <li className="hasSub hasSubActive">
+                  <Link to="/post-list" onClick={this.toggleActive}>
+                    <Icon className="navIcon" name="plus-square" />
+                    <span className="navLabel">Posts</span>
+                  </Link>
+                  <ul className="colors secondUl">
+                    <li><Link to="/posts">
+                      Add Post<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    <li><Link to="/post-list">
+                      Posts<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                  </ul>
+                </li>
+               
                 <li><Link to="/lease">
                   <Icon className="navIcon" name="home" />
                   <span className="navLabel">Lease</span>
@@ -160,15 +172,27 @@ class LeftSide extends React.Component<LeftSideProps, {}> {
                   <Icon className="navIcon" name="exclamation-triangle" />
                   <span className="navLabel">Complians</span>
                 </Link></li>
+                <li className="hasSub hasSubActive">
+                  <Link to="/accounts" onClick={this.toggleActive}>
+                    <Icon className="navIcon" name="money" />
+                    <span className="navLabel">Statements</span>
+                  </Link>
+                  <ul className="colors secondUl">
+                    <li><Link to="/accounts">
+                      Accounts<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    <li><Link to="/transaction">
+                      Transactions<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    <li><Link to="/walletss">
+                      Wallets<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    <li><Link to="/invoice">
+                      Invoice<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                  </ul>
+                </li>
 
-                <li><Link to="/accounts">
-                  <Icon className="navIcon" name="money" />
-                  <span className="navLabel">Accounts</span>
-                </Link></li>
-                <li><Link to="/invoice">
-                  <Icon className="navIcon" name="file" />
-                  <span className="navLabel">Invoice</span>
-                </Link></li>
                 {/* <li><Link to="/search">
                   <Icon className="navIcon" name="compass" />
                   <span className="navLabel">Search</span>

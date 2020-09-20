@@ -37,6 +37,7 @@ import LeaseTenant from 'Scenes/leases/Components/Lease/leaseTenant';
 import AgentComplain from 'Scenes/Complants/Components/Complains/AgentComplain';
 import AddAgreement from 'Scenes/leases/Components/Lease/AddAgreement';
 import Map from 'Components/Maps/maps';
+import PostsList from 'Scenes/AddPosts/Components/Posts/posts';
 
 const mapStateToProps = (state: RootState) => ({
   lang: state.status.lang
@@ -91,6 +92,8 @@ class App extends React.Component<AppProps, {}> {
 
           <Route exact={true} path="/invoice" component={InvoicePage} />
           <Route exact={true} path="/posts" component={Posts} />
+          <Route exact={true} path="/post-list" component={PostsList} />
+
           <Route exact={true} path="/complain" component={ComplainsLandLoard} />
 
           <Route exact={true} path="/lease" component={LeasePage} />

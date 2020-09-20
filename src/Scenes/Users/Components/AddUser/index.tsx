@@ -22,7 +22,7 @@ type ListingState = {
   Name: string,
   counties: any[],
   alert_error: string
-
+  data: any[];
   constituency: any[],
   wards: any[],
   landlord: any[],
@@ -30,7 +30,7 @@ type ListingState = {
   selectedBolean: string,
   selectedBolean1: string,
   isLoading: boolean,
-  statusMessage:string,
+  statusMessage: string,
   isShowError: boolean,
   password: string
 
@@ -50,7 +50,7 @@ class AddUser extends React.Component<{}, ListingState> {
       number_of_carparking: '',
       search: '',
       number_blocks: '',
-        alert_error: '',
+      alert_error: '',
 
       county_id: '',
       constituency_id: '',
@@ -59,6 +59,7 @@ class AddUser extends React.Component<{}, ListingState> {
       mssdn: '',
       password: '',
 
+      data: [],
       kra_pin: '',
       isLoading: false,
       Name: '',
@@ -81,7 +82,7 @@ class AddUser extends React.Component<{}, ListingState> {
 
   }
   async componentDidMount() {
-      const token = 'Bearer '+TOKEN
+    const token = 'Bearer ' + TOKEN
     const [
       countiesResponse, constituencyResponse, wardsResponse, landlordResponse] = await Promise.all([
         // axios.get(baseURL + 'users/1', { headers: { "Authorization": `Bearer ${window.user.data.access_token}` } }),
@@ -89,9 +90,7 @@ class AddUser extends React.Component<{}, ListingState> {
         axios.get(baseURL + 'constituencies', { headers: { "Authorization": token } }),
         axios.get(baseURL + 'roles', { headers: { "Authorization": token } }),
         axios.get(baseURL + 'users', { headers: { "Authorization": token } }),
-
       ]);
-
     this.setState({
       counties: countiesResponse.data,
       constituency: constituencyResponse.data,
@@ -99,8 +98,20 @@ class AddUser extends React.Component<{}, ListingState> {
       landlord: landlordResponse.data,
     },
       function () {
+        let data = []
         console.log("bayo", countiesResponse.data)
-      } );
+        for (let j = 0; j < this.state.wards.length; j++) {
+          var role_id = this.state.wards[j].id;
+       
+          if (role_id == 3 || role_id == 5) {
+            data.push(Object.assign(this.state.wards[j]))
+            this.setState({
+              data: data
+            })
+            console.log("EVANS", data);
+          }
+        }
+      });
 
   }
 
@@ -117,8 +128,8 @@ class AddUser extends React.Component<{}, ListingState> {
   };
 
   Ward() {
-    return (this.state.wards && this.state.wards.length > 0 &&
-      this.state.wards.map((countyItem, i) =>
+    return (this.state.data && this.state.data.length > 0 &&
+      this.state.data.map((countyItem, i) =>
         ({ label: countyItem.role_name, value: countyItem.id })))
   }
   onSelectChangeWard = value => {
@@ -147,7 +158,7 @@ class AddUser extends React.Component<{}, ListingState> {
 
   onSubmit(e) {
     e.preventDefault();
-  
+
     let formData = {
       "first_name": this.state.apartment_name,
       "last_name": this.state.apartment_type,
@@ -164,30 +175,30 @@ class AddUser extends React.Component<{}, ListingState> {
 
     console.log("DATA", JSON.stringify(formData))
     this.setState({ isLoading: true });
-    const token = 'Bearer '+TOKEN
+    const token = 'Bearer ' + TOKEN
 
     axios.post(baseURL + 'users', formData, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': token
       },
-     })
+    })
       .then((response) => {
 
         if (response.data.status) {
-          this.setState({ statusMessage: response.data.status_message, alert_error: "alert alert-success",  isShowError: true, isLoading: false });
+          this.setState({ statusMessage: response.data.status_message, alert_error: "alert alert-success", isShowError: true, isLoading: false });
           window.setTimeout(function () {
             window.location.reload();
           }, 2000);
         } else {
 
-          this.setState({ statusMessage: response.data.status_message, alert_error: "alert alert-danger",  isShowError: true, isLoading: false });
+          this.setState({ statusMessage: response.data.status_message, alert_error: "alert alert-danger", isShowError: true, isLoading: false });
         }
       })
       .catch((error) => {
         console.log('bayoo', error.response)
 
-        this.setState({ statusMessage: error.response.data.status_message, alert_error: "alert alert-danger",  isShowError: true, isLoading: false });
+        this.setState({ statusMessage: error.response.data.status_message, alert_error: "alert alert-danger", isShowError: true, isLoading: false });
 
       })
   }
@@ -222,7 +233,7 @@ class AddUser extends React.Component<{}, ListingState> {
   handleChangeKRA = (e) => {
     this.setState({ kra_pin: e.target.value });
   }
-  
+
   render() {
     return (
       <div className="rentPropertyPage">
@@ -233,9 +244,9 @@ class AddUser extends React.Component<{}, ListingState> {
         </div>
         <div className="dashboardBody">
           <div className="newPropertyForm">
-          {this.state.isShowError ? <div className={this.state.alert_error}
-          style={{ fontSize: '15px' }}>
-          {this.state.statusMessage}</div> : null}
+            {this.state.isShowError ? <div className={this.state.alert_error}
+              style={{ fontSize: '15px' }}>
+              {this.state.statusMessage}</div> : null}
             <form onSubmit={this.onSubmit}>
               <div className="row form-group">
                 <div className="title col-xs-12 col-sm-6 col-md-6">

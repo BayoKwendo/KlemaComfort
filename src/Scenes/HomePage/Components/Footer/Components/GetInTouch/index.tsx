@@ -10,10 +10,12 @@ class GetInTouch extends React.Component<{}, {}> {
           {this.props.children}
         </div>
         <ul className="mainList">
-          <li className="footer-phone"><span className="fa fa-phone"/> 254717629732</li>
+          <li className="footer-phone"><span className="fa fa-phone"/> 0703012100</li>
+          <li className="footer-email"><span className="fa fa-mail"/><a style={{color: 'blue'}}> primecribltd@gmail.com</a></li>
+
           <li className="footer-address osLight">
-            <p>OnfonMediac,</p>
-            <p>Nairobi 4 ,</p>
+            <p>Red commercial complex, along Mombasa road,</p>
+            <p>P. O. Box 69825 – 00400 Nairobi, KENYA</p>
             {/* <p>Ho Chi Minh</p> */}
           </li>
           <li>
