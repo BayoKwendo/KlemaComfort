@@ -4,7 +4,7 @@ import './style.css';
 import { Icon } from 'react-fa';
 
 import UserMenu from 'Components/UserMenu';
-import NotifyMenu from './Components/NotifyMenu';
+// import NotifyMenu from './Components/NotifyMenu';
 import SearchForm from './Components/SearchForm';
 import { Link } from 'react-router-dom';
 
@@ -19,15 +19,13 @@ interface HeaderState {
 class Header extends React.Component<HeaderProps, HeaderState> {
   constructor(props: HeaderProps) {
     super(props);
-    this.state = {
-
-    };
+    this.state = { };
   }
   render() {
     return (
       <div className="dashboardHeader">
         <div className="logo">
-          <Link to="/">
+          <Link to="/user/role">
             <Icon className="fa fa-home marker" name="home" />
             <span className="logoText">PrimCrib</span>
           </Link>
@@ -37,7 +35,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
         <div className="userMenuWrapper">
           <UserMenu />
         </div>
-        <NotifyMenu />
+        {/* <NotifyMenu /> */}
         <div className="clearfix" />
       </div>
     );

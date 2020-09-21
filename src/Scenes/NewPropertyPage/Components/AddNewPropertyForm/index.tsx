@@ -4,7 +4,6 @@ import axios from "axios";
 import Select from 'react-select';
 import { baseURL } from 'Helpers/baseURL';
 import { TOKEN } from 'Helpers/token';
-import { isLoggedIn } from 'Helpers/isLoggedIn';
 
 type ListingState = {
 
@@ -217,11 +216,7 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
     this.setState({ number_blocks: e.target.value });
   }
   render() {
-    if (isLoggedIn == "false") {
-
-      alert("You have to login first")
-      window.location.href = "/";
-    }
+   
     return (
       <div className="newPropertyForm">
         {this.state.isShowError ? <div className={this.state.alert_color}

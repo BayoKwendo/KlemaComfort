@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './style.css';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { Icon } from 'react-fa';
 import { NAME } from 'Helpers/token';
 
@@ -60,7 +60,7 @@ class UserMenu extends React.Component<UserMenuProps, UserMenuState> {
         <a href="#" className="headerUser dropdown-toggle" data-toggle="dropdown">
           <img className="avatar headerAvatar pull-left" src="http://mariusn.com/themes/reales/images/avatar-1.png" />
           <div className="userTop pull-left">
-    <span className="headerUserName">{NAME}</span>
+            <span className="headerUserName">{NAME}</span>
             <Icon name="angle-down" />
           </div>
           <div className="clearfix" />
@@ -75,14 +75,14 @@ class UserMenu extends React.Component<UserMenuProps, UserMenuState> {
             <div className="mobAvatarName">{NAME}</div>
           </div>
           <ul>
-            <li><Link to="/wallet"><span className="walletIcon fa" />Wallet</Link></li>
+            {/* <li><Link to="/wallet"><span className="walletIcon fa" />Wallet</Link></li>
             <li><a href="#"><Icon name="cog" />Settings</a></li>
             <li><Link to="/myprofile"><Icon name="user" />Profile</Link></li>
             <li><a href="#">
               <Icon name="bell-o" />
               Notifications
               <span className="badge pull-right bg-red">5</span>
-            </a></li>
+            </a></li> */}
             <li className="divider" />
             <li><a href="#" onClick={this.logout}><Icon name="power-off" />Logout</a></li>
           </ul>

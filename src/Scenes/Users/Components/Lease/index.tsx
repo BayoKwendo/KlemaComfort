@@ -9,7 +9,7 @@ class Lease extends React.Component<{}, {}> {
           <div className="rentPropertyPage">
             <div className="dashboardTitle">
               <h3>Add Lease</h3>
-              <h5>Fill the fields below to create Posts</h5>
+              <h5>Fill the fields below to create Lease</h5>
             </div>
             <div className="dashboardBody">
               <AddLease />

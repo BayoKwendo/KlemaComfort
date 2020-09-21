@@ -57,15 +57,11 @@ type ListingState = {
   ready: string,
   Name: string,
   counties: any[],
-  bill: any[],
-  imageone: any[],
+  billings: any[],
+  ward: any[],
   amount: string,
-
-
-  counties1: any[],
-  bill1: any[],
-  imageone1: any[],
-
+  posts: any[],
+  apartments: any[],
   constituency: any[],
   image: any[],
   activePage: string
@@ -79,16 +75,14 @@ class Listing extends React.Component<{}, ListingState> {
       ready: 'initial',
       search: '',
       counties: [],
-      imageone: [],
-      bill: [],
-      counties1: [],
-      imageone1: [],
-      bill1: [],
-      amount: '',
+      posts: [],
       constituency: [],
+      billings: [],
+      ward: [],
+      apartments: [],
+      amount: '',
       image: [],
       activePage: '15',
-
       Name: ''
     };
   }
@@ -100,8 +94,7 @@ class Listing extends React.Component<{}, ListingState> {
     });
     const config = {
     }; const [
-      countiesResponse, constituencyResponse, billingResponse, countiesResponse1, constituencyResponse1, billingResponse1] = await Promise.all([
-        // axios.get(baseURL + 'users/1', { headers: { 'Authorization': `Bearer ${window.user.data.access_token}` } }),
+      postResponse, apartmentResponse, billingResponse, countiesResponse, constituencyResponse, wardResponse] = await Promise.all([
         axios.get(baseURL + 'posts?limit=3', config),
         axios.get(baseURL + 'apartments', config),
         axios.get(baseURL + 'billings?bill_type_id=2', config),
@@ -111,12 +104,12 @@ class Listing extends React.Component<{}, ListingState> {
       ]);
 
     this.setState({
+      posts: postResponse.data,
+      apartments: apartmentResponse.data,
+      billings: billingResponse.data,
       counties: countiesResponse.data,
       constituency: constituencyResponse.data,
-      imageone: billingResponse.data,
-      counties1: countiesResponse1.data,
-      imageone1: constituencyResponse1.data,
-      bill1: billingResponse1.data,
+      ward: wardResponse.data,
       ready: 'loaded',
     },
 
@@ -125,62 +118,52 @@ class Listing extends React.Component<{}, ListingState> {
     );
 
     console.log('bayo', this.state.counties)
-
-
-
-
     var data = [];
-    for (let i = 0; i < this.state.counties.length; i++) {
-      let index = { idx: i };
-      var house_id = this.state.counties[i].apartment_id;
+    var da = 0;
 
-      let post_id = { post_id: this.state.counties[i].id };
+    for (let i = 0; i < (this.state.posts.length || da); i++) {
+      let index = { idx: i };
+      var apartment_id = this.state.posts[i].apartment_id;
+      var house_id = this.state.posts[i].house_id;
+
+      let post_id = { post_id: this.state.posts[i].id };
 
       const [
         imageResponse] = await Promise.all([
-          axios.get(baseURL + 'galleries/apartment/' + house_id, config),
+          axios.get(baseURL + 'galleries/apartment/' + apartment_id, config),
         ]);
       this.setState({
         image: imageResponse.data
-      },
-        function () {
-       //   console.log('bayo', this.state.ima)
-        }
-      );
-      // console.log('image', this.state.image)
+      });
+      for (let j = 0; j < this.state.apartments.length; j++) {
 
-      // //alert(this.state.users[i].id);
-      for (let j = 0; j < this.state.constituency.length; j++) {
-        //   var user_id = this.state.complian[i].user_id;
+        if (house_id == this.state.apartments[j].house_id) {
 
-        for (let n = 0; n < this.state.counties1.length; n++) {
+          for (let n = 0; n < this.state.billings.length; n++) {
 
-          if (this.state.constituency[j].county_id == this.state.counties1[n].id) {
+            if (house_id == this.state.billings[n].house_id) {
 
-            for (let p = 0; p < this.state.imageone1.length; p++) {
+              for (let p = 0; p < this.state.counties.length; p++) {
 
-              if (this.state.constituency[j].constituency_id == this.state.imageone1[p].id) {
+                if (this.state.apartments[j].county_id == this.state.counties[p].id) {
 
-                for (let q = 0; q < this.state.bill1.length; q++) {
-                  if (this.state.constituency[j].ward_id == this.state.bill1[q].id) {
-                    for (let m = 0; m < this.state.imageone.length; m++) {
-                      var apartment = this.state.imageone[m].apartment_id;
+                  for (let q = 0; q < this.state.constituency.length; q++) {
 
-                      var house = this.state.imageone[m].house_id;
+                    if (this.state.apartments[j].constituency_id == this.state.constituency[q].id) {
 
-                      if (house_id == this.state.constituency[j].id) {
+                      for (let m = 0; m < this.state.ward.length; m++) {
 
-                        if (apartment == this.state.counties[i].apartment_id) {
-                          if (house == this.state.counties[i].house_id) {
-                            data.push(Object.assign(index, post_id, this.state.counties[i], this.state.counties1[n], this.state.bill1[q]
-                              , this.state.imageone1[p], this.state.image[0], this.state.imageone[m]))
-                            // data.push(Object.assign(index, this.state.counties[i]))
-                            this.setState({
-                              lists: data
-                            })
-                            console.log('LISTS', this.state.lists);
+                        if (this.state.apartments[j].ward_id == this.state.ward[m].id) {
 
-                          }
+                          data.push(Object.assign(index, post_id, this.state.posts[i],
+                             this.state.apartments[j], this.state.constituency[q],
+                             this.state.counties[p], this.state.ward[m],
+                              this.state.billings[n], this.state.image[0]))
+                          // data.push(Object.assign(index, this.state.counties[i]))
+                          this.setState({
+                            lists: data
+                          })
+                          console.log('LISTS', this.state.lists);
                         }
                       }
                     }

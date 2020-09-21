@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { getTranslation, SupportedLanguage } from 'Services/Geo';
 // import LanguageSelector from 'Components/LanguageSelector';
 import { RootState } from 'Redux/Store';
+import { isLoggedIn } from 'Helpers/isLoggedIn';
 
 const mapStateToProps = (state: RootState) => ({
   lang: state.status.lang,
@@ -70,6 +71,18 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
       )
     ];
   }
+
+  checkLogins = () => {
+    if (isLoggedIn == "false") {
+
+      alert("You have to login first");
+      // window.location.href = "/";
+    } else {
+      window.location.href = "/newproperty/sell";
+    }
+
+
+  }
   render() {
     if (!this.props.isPersist) {
       return (null);
@@ -79,10 +92,12 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
         <div className="langSelectorWrapper">
         
         </div>
+        <a href="/">
           <div className="homeLogo osLight">
             <Icon name="home" size="2x" /> 
-            <span>AgencyKe</span>
+            <span>PrimeCrib</span>
           </div>
+        </a>
         <a 
           href="#" 
           className={'homeNavHandler visible-xs' + (this.state.isHandlerActive ? ' active' : '')} 
@@ -113,9 +128,9 @@ class MenuBar extends React.Component<MenuBarProps, MenuBarState> {
             {this.loginField()}
             
             <li>
-              <Link to="/newproperty/sell"><div className="btn btn-green">
+              <button onClick={this.checkLogins} className="btn btn-green"><div >
                 {getTranslation(this.props.lang, 'List a Property')}
-              </div></Link>
+              </div></button>
             </li>
           </ul>
         </div>
