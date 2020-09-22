@@ -89,7 +89,7 @@ class AddUser extends React.Component<{}, ListingState> {
         axios.get(baseURL + "apartments", { headers: { "Authorization": token } }),
         axios.get(baseURL + 'constituencies', { headers: { "Authorization": token } }),
         axios.get(baseURL + 'roles', { headers: { "Authorization": token } }),
-        axios.get(baseURL + 'users', { headers: { "Authorization": token } }),
+        axios.get(baseURL + 'users?limit=100', { headers: { "Authorization": token } }),
       ]);
     this.setState({
       counties: countiesResponse.data,
@@ -188,7 +188,8 @@ class AddUser extends React.Component<{}, ListingState> {
         if (response.data.status) {
           this.setState({ statusMessage: response.data.status_message, alert_error: "alert alert-success", isShowError: true, isLoading: false });
           window.setTimeout(function () {
-            window.location.reload();
+            window.location.href = "/newproperty/sell";
+
           }, 2000);
         } else {
 

@@ -185,13 +185,13 @@ class AddHouse extends React.Component<{}, ListingState> {
         'Content-Type': 'application/json',
         'Authorization': token,
       },
-    })
-      .then((response) => {
-
+    }).then((response) => {
+         console.log("response", response.data)
         if (response.data.status) {
           this.setState({ statusMessage: response.data.status_message, alert_color: "alert alert-success", isShowError: true, isLoading: false });
           window.setTimeout(function () {
-            window.location.reload();
+            window.location.href= '/newproperty/billings';
+
           }, 2000);
         } else {
           this.setState({ statusMessage: response.data.status_message, isShowError: true, alert_color: "alert alert-danger", isLoading: false });

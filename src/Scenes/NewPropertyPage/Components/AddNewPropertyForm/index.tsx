@@ -179,10 +179,9 @@ class AddNewPropertyForm extends React.Component<{}, ListingState> {
         if (response.data.status) {
           this.setState({ statusMessage: response.data.status_message, alert_color: "alert alert-success", isShowError: true, isLoading: false });
           window.setTimeout(function () {
-            window.location.reload();
+            window.location.href= '/newproperty/rent';
           }, 2000);
         } else {
-
           this.setState({ statusMessage: response.data.status_message, alert_color: "alert alert-danger", isShowError: true, isLoading: false });
         }
       })

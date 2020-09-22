@@ -68,7 +68,7 @@ class SearchForm extends React.Component<{}, SearchFormState> {
       }
     };
 
-    axios.get(baseURL + 'apartments?landLord_id=7', config).then(res => {
+    axios.get(baseURL + 'apartments?owner_id=7', config).then(res => {
       this.setState({ statusMessage: res.data.status_message });
       //console.log("LOOG" , res.data.status_message);
       this.setState({

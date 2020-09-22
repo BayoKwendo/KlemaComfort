@@ -155,7 +155,7 @@ const columns = [
                     <span className="fa fa-eye dt-icon-btn"></span>
                 </button> */}
           <>
-            <a href={url}>
+          <a href={url}>
               <button
                 className="btn btn-green btn-sm"
                 title="Upload"

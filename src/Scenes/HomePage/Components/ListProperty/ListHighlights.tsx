@@ -20,7 +20,7 @@ const List = styled.div`
 const ListRight = styled.div`
   @media (min-width: 100%){  
     .loader-img{
-        width: 3px;
+        width: 300px;
         margin: 0px auto;
     }
   }
@@ -61,17 +61,17 @@ type ListingState = {
   ward: any[],
   amount: string,
   posts: any[],
-  image_url: any[],
   apartments: any[],
   houses: any,
-  constituency: any[],
-  image: any[],
   billingss: any[],
   frequecy: any[],
+  image_url: any[],
+  constituency: any[],
+  image: any[],
   activePage: string
 
 };
-class Listing extends React.Component<{}, ListingState> {
+class ListingHigh extends React.Component<{}, ListingState> {
   constructor() {
     super();
     this.state = {
@@ -79,14 +79,13 @@ class Listing extends React.Component<{}, ListingState> {
       ready: 'initial',
       search: '',
       counties: [],
-      billings: [],
-      frequecy: [],
-
+      billingss: [],
+      image_url: [],
       houses: '',
       posts: [],
+      frequecy: [],
       constituency: [],
-      billingss: [],
-      image_url:[],
+      billings: [],
       ward: [],
       apartments: [],
       amount: '',
@@ -104,7 +103,7 @@ class Listing extends React.Component<{}, ListingState> {
     const config = {
     }; const [
       postResponse, apartmentResponse, countiesResponse, constituencyResponse, wardResponse] = await Promise.all([
-        axios.get(baseURL + 'posts/recent?limit=3', config),
+        axios.get(baseURL + 'posts/highlights?limit=3', config),
         axios.get(baseURL + 'apartments', config),
         axios.get(baseURL + 'counties', config),
         axios.get(baseURL + 'constituencies', config),
@@ -263,4 +262,4 @@ class Listing extends React.Component<{}, ListingState> {
     );
   }
 }
-export default Listing;
+export default ListingHigh;

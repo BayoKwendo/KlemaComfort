@@ -62,147 +62,154 @@ const Listgroup = styled.div`
 `;
 interface ListViewState {
   list: any[],
+  search: any,
+  lists: any[],
   ready: string,
   Name: string,
   counties: any[],
-  bill: any[],
-  imageone: any[],
-
+  billings: any[],
+  ward: any[],
   amount: string,
-
-
-  counties1: any[],
-  bill1: any[],
-  imageone1: any[],
-  image_url: any[],
-
+  posts: any[],
+  apartments: any[],
+  houses: any,
   constituency: any[],
   image: any[],
-  activePage: string
-
+  billingss: any[],
+  frequecy: any[],
+  activePage: string,
+  image_url: any[]
 };
 class ListView extends React.Component<{ match: any }, ListViewState> {
   constructor(props) {
     super(props);
     this.state = {
       list: [],
-      ready: "initial",
+
+      lists: [],
+      ready: 'initial',
       counties: [],
+      houses: '',
       image_url: [],
-      imageone: [],
-      bill: [],
-      counties1: [],
-      imageone1: [],
-      bill1: [],
-      amount: "",
+      posts: [],
       constituency: [],
+      billingss: [],
+      frequecy: [],
+
+      billings: [],
+      ward: [],
+      apartments: [],
+      amount: '',
       image: [],
-      activePage: "15",
+      activePage: '15',
+      search: '',
 
       Name: ''
     };
   }
 
+
   async componentDidMount() {
-    const { match: { params } } = this.props;
-    const id = params.id;
     this.setState({
-      ready: "loading"
+      ready: 'loading'
     });
     const config = {
-      headers: { Authorization: `Bearer   .eyJlbWFpbF9hZGRyZXNzIjoic2FAb25mb25tZWRpYS5jb20iLCJyb2xlX2lkIjoxLCJtc2lzZG4iOiIyNTQ3MTMxMjI4MTkiLCJ1c2VybmFtZSI6InN1cGVydXNlciIsImZpcnN0X25hbWUiOiJzdXBlcnVzZXIiLCJsYXN0X25hbWUiOiJzdXBlcnVzZXIiLCJpZCI6MSwidGltZSI6IjIwMjAtMDgtMTdUMDU6NTU6MTkuNjg3WiIsImlhdCI6MTU5NzY0MzcxOSwiZXhwIjoxNTk3Njg2OTE5fQ.6B4caaSL8OgR2O-aJbqAQkeBTrvzAkGsTFplcNhWzsM` }
     }; const [
-      countiesResponse, constituencyResponse, billingResponse, countiesResponse1, constituencyResponse1, billingResponse1] = await Promise.all([
-        // axios.get(baseURL + 'users/1', { headers: { "Authorization": `Bearer ${window.user.data.access_token}` } }),
-        axios.get(baseURL + `posts?id=${id}`, config),
+      postResponse, apartmentResponse, countiesResponse, constituencyResponse, wardResponse] = await Promise.all([
+        axios.get(baseURL + 'posts/highlights?id='+this.props.match.params.id , config),
         axios.get(baseURL + 'apartments', config),
-        axios.get(baseURL + 'billings?bill_type_id=2', config),
-        axios.get(baseURL + "counties", config),
+        axios.get(baseURL + 'counties', config),
         axios.get(baseURL + 'constituencies', config),
         axios.get(baseURL + 'wards', config)
       ]);
 
     this.setState({
+      posts: postResponse.data,
+      apartments: apartmentResponse.data,
       counties: countiesResponse.data,
       constituency: constituencyResponse.data,
-      imageone: billingResponse.data,
-      counties1: countiesResponse1.data,
-      imageone1: constituencyResponse1.data,
-      bill1: billingResponse1.data,
-      ready: "loaded",
+      ward: wardResponse.data,
+      ready: 'loaded',
     },
 
       function () {
-        console.log("bayo", constituencyResponse.data)
       }
     );
 
-
-
+    console.log('bayo', this.state.posts)
     var data = [];
-    for (let i = 0; i < this.state.counties.length; i++) {
-      let index = { idx: i };
-      let post_id = { post_id: this.state.counties[i].id };
+    var da = 0;
 
-      // //alert(this.state.users[i].id);
-      for (let j = 0; j < this.state.constituency.length; j++) {
-        var house_id = this.state.counties[i].apartment_id;
-        //   var user_id = this.state.complian[i].user_id;
+    for (let i = 0; i < (this.state.posts.length || da); i++) {
+      console.log('bayos', this.state.posts[i].houses)
+      var apartment_id = this.state.posts[i].apartment_id;
+      // var house_id = this.state.posts[i].house_id;
+      let post_id = { post_id: this.state.posts[i].id };
 
-        for (let n = 0; n < this.state.counties1.length; n++) {
+      for (let r = 0; r < (this.state.posts[i].houses.microimages.length || da); r++) {
+        this.setState({
+          image_url: this.state.posts[i].houses.microimages,
+        })
+      }
 
-          if (this.state.constituency[j].county_id == this.state.counties1[n].id) {
-
-            for (let p = 0; p < this.state.imageone1.length; p++) {
-
-              if (this.state.constituency[j].constituency_id == this.state.imageone1[p].id) {
-
-                for (let q = 0; q < this.state.bill1.length; q++) {
-                  if (this.state.constituency[j].ward_id == this.state.bill1[q].id) {
-                    for (let m = 0; m < this.state.imageone.length; m++) {
-                      var house = this.state.imageone[m].house_id;
-
-                      if (house_id == this.state.constituency[j].id) {
-
-                        if (house == this.state.counties[i].house_id) {
+      for (let w = 0; w < (this.state.posts[i].houses.billings.length || da); w++) {
+        this.setState({
+          billingss: this.state.posts[i].houses.billings[w].amount,
+          frequecy: this.state.posts[i].houses.billings[w].billing_frequency
+        })
+      }
+      // let index = { idx: this.state.posts[i].houses.microimages[0].s3_url};
+      let rent = { rent: this.state.billingss };
+      let billing = { billing_frequency: this.state.frequecy };
 
 
-                          axios.get(baseURL + 'galleries/apartment/' + house_id, config).then(res => {
-                            //console.log("LOOG" , res.data.status_message);
-                            this.setState({
-                              image: res.data,
-                            });
-                            for (let r = 0; r < this.state.image.length; r++) {
-                              this.setState({
-                                image_url: this.state.image,
-                              })
-                              console.log("LISTS", this.state.image_url);
-                            }
-                            data.push(Object.assign(index, post_id, this.state.counties[i], this.state.counties1[n], this.state.imageone1[p], this.state.bill1[q], this.state.image[0], this.state.imageone[m]))
-                            this.setState({
-                              list: data
-                            })
-                            console.log("bayo", this.state.list)
-                          });
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
+
+      for (let j = 0; j < this.state.apartments.length; j++) {
+
+        if (apartment_id == this.state.apartments[j].id) {
+           
+          if (this.state.posts[i].id == this.props.match.params.id ){
+            data.push(Object.assign(post_id,  rent, billing, this.state.posts[i],
+              this.state.apartments[j]))
+            // data.push(Object.assign(index, this.state.counties[i]))
+            this.setState({
+              lists: data
+            })
+            console.log('LISTS', this.state.lists);
           }
 
-        }
 
+        
+          // for (let p = 0; p < this.state.counties.length; p++) {
+
+          //   if (this.state.apartments[j].county_id == this.state.counties[p].id) {
+
+          //     for (let q = 0; q < this.state.constituency.length; q++) {
+
+          //       if (this.state.apartments[j].constituency_id == this.state.constituency[q].id) {
+
+          //         for (let m = 0; m < this.state.ward.length; m++) {
+
+          //           if (this.state.apartments[j].ward_id == this.state.ward[m].id) {
+
+          //           }
+          //         }
+          //       }
+          //     }
+
+          //   }
+          // }
+        }
       }
     }
-
   }
-  render() {
-    const { list, ready, image_url } = this.state;
 
-    const filtered = list.filter(list => {
+
+
+  render() {
+    const { lists, ready, image_url } = this.state;
+
+    const filtered = lists.filter(list => {
       return list.title.toLowerCase() !== -1;
     });
 

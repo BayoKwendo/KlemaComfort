@@ -109,7 +109,7 @@ class USERS extends React.Component<{}, any> {
 
     const [usersResponse, complainResponse, houseResponse, apartmentResponse,] = await Promise.all([
 
-      axios.get(baseURL + "users?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      axios.get(baseURL + "users?limit=1000000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "roles", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "houses", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "apartments", { headers: { "Authorization": `Bearer ` + TOKEN } }),
@@ -125,7 +125,7 @@ class USERS extends React.Component<{}, any> {
         isLoading: false
       },
       function () {
-        console.log("teachers", usersResponse.data);
+        console.log("teachers", apartmentResponse.data);
       });
     /// var data = [];
 
@@ -137,7 +137,8 @@ class USERS extends React.Component<{}, any> {
       for (let i = 0; i < (this.state.users.length || da); i++) {
         //  var user_role = this.state.users[i].role_id;
         var user_id = this.state.users[i].id;
-        if (user_id == this.state.apartment[l].landLord_id) {
+
+        if (user_id == this.state.apartment[l].owner_id) {
           for (let j = 0; j < this.state.complian.length; j++) {
             var user_role = this.state.users[i].role_id;
             if (user_role == this.state.complian[j].id) {

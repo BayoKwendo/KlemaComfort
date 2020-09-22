@@ -7,7 +7,7 @@ class SearchForm extends React.Component<{}, {}> {
   render() {
     return (
       <div className="search">
-        <input type="text"  disabled={true} placeholder="AgencyKe" />
+        <input type="text"  disabled={true} placeholder="Crib Mtaani" />
       </div>
     );
   }

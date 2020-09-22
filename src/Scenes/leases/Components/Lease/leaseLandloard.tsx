@@ -14,17 +14,11 @@ import Dashboard from 'Components/DashboardLayout';
 //   accountDats: any[];
 //   columns: any[];
 // }
+const url = localStorage.getItem("url")
 
 
 
 const columns = [
-  {
-    key: "idx",
-    text: "#",
-    TrOnlyClassName: 'tsc',
-    className: "tsc",
-    align: "left",
-  },
   {
     key: "first_name",
     text: "Tenant Name",
@@ -122,6 +116,46 @@ const columns = [
     className: "tsc",
     align: "left",
   },
+  {
+    key: "agreement_source",
+    text: "Agreement",
+    TrOnlyClassName: 'cell',
+    className: "cell",
+    width: 160,
+    align: "center",
+    sortable: false,
+    cell: record => {
+      return (
+        <>
+          {/* <button
+                    className="btn btn-primary btn-sm text-center"
+                    onClick={() => this.editRecord(record)}
+                    style={{ marginRight: '5px', textAlign: 'center' }}>
+                    <span className="fa fa-eye dt-icon-btn"></span>
+                </button> */}
+          {/* <button
+                    className=" btn-primary"
+                    style={{ marginRight: '10px' }}
+                    onClick={() => this.viewRecord(record)}>
+                    <span className="fa fa-eye dt-icon-btn"></span>
+                </button> */}
+          <>
+          <a href={url}>
+              <button
+                className="btn btn-green btn-sm"
+                title="Upload"
+                style={{ fontSize: '12px' }}
+              >
+
+                <span className="fa fa-upload dt-icon-btn"> Download leasedocument</span>
+              </button>
+            </a>
+          </>
+
+        </>
+      );
+    }
+  }
 
   
 ];
@@ -152,12 +186,13 @@ class LeaseLandlord extends React.Component<{}, any> {
 
 
   }
+
   async componentDidMount() {
-    const [complainResponse, usersResponse, houseResponse, apartmentResponse, tenantResponse] = await Promise.all([
+    const [complainResponse, tenantResponse, houseResponse, apartmentResponse, usersResponse] = await Promise.all([
       axios.get(baseURL + "leases", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-      axios.get(baseURL + "tenants", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-      axios.get(baseURL + "houses", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-      axios.get(baseURL + "apartments?landLord_id="+ID, { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      axios.get(baseURL + "tenants?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      axios.get(baseURL + "houses?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      axios.get(baseURL + "apartments?owner_id="+ID, { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "users?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
 
 
@@ -169,51 +204,45 @@ class LeaseLandlord extends React.Component<{}, any> {
         houses: houseResponse.data,
         apartment: apartmentResponse.data,
         tenants: tenantResponse.data,
-
-
         isLoading: false
       },
       function () {
-        console.log("teachers", complainResponse.data);
+        console.log("lease", tenantResponse.data);
       });
     /// var data = [];
 
     var data = [];
     for (let i = 0; i < this.state.complian.length; i++) {
       //alert(this.state.users[i].id);
+      let index = { idx: i + 1 };
+
       for (let j = 0; j < this.state.houses.length; j++) {
-
         //   var user_id = this.state.complian[i].user_id;
-        let index = { idx: i + 1 };
-        var house_id = this.state.houses[j].id;
+        var house_id = this.state.complian[i].house_id;
         if (house_id == this.state.houses[j].id) {
-
-
           for (let l = 0; l < this.state.apartment.length; l++) {
-
             var apartment_id = this.state.houses[j].apartment_id;
-
             if (apartment_id == this.state.apartment[l].id) {
-              for (let k = 0; k < this.state.users.length; k++) {
+              for (let m = 0; m < this.state.users.length; m++) {
 
-                var user_id = this.state.users[k].user_id;
+                for (let k = 0; k < this.state.tenants.length; k++) {
+                  var user_id = this.state.tenants[k].user_id;
 
-                for (let m = 0; m < this.state.tenants.length; m++) {
+                  console.log("userID", user_id)
+                  if (user_id == this.state.users[m].id) {
 
-                  if (user_id == this.state.tenants[m].id) {
-                    if (house_id == this.state.complian[i].house_id) {
-                     console.log("EVANS", this.state.users[k].id);
+                    if (this.state.users[m].id == this.state.complian[i].customer_id) {
 
-                      if (this.state.users[k].id == this.state.complian[i].customer_id) {
-                        let date = { dates:  moment( this.state.complian[i].lease_end_date).format('DD MMM, YYYY') };
-                        data.push(Object.assign(index, this.state.complian[i], this.state.houses[j], this.state.apartment[l],date, this.state.users[k], this.state.tenants[m]))
-                        this.setState({
-                          data: data
-                        })
+                      console.log("EVANS", this.state.complian[i].agreement_source);
+                      localStorage.setItem("url", this.state.complian[i].agreement_source)
 
-                        console.log("EVANS", this.state.data);
-                      }
+                      let date = { dates: moment(this.state.complian[i].lease_end_date).format('DD MMM, YYYY') };
+                      data.push(Object.assign(index, this.state.complian[i],this.state.users[m],this.state.tenants[k], this.state.houses[j], this.state.apartment[l], date))
+                      this.setState({
+                        data: data
+                      })
                     }
+
                   }
                 }
               }
@@ -222,7 +251,7 @@ class LeaseLandlord extends React.Component<{}, any> {
         }
       }
     }
-  }s
+  }
   render() {
     return (
       <div className="searchPage">

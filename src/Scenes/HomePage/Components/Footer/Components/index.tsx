@@ -28,13 +28,13 @@ class FooterContainer extends React.Component<{}, {}> {
     return (
       <div className="footerContainer">
         <div className="row">
-            <ListComp list={this.listCompany}>InfoTrace Analytics</ListComp>
+            <ListComp list={this.listCompany}>Crib Mtaani</ListComp>
             {/* <ListComp list={this.listDiscover}>Discover</ListComp> */}
             <GetInTouch>Get in Touch</GetInTouch>
             <Subscribe>Subscribe to Our Newsletter</Subscribe>
         </div>
         <div className="footerCopyRight">
-        AgencyKe<br/> ©2020 Copyright OnfonGroup
+        Crib Mtaani<br/> ©2020 Copyright OnfonGroup
         </div>
       </div>
     );

@@ -38,6 +38,9 @@ import AgentComplain from 'Scenes/Complants/Components/Complains/AgentComplain';
 import AddAgreement from 'Scenes/leases/Components/Lease/AddAgreement';
 import Map from 'Components/Maps/maps';
 import PostsList from 'Scenes/AddPosts/Components/Posts/posts';
+import PasswordReset from 'Scenes/Users/userresetpasswd';
+import TransactionLand from 'Scenes/Accounts/Components/Account/TransactionsLand';
+import WalletLandlord from 'Scenes/Accounts/Components/Account/WalletLandlord';
 
 const mapStateToProps = (state: RootState) => ({
   lang: state.status.lang
@@ -83,10 +86,12 @@ class App extends React.Component<AppProps, {}> {
           <Route exact={true} path="/agreement" component={AddAgreement} />
 
           <Route exact={true} path="/accoucnts" component={Map} />
-
+          <Route exact={true} path="/account/create-password/:token" component={PasswordReset} />
           <Route exact={true} path="/leaseLandLord" component={LeaseLandlord} />
           <Route exact={true} path="/agencomplain" component={AgentComplain} />
          <Route exact={true} path="/leaseTenant" component={LeaseTenant} />
+         <Route exact={true} path="/transactionLand" component={TransactionLand} />
+         <Route exact={true} path="/walletLand" component={WalletLandlord} />
 
           <Route exact={true} path="/complain/:action" component={ComplainPage} />
 

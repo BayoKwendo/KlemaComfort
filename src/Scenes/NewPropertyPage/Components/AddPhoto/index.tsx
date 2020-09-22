@@ -13,6 +13,7 @@ type ListingState = {
   apartment_type: string,
   showComponent: boolean,
   hideComponent: boolean,
+  hideHouse: boolean,
   number_of_floors: string,
   number_of_carparking: string,
   number_blocks: string,
@@ -29,7 +30,8 @@ type ListingState = {
   wards: any[],
   landlord: any[],
   boolean: any[],
-  houses:any[],
+  houses: any[],
+  hideApartment: boolean,
   alert_color: string,
   selectedBolean: string,
   selectedBolean1: string,
@@ -56,6 +58,8 @@ class AddPhoto extends React.Component<{}, ListingState> {
       county_id: '',
       showComponent: true,
       hideComponent: false,
+      hideApartment: false,
+      hideHouse: false,
       hide1Component: false,
       constituency_id: '',
       landLord_id: '',
@@ -118,9 +122,10 @@ class AddPhoto extends React.Component<{}, ListingState> {
 
   onSelectChange = (value: { value: { toString: () => any; }; }) => {
     this.setState({
-      county_id: value.value.toString()},
+      county_id: value.value.toString()
+    },
       function () {
-        fetch(baseURL + 'houses?apartment_id=' + value.value.toString(), { headers: { "Authorization": `Bearer `+TOKEN } })
+        fetch(baseURL + 'houses?apartment_id=' + value.value.toString(), { headers: { "Authorization": `Bearer ` + TOKEN } })
           .then(response => response.json())
           .then(
             res => {
@@ -129,18 +134,18 @@ class AddPhoto extends React.Component<{}, ListingState> {
               )
             }
           )
-    });
+      });
 
 
   };
 
   Constituency() {
-  
-    return (this.state.houses && (this.state.houses.length > 0||this.state.houses.length ==0) &&
+
+    return (this.state.houses && (this.state.houses.length > 0 || this.state.houses.length == 0) &&
       this.state.houses.map((countyItem, i) =>
         ({ label: countyItem.house_number, value: countyItem.id })))
 
-}
+  }
 
   onSelectChangeConstitueny = value => {
     this.setState({ constituency_id: value.value.toString() });
@@ -174,17 +179,17 @@ class AddPhoto extends React.Component<{}, ListingState> {
       .then((response) => {
 
         if (response.data.status) {
-          this.setState({ statusMessage: response.data.status_message,alert_color: "alert alert-success", isShowError: true, isLoading: false });
+          this.setState({ statusMessage: response.data.status_message, alert_color: "alert alert-success", isShowError: true, isLoading: false });
           window.setTimeout(function () {
             window.location.reload();
           }, 2000);
         } else {
-          this.setState({ statusMessage: response.data.status_message,alert_color: "alert alert-danger", isShowError: true, isLoading: false });
+          this.setState({ statusMessage: response.data.status_message, alert_color: "alert alert-danger", isShowError: true, isLoading: false });
         }
       })
       .catch((error) => {
         console.log('bayoo', error.response)
-        this.setState({ statusMessage: error.response.data.status_message,alert_color: "alert alert-danger", isShowError: true, isLoading: false });
+        this.setState({ statusMessage: error.response.data.status_message, alert_color: "alert alert-danger", isShowError: true, isLoading: false });
       })
   }
 
@@ -192,11 +197,11 @@ class AddPhoto extends React.Component<{}, ListingState> {
     this.setState({ selectedBolean1: event.target.value },);
 
     if (event.target.value == "House") {
-      this.setState({ hideComponent: true, showComponent: true, hide1Component: false },);
+      this.setState({ hideComponent: true, showComponent: true, hideHouse:true,  hideApartment: false, hide1Component: false },);
     } else if (event.target.value == "Apartment") {
-      this.setState({ hideComponent: false, showComponent: true, hide1Component: true },);
+      this.setState({ hideComponent: false, showComponent: true, hideHouse:false, hideApartment: true, hide1Component: true },);
     } else {
-      this.setState({ hideComponent: false, showComponent: true, hide1Component: false },);
+      this.setState({ hideComponent: false, showComponent: true,hideHouse:false, hide1Component: false },);
     }
   };
   importCSV = event => {
@@ -217,7 +222,7 @@ class AddPhoto extends React.Component<{}, ListingState> {
     }).then((response) => {
 
       if (response.data.status) {
-        this.setState({ statusMessage: response.data.status_message,alert_color: "alert alert-success", isLoading: false, isShowError: true });
+        this.setState({ statusMessage: response.data.status_message, alert_color: "alert alert-success", isLoading: false, isShowError: true });
         console.log("bayo", response.data)
         window.setTimeout(function () {
           window.location.reload();
@@ -241,7 +246,7 @@ class AddPhoto extends React.Component<{}, ListingState> {
     data.append("image", this.state.csvfile);
     // console.log("DATA", data);
 
-    axios.post(baseURL + 'houses/' + this.state.county_id + '/galleries', data, {
+    axios.post(baseURL + 'houses/' + this.state.constituency_id + '/galleries', data, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -249,13 +254,13 @@ class AddPhoto extends React.Component<{}, ListingState> {
       },
     }).then((response) => {
       if (response.data.status) {
-        this.setState({ statusMessage: response.data.status_message,alert_color: "alert alert-success", isLoading: false, isShowError: true });
+        this.setState({ statusMessage: response.data.status_message, alert_color: "alert alert-success", isLoading: false, isShowError: true });
         console.log("bayo", response.data)
         window.setTimeout(function () {
           window.location.reload();
         }, 2000);
       } else {
-        this.setState({ statusMessage: response.data.status_message, isLoading: false,alert_color: "alert alert-danger",  isShowError: true });
+        this.setState({ statusMessage: response.data.status_message, isLoading: false, alert_color: "alert alert-danger", isShowError: true });
       }
     }).catch((error) => {
       console.log('bayoo', error.response)
@@ -278,7 +283,7 @@ class AddPhoto extends React.Component<{}, ListingState> {
   }
   render() {
     const { showComponent } = this.state;
-    const { hideComponent } = this.state;
+    const { hideComponent} = this.state;
     const { hide1Component } = this.state;
 
     return (
@@ -353,10 +358,12 @@ class AddPhoto extends React.Component<{}, ListingState> {
               </div>
 
               <div className="text-center title col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
-                <button id="input" onClick={this.importCSV} className="btn btn-green btn-lg
+               
+                <button id="input" onClick={this.importCSVs} className="btn btn-green btn-lg
                                                                  text-white margin-left: '10px'" style={{ fontFamily: 'Fira Sans', backgroundColor: '#0070BA' }}>
                   {this.state.isLoading ? "Please Wait..." : "Import now!"}  <i className="fa fa-refresh"></i>
                 </button>
+               
               </div>
 
             </>
@@ -404,7 +411,7 @@ class AddPhoto extends React.Component<{}, ListingState> {
           <br />
 
         </form>
-      </div>
+      </div >
     );
   }
 }

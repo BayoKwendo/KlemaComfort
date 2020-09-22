@@ -11,7 +11,7 @@ class GetInTouch extends React.Component<{}, {}> {
         </div>
         <ul className="mainList">
           <li className="footer-phone"><span className="fa fa-phone"/> 0703012100</li>
-          <li className="footer-email"><span className="fa fa-mail"/><a style={{color: 'blue'}}> primecribltd@gmail.com</a></li>
+          <li className="footer-email"><span className="fa fa-mail"/><a style={{color: 'blue'}}> info@agencyke.com</a></li>
 
           <li className="footer-address osLight">
             <p>Red commercial complex, along Mombasa road,</p>

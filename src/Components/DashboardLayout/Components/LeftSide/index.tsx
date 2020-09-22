@@ -35,15 +35,28 @@ class LeftSide extends React.Component<LeftSideProps, {}> {
                   <Icon className="navIcon" name="exclamation-triangle" />
                   <span className="navLabel">Complians</span>
                 </Link></li>
-                <li><Link to="/accounts">
-                  <Icon className="navIcon" name="money" />
-                  <span className="navLabel">Accounts</span>
-                </Link></li>
-
-                <li><Link to="/transaction">
-                  <Icon className="navIcon" name="money" />
-                  <span className="navLabel">Transactions</span>
-                </Link></li>
+                <li className="hasSub hasSubActive">
+                  <Link to="/accounts" onClick={this.toggleActive}>
+                    <Icon className="navIcon" name="money" />
+                    <Icon className="closeIcon arrowRight" name="angle-left" />
+                    <Icon className="openIcon arrowRight" name="angle-down" />
+                    <span className="navLabel">Statements</span>
+                  </Link>
+                  <ul className="colors secondUl">
+                    <li><Link to="/accounts">
+                      Accounts<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    <li><Link to="/transactionLand">
+                      Transactions<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    <li><Link to="/walletLand">
+                      Wallets<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    {/* <li><Link to="/invoice">
+                      Invoice<Icon name="circle-o" className="icon-right" />
+                    </Link></li> */}
+                  </ul>
+                </li>
               </>
 
               : null}
@@ -153,6 +166,8 @@ class LeftSide extends React.Component<LeftSideProps, {}> {
                   <Link to="/post-list" onClick={this.toggleActive}>
                     <Icon className="navIcon" name="plus-square" />
                     <span className="navLabel">Posts</span>
+                    <Icon className="closeIcon arrowRight" name="angle-left" />
+                    <Icon className="openIcon arrowRight" name="angle-down" />
                   </Link>
                   <ul className="colors secondUl">
                     <li><Link to="/posts">
@@ -163,7 +178,7 @@ class LeftSide extends React.Component<LeftSideProps, {}> {
                     </Link></li>
                   </ul>
                 </li>
-               
+
                 <li><Link to="/lease">
                   <Icon className="navIcon" name="home" />
                   <span className="navLabel">Lease</span>

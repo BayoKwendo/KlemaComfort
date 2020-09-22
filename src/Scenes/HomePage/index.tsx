@@ -15,6 +15,7 @@ class HomePage extends React.Component<RouteComponentProps<{}>, {}> {
         <div className="bodyWrapper">
           <ListProperty/>
         </div>
+        
         <div className="footerWrapper">
           <Footer />
         </div>

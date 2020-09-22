@@ -96,7 +96,7 @@ class ComplainsLandLoard extends React.Component<{}, any> {
       axios.get(baseURL + "complaints", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "users?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "houses", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-      axios.get(baseURL + "apartments?landLord_id="+ID, { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      axios.get(baseURL + "apartments?owner_id="+ID, { headers: { "Authorization": `Bearer ` + TOKEN } }),
 
     ]);
     this.setState(
@@ -114,7 +114,8 @@ class ComplainsLandLoard extends React.Component<{}, any> {
     /// var data = [];
 
     var data = [];
-    for (let i = 0; i < this.state.complian.length; i++) {
+    var da = 0;
+    for (let i = 0; i < (this.state.complian.length || da); i++) {
       //alert(this.state.users[i].id);
       for (let j = 0; j < this.state.houses.length; j++) {
         var house_id = this.state.complian[i].house_id;

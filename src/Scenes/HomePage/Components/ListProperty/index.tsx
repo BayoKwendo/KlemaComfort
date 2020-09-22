@@ -4,6 +4,8 @@ import { TOKEN } from 'Helpers/token';
 import { baseURL } from 'Helpers/baseURL';
 import axios from 'axios';
 import Listing from './Listing';
+import ListingHigh from './ListHighlights';
+
 
 interface SearchFormState {
   resultTab: 'list' | 'map';
@@ -47,14 +49,24 @@ class ListProperty extends React.Component<{}, SearchFormState> {
 
    
     return (
+      <>
       <div className="listProperty">
         <div className="row listPropertyHeader">
-          <h3>Recently Listed   Apartments</h3>
+          <h3>Recently Listed </h3>
          {/* <h5>Fusce risus metus, placerat in consectetur eu, porttitor a est sed sed dolor lorem cras adipiscing</h5> */}
         </div>
        
         <Listing/>
       </div>
+       <div className="listProperty">
+       <div className="row listPropertyHeader">
+         <h3>Most Featured Apartments</h3>
+        {/* <h5>Fusce risus metus, placerat in consectetur eu, porttitor a est sed sed dolor lorem cras adipiscing</h5> */}
+       </div>
+      
+       <ListingHigh/>
+     </div>
+     </>
     );
   }
 }
