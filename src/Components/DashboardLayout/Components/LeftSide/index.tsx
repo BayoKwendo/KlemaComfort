@@ -91,20 +91,35 @@ class LeftSide extends React.Component<LeftSideProps, {}> {
 
                   </ul>
                 </li>
-
+              
                 <li><Link to="/payments">
                   <Icon className="navIcon" name="money" />
                   <span className="navLabel">Payments</span>
                 </Link></li>
-                <li><Link to="/transaction">
-                  <Icon className="navIcon" name="money" />
-                  <span className="navLabel">Transactions</span>
-                </Link></li>
-                <li><Link to="/walletss">
-                  <Icon className="navIcon" name="bank" />
-                  <span className="navLabel">Wallets</span>
-                </Link></li>
 
+
+                <li className="hasSub hasSubActive">
+                  <Link to="/accounts" onClick={this.toggleActive}>
+                    <Icon className="navIcon" name="money" />
+                    <span className="navLabel">Statements</span>
+                    <Icon className="closeIcon arrowRight" name="angle-left" />
+                    <Icon className="openIcon arrowRight" name="angle-down" />
+                  </Link>
+                  <ul className="colors secondUl">
+                    <li><Link to="/accounts">
+                      Accounts<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    <li><Link to="/transactionTenant">
+                      Transactions<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    <li><Link to="/wallettenat">
+                      Wallets<Icon name="circle-o" className="icon-right" />
+                    </Link></li>
+                    {/* <li><Link to="/invoice">
+                      Invoice<Icon name="circle-o" className="icon-right" />
+                    </Link></li> */}
+                  </ul>
+                </li>
               </>
 
               : null}
@@ -191,6 +206,8 @@ class LeftSide extends React.Component<LeftSideProps, {}> {
                   <Link to="/accounts" onClick={this.toggleActive}>
                     <Icon className="navIcon" name="money" />
                     <span className="navLabel">Statements</span>
+                    <Icon className="closeIcon arrowRight" name="angle-left" />
+                    <Icon className="openIcon arrowRight" name="angle-down" />
                   </Link>
                   <ul className="colors secondUl">
                     <li><Link to="/accounts">

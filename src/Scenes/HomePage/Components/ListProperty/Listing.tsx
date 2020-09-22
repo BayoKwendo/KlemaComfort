@@ -86,7 +86,7 @@ class Listing extends React.Component<{}, ListingState> {
       posts: [],
       constituency: [],
       billingss: [],
-      image_url:[],
+      image_url: [],
       ward: [],
       apartments: [],
       amount: '',
@@ -128,7 +128,7 @@ class Listing extends React.Component<{}, ListingState> {
     var data = [];
     var da = 0;
 
-    for (let i = 0; i < (this.state.posts.length || da ); i++) {
+    for (let i = 0; i < (this.state.posts.length || da); i++) {
       console.log('bayos', this.state.posts[i].houses)
       var apartment_id = this.state.posts[i].apartment_id;
       // var house_id = this.state.posts[i].house_id;
@@ -148,38 +148,31 @@ class Listing extends React.Component<{}, ListingState> {
       }
       let index = { idx: this.state.image_url };
       // let index = { idx: this.state.posts[i].houses.microimages[0].s3_url};
-      let rent = { rent: this.state.billingss};
-      let billing = { billing_frequency: this.state.frequecy};
+      let rent = { rent: this.state.billingss };
+      let billing = { billing_frequency: this.state.frequecy };
 
       for (let j = 0; j < this.state.apartments.length; j++) {
-
         if (apartment_id == this.state.apartments[j].id) {
-          data.push(Object.assign(post_id,index,rent,billing, this.state.posts[i],
-            this.state.apartments[j]))
-          // data.push(Object.assign(index, this.state.counties[i]))
-          this.setState({
-            lists: data
-          })
           console.log('LISTS', this.state.lists);
-          // for (let p = 0; p < this.state.counties.length; p++) {
+          for (let p = 0; p < this.state.counties.length; p++) {
+            if (this.state.apartments[j].county_id == this.state.counties[p].id) {
+              for (let q = 0; q < this.state.constituency.length; q++) {
+                if (this.state.apartments[j].constituency_id == this.state.constituency[q].id) {
+                for (let m = 0; m < this.state.ward.length; m++) {
+                    if (this.state.apartments[j].ward_id == this.state.ward[m].id) {
+                      data.push(Object.assign(post_id, index, rent, billing, this.state.counties[p], this.state.constituency[q], this.state.ward[m], this.state.posts[i],
+                        this.state.apartments[j]))
+                      // data.push(Object.assign(index, this.state.counties[i]))
+                      this.setState({
+                        lists: data
+                      })
+                    }
+                  }
+                }
+              }
 
-          //   if (this.state.apartments[j].county_id == this.state.counties[p].id) {
-
-          //     for (let q = 0; q < this.state.constituency.length; q++) {
-
-          //       if (this.state.apartments[j].constituency_id == this.state.constituency[q].id) {
-
-          //         for (let m = 0; m < this.state.ward.length; m++) {
-
-          //           if (this.state.apartments[j].ward_id == this.state.ward[m].id) {
-
-          //           }
-          //         }
-          //       }
-          //     }
-
-          //   }
-          // }
+            }
+          }
         }
       }
     }

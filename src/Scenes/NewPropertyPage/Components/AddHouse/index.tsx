@@ -192,7 +192,7 @@ class AddHouse extends React.Component<{}, ListingState> {
           window.setTimeout(function () {
             window.location.href= '/newproperty/billings';
 
-          }, 2000);
+          }, 1000);
         } else {
           this.setState({ statusMessage: response.data.status_message, isShowError: true, alert_color: "alert alert-danger", isLoading: false });
         }

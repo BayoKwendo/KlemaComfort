@@ -112,6 +112,7 @@ class LeaseAgreement extends React.Component<LoginFormProps, LoginFormState> {
             localStorage.setItem("currentUser", JSON.stringify(response.data));
             localStorage.setItem("user_role", response.data.response.user.role_id);
             localStorage.setItem("token", response.data.response.token);
+            localStorage.setItem("msisdn", response.data.response.msisdn);
             localStorage.setItem("isLoggedIn", "true");
             localStorage.setItem("fullname", response.data.response.user.first_name + " " + response.data.response.user.last_name)
             localStorage.setItem("id", response.data.response.user.id);

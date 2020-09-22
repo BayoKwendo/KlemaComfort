@@ -134,15 +134,15 @@ const columns = [
     cell: record => {
       return (
         <>
-        <a href="https://s3.us-east-2.amazonaws.com/primecribsb3/chris.png">
-          <button
-            className="btn btn-green btn-sm"
-            title="Upload"
-            style={{ fontSize: '12px' }}
- >
+          <a href="/lease/HOUSE_RENTAL_AGREEMENT2.pdf">
+            <button
+              className="btn btn-green btn-sm"
+              title="Upload"
+              style={{ fontSize: '12px' }}
+            >
 
-            <span className="fa fa-upload dt-icon-btn"> Download document</span>
-          </button>
+              <span className="fa fa-upload dt-icon-btn"> Download document</span>
+            </button>
           </a>
         </>
       );
@@ -174,14 +174,15 @@ class LeaseTenant extends React.Component<{}, any> {
     };
   }
   async componentDidMount() {
-    const [complainResponse, usersResponse, houseResponse, apartmentResponse, tenantResponse] = await Promise.all([
+    const [complainResponse, tenantResponse, houseResponse, apartmentResponse, usersResponse] = await Promise.all([
       axios.get(baseURL + "leases", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-      axios.get(baseURL + "tenants", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-      axios.get(baseURL + "houses", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      axios.get(baseURL + "tenants?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      axios.get(baseURL + "houses?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "apartments", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "users?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-    ]);
 
+
+    ]);
     this.setState(
       {
         complian: complainResponse.data,
@@ -189,55 +190,55 @@ class LeaseTenant extends React.Component<{}, any> {
         houses: houseResponse.data,
         apartment: apartmentResponse.data,
         tenants: tenantResponse.data,
-
-
         isLoading: false
       },
       function () {
-        console.log("teachers", complainResponse.data);
+        console.log("lease", tenantResponse.data);
       });
     /// var data = [];
 
     var data = [];
     for (let i = 0; i < this.state.complian.length; i++) {
       //alert(this.state.users[i].id);
-      for (let j = 0; j < this.state.houses.length; j++) {
+      let index = { idx: i + 1 };
 
+      for (let j = 0; j < this.state.houses.length; j++) {
         //   var user_id = this.state.complian[i].user_id;
-        let index = { idx: i + 1 };
-        var house_id = this.state.houses[j].id;
+        var house_id = this.state.complian[i].house_id;
+
         if (house_id == this.state.houses[j].id) {
 
           for (let l = 0; l < this.state.apartment.length; l++) {
-
             var apartment_id = this.state.houses[j].apartment_id;
-
             if (apartment_id == this.state.apartment[l].id) {
-              for (let k = 0; k < this.state.users.length; k++) {
 
-                var user_id = this.state.users[k].user_id;
+            
+              
+              for (let m = 0; m < this.state.users.length; m++) {
 
-                for (let m = 0; m < this.state.tenants.length; m++) {
+                for (let k = 0; k < this.state.tenants.length; k++) {
+                  var user_id = this.state.tenants[k].user_id;
 
-                  if (user_id == this.state.tenants[m].id) {
-                    if (house_id == this.state.complian[i].house_id) {
-                      console.log("EVANS", this.state.users[k].id);
+                  console.log("userID", user_id)
+                  if (user_id == this.state.users[m].id) {
 
-                      if (this.state.users[k].id == this.state.complian[i].customer_id) {
-                        let date = { dates: moment(this.state.complian[i].lease_end_date).format('DD MMM, YYYY') };
-                        data.push(Object.assign(index, this.state.complian[i], this.state.houses[j], this.state.apartment[l], date, this.state.users[k], this.state.tenants[m]))
-                        this.setState({
-                          data: data
-                        })
+                    if (this.state.users[m].id == this.state.complian[i].customer_id) {
 
-                        localStorage.setItem("item",  this.state.complian[i].id)
-                        if (this.state.complian[i].agreement_source === "default.png") {
-                          alert("You seem you do not have an agreement. Kindly upload one!")
-                        }
-
-                        console.log("EVANS", this.state.data);
+                      localStorage.setItem("item", this.state.complian[i].id)
+                      if (this.state.complian[i].agreement_source === "default.png") {
+                        alert("You seem you do not have an agreement. Kindly upload one!")
                       }
+
+                      console.log("EVANS", this.state.data);
+                      let date = { dates: moment(this.state.complian[i].lease_end_date).format('DD MMM, YYYY') };
+                      data.push(Object.assign(index, this.state.complian[i], this.state.houses[j], this.state.apartment[l], date, this.state.users[k], this.state.tenants[m]))
+                      this.setState({
+                        data: data
+                      })
+        
+                     
                     }
+
                   }
                 }
               }
@@ -247,6 +248,7 @@ class LeaseTenant extends React.Component<{}, any> {
       }
     }
   }
+
 
 
   upload(record) {

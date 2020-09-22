@@ -236,19 +236,7 @@ class Payment extends React.Component<{}, ListingState> {
           {this.state.statusMessage}</div> : null}
         <form onSubmit={this.onSubmit}>
           <>
-
-            <div className="title col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
-              <h4>Phone Number</h4>
-              <input type="number" required name="title" onChange={this.handleChangefloor} id="" className="form-control" />
-            </div>
-
-            <div className="Price col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
-              <h4>Amount</h4>
-              <input type="number" required name="slug" onChange={this.handleChangePark} id="" className="form-control" />
-            </div>
-
-
-            <div className="Price col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
+          <div className="Price col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
               <h4>Tenants</h4>
               <Select
                 options={this.County()}
@@ -259,6 +247,19 @@ class Payment extends React.Component<{}, ListingState> {
               />
               <br />
             </div>
+            <div className="title col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
+              <h4>Phone Number</h4>
+              <input type="number" required name="title" onChange={this.handleChangefloor} id="" className="form-control" />
+            </div>
+            
+            <div className="Price col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
+              <h4>Amount</h4>
+              <input type="number" required name="slug" onChange={this.handleChangePark} id="" className="form-control" />
+              <br/>
+            </div>
+
+
+         
 
             <div className=" text-center title col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
               <button id="input" type="submit" className="btn btn-green btn-lg

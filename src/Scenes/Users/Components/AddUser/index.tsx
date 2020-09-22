@@ -190,7 +190,7 @@ class AddUser extends React.Component<{}, ListingState> {
           window.setTimeout(function () {
             window.location.href = "/newproperty/sell";
 
-          }, 2000);
+          }, 1000);
         } else {
 
           this.setState({ statusMessage: response.data.status_message, alert_error: "alert alert-danger", isShowError: true, isLoading: false });

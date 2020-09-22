@@ -195,7 +195,7 @@ class AddTenant extends React.Component<{}, ListingState> {
       // 'school_logo': "logo.png"
     }
 
-    const token = 'Bearer '+TOKEN
+    const token = 'Bearer ' + TOKEN
 
 
     console.log("DATA", JSON.stringify(formData))
@@ -210,19 +210,19 @@ class AddTenant extends React.Component<{}, ListingState> {
       .then((response) => {
 
         if (response.data.status) {
-          this.setState({ statusMessage: response.data.status_message,alert_color: "alert alert-success",  isShowError: true, isLoading: false });
+          this.setState({ statusMessage: response.data.status_message, alert_color: "alert alert-success", isShowError: true, isLoading: false });
           window.setTimeout(function () {
-            window.location.reload();
+            window.location.href = '/user/lease';
           }, 2000);
         } else {
 
-          this.setState({ statusMessage: response.data.status_message,alert_color: "alert alert-danger", isShowError: true, isLoading: false });
+          this.setState({ statusMessage: response.data.status_message, alert_color: "alert alert-danger", isShowError: true, isLoading: false });
         }
       })
       .catch((error) => {
         console.log('bayoo', error.response)
 
-        this.setState({ statusMessage: error.response.data.status_message,alert_color: "alert alert-danger", isShowError: true, isLoading: false });
+        this.setState({ statusMessage: error.response.data.status_message, alert_color: "alert alert-danger", isShowError: true, isLoading: false });
 
       })
   }
@@ -280,9 +280,9 @@ class AddTenant extends React.Component<{}, ListingState> {
         </div>
         <div className="dashboardBody">
           <div className="newPropertyForm">
-          {this.state.isShowError ? <div className={this.state.alert_color}
-          style={{ fontSize: '15px' }}>
-          {this.state.statusMessage}</div> : null}
+            {this.state.isShowError ? <div className={this.state.alert_color}
+              style={{ fontSize: '15px' }}>
+              {this.state.statusMessage}</div> : null}
             <form onSubmit={this.onSubmit}>
               <div className="row form-group">
                 <div className="title col-xs-12 col-sm-6 col-md-6">
@@ -340,7 +340,7 @@ class AddTenant extends React.Component<{}, ListingState> {
                     tabSelectsValue={false}
                     className='drop'
                   />
-                 
+
                 </div>
                 <div className="title col-xs-12 col-sm-6 col-md-6">
 
@@ -352,7 +352,7 @@ class AddTenant extends React.Component<{}, ListingState> {
                     tabSelectsValue={false}
                     className='drop'
                   />
-                
+
                 </div>
                 <div className="title col-xs-12 col-sm-6 col-md-6">
                   <h4>Select Tenant</h4>
@@ -383,7 +383,7 @@ class AddTenant extends React.Component<{}, ListingState> {
                   </select>
                 </div>
                 <div className="title col-xs-12 col-sm-6 col-md-6">
-            
+
                   <h4>Password</h4>
                   <input type="text" required name="password" id="" onChange={this.handleChangePassword} className="form-control" />
                 </div>
