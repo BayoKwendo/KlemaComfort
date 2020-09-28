@@ -4,6 +4,7 @@ import axios from "axios";
 import { baseURL } from 'Helpers/baseURL';
 import { TOKEN, da } from 'Helpers/token';
 import ReactDatatable from '@ashvin27/react-datatable';
+import { Link } from 'react-router-dom';
 
 
 // interface ListingState {
@@ -98,6 +99,33 @@ const columns = [
     TrOnlyClassName: 'tsc',
     className: "tsc",
     align: "left",
+  },
+  {
+    key: "agreement_source",
+    text: "options",
+    TrOnlyClassName: 'cell',
+    className: "cell",
+    width: 160,
+    align: "center",
+    sortable: false,
+    cell: record => {
+      return (
+        <>
+          <button
+            className="btn btn-primary btn-sm text-center"
+            // onClick={() => this.editRecord(record)}
+            style={{ marginRight: '5px', textAlign: 'center' }}>
+            <span className="fa fa-edit dt-icon-btn">Edit</span>
+          </button>
+          <button
+            className="btn btn-danger btn-sm text-center"
+            // onClick={() => this.editRecord(record)}
+            style={{ marginRight: '5px', textAlign: 'center' }}>
+            <span className="fa fa-trash dt-icon-btn">Delete</span>
+          </button>
+        </>
+      );
+    }
   }
 ];
 
@@ -148,7 +176,7 @@ class TENANTS extends React.Component<{}, any> {
         console.log("teachers", apartmentResponse.data);
       });
     var data = [];
-    for (let j = 0; j < (this.state.houses.length || da ); j++) {
+    for (let j = 0; j < (this.state.houses.length || da); j++) {
       var house_id = this.state.houses[j].id;
       for (let l = 0; l < this.state.apartment.length; l++) {
         var apartment_id = this.state.houses[j].apartment_id;
@@ -163,7 +191,7 @@ class TENANTS extends React.Component<{}, any> {
                   this.setState({
                     data: data
                   })
-                
+
                 }
               }
             }
@@ -183,7 +211,10 @@ class TENANTS extends React.Component<{}, any> {
         <div className="dashboardBody">
 
           <div className="panel-body" >
-            <br /><br />
+            <div className="pull-right">
+              <Link to="/user/tenants"><button className="btn btn-green" >Add Tenant</button></Link>
+            </div>
+            <br /><br /><br /><br />
             {this.state.isShowError ?
               <div className="alert alert-success" > {this.state.statusMessage}
               </div> : null

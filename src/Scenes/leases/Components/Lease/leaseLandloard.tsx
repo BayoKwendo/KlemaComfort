@@ -118,7 +118,7 @@ const columns = [
   },
   {
     key: "agreement_source",
-    text: "Agreement",
+    text: "options",
     TrOnlyClassName: 'cell',
     className: "cell",
     width: 160,
@@ -127,37 +127,32 @@ const columns = [
     cell: record => {
       return (
         <>
-          {/* <button
-                    className="btn btn-primary btn-sm text-center"
-                    onClick={() => this.editRecord(record)}
-                    style={{ marginRight: '5px', textAlign: 'center' }}>
-                    <span className="fa fa-eye dt-icon-btn"></span>
-                </button> */}
-          {/* <button
-                    className=" btn-primary"
-                    style={{ marginRight: '10px' }}
-                    onClick={() => this.viewRecord(record)}>
-                    <span className="fa fa-eye dt-icon-btn"></span>
-                </button> */}
-          <>
           <a href={url}>
-              <button
-                className="btn btn-green btn-sm"
-                title="Upload"
-                style={{ fontSize: '12px' }}
-              >
-
-                <span className="fa fa-upload dt-icon-btn"> Download leasedocument</span>
-              </button>
-            </a>
-          </>
-
+            <button
+              className="btn btn-green btn-sm"
+              title="Upload"
+              style={{ fontSize: '12px' }}>
+              <span className="fa fa-upload dt-icon-btn"> Download leasedocument</span>
+            </button>
+          </a>
+          <button
+            className="btn btn-primary btn-sm text-center"
+            // onClick={() => this.editRecord(record)}
+            style={{ marginRight: '5px', textAlign: 'center' }}>
+            <span className="fa fa-edit dt-icon-btn">Edit</span>
+          </button>
+          <button
+            className="btn btn-danger btn-sm text-center"
+            // onClick={() => this.editRecord(record)}
+            style={{ marginRight: '5px', textAlign: 'center' }}>
+            <span className="fa fa-trash dt-icon-btn">Delete</span>
+          </button>
         </>
       );
     }
   }
 
-  
+
 ];
 
 const config = {
@@ -192,7 +187,7 @@ class LeaseLandlord extends React.Component<{}, any> {
       axios.get(baseURL + "leases", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "tenants?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "houses?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-      axios.get(baseURL + "apartments?owner_id="+ID, { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      axios.get(baseURL + "apartments?owner_id=" + ID, { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "users?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
 
 
@@ -212,7 +207,8 @@ class LeaseLandlord extends React.Component<{}, any> {
     /// var data = [];
 
     var data = [];
-    for (let i = 0; i < this.state.complian.length; i++) {
+    var da = 0;
+    for (let i = 0; i < (this.state.complian.length || da); i++) {
       //alert(this.state.users[i].id);
       let index = { idx: i + 1 };
 
@@ -237,7 +233,7 @@ class LeaseLandlord extends React.Component<{}, any> {
                       localStorage.setItem("url", this.state.complian[i].agreement_source)
 
                       let date = { dates: moment(this.state.complian[i].lease_end_date).format('DD MMM, YYYY') };
-                      data.push(Object.assign(index, this.state.complian[i],this.state.users[m],this.state.tenants[k], this.state.houses[j], this.state.apartment[l], date))
+                      data.push(Object.assign(index, this.state.complian[i], this.state.users[m], this.state.tenants[k], this.state.houses[j], this.state.apartment[l], date))
                       this.setState({
                         data: data
                       })
@@ -255,35 +251,35 @@ class LeaseLandlord extends React.Component<{}, any> {
   render() {
     return (
       <div className="searchPage">
-      <Dashboard>
-      
-        <div className="searchFormWrapper">
-      <div className="rentPropertyPage">
-        <div className="dashboardTitle">
-          <h3>Lease Infomation</h3>
-          <h5>The below contain detail infomation about tenant </h5>
-        </div>
-        <div className="dashboardBody">
+        <Dashboard>
 
-          <div className="panel-body" >
-            <br /><br />
-            {this.state.isShowError ?
-              <div className="alert alert-success" > {this.state.statusMessage}
-              </div> : null
-            }
-            < ReactDatatable config={config}
-              records={this.state.data}
-              id="tsc"
-              columns={columns}
-              loading={this.state.isLoading}
-            />
+          <div className="searchFormWrapper">
+            <div className="rentPropertyPage">
+              <div className="dashboardTitle">
+                <h3>Lease Infomation</h3>
+                <h5>The below contain detail infomation about tenant </h5>
+              </div>
+              <div className="dashboardBody">
 
+                <div className="panel-body" >
+                  <br /><br />
+                  {this.state.isShowError ?
+                    <div className="alert alert-success" > {this.state.statusMessage}
+                    </div> : null
+                  }
+                  < ReactDatatable config={config}
+                    records={this.state.data}
+                    id="tsc"
+                    columns={columns}
+                    loading={this.state.isLoading}
+                  />
+
+                </div>
+              </div>
+
+            </div>
           </div>
-        </div>
-
-      </div>
-      </div>
-      </Dashboard>
+        </Dashboard>
       </div>
     );
   }

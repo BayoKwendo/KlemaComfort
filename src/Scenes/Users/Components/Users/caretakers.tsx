@@ -4,6 +4,7 @@ import axios from "axios";
 import { baseURL } from 'Helpers/baseURL';
 import { TOKEN } from 'Helpers/token';
 import ReactDatatable from '@ashvin27/react-datatable';
+import { Link } from 'react-router-dom';
 
 
 // interface ListingState {
@@ -83,14 +84,33 @@ const columns = [
     className: "tsc",
     align: "left",
   },
-  
-  // {
-  //   key: "account_status",
-  //   text: "Account Status",
-  //   TrOnlyClassName: 'tsc',
-  //   className: "tsc",
-  //   align: "left",
-  // },
+  {
+    key: "agreement_source",
+    text: "options",
+    TrOnlyClassName: 'cell',
+    className: "cell",
+    width: 160,
+    align: "center",
+    sortable: false,
+    cell: record => {
+      return (
+        <>
+          <button
+            className="btn btn-primary btn-sm text-center"
+            // onClick={() => this.editRecord(record)}
+            style={{ marginRight: '5px', textAlign: 'center' }}>
+            <span className="fa fa-edit dt-icon-btn">Edit</span>
+          </button>
+          <button
+            className="btn btn-danger btn-sm text-center"
+            // onClick={() => this.editRecord(record)}
+            style={{ marginRight: '5px', textAlign: 'center' }}>
+            <span className="fa fa-trash dt-icon-btn">Delete</span>
+          </button>
+        </>
+      );
+    }
+  }
 ];
 
 const config = {
@@ -145,22 +165,22 @@ class CARETAKER extends React.Component<{}, any> {
 
     var data = [];
     var da = 0
-  
-      for (let l = 0; l < (this.state.houses.length || da); l++) {
-       let index = { idx: l+1}
-       for (let k = 0; k < this.state.apartment.length; k++) {
+
+    for (let l = 0; l < (this.state.houses.length || da); l++) {
+      let index = { idx: l + 1 }
+      for (let k = 0; k < this.state.apartment.length; k++) {
         if (this.state.apartment[k].id == this.state.houses[l].apartment_id) {
           for (let i = 0; i < (this.state.users.length || da); i++) {
             var user_id = this.state.users[i].id;
-            if (user_id == this.state.houses[l].caretaker_id) { 
+            if (user_id == this.state.houses[l].caretaker_id) {
               for (let j = 0; j < this.state.complian.length; j++) {
                 var user_role = this.state.users[i].role_id
                 if (user_role == this.state.complian[j].id) {
-                  data.push(Object.assign( index,this.state.houses[l],this.state.apartment[k], this.state.users[i],this.state.complian[j],))
+                  data.push(Object.assign(index, this.state.houses[l], this.state.apartment[k], this.state.users[i], this.state.complian[j],))
                   this.setState({
                     data: data
                   });
-                  console.log("apartments",this.state.data )
+                  console.log("apartments", this.state.data)
                 }
               }
             }
@@ -172,7 +192,7 @@ class CARETAKER extends React.Component<{}, any> {
 
   render() {
     return (
-     
+
       <div className="rentPropertyPage">
         <div className="dashboardTitle">
           <h3>List of Caretakers</h3>
@@ -181,7 +201,10 @@ class CARETAKER extends React.Component<{}, any> {
         <div className="dashboardBody">
 
           <div className="panel-body" >
-            <br /><br />
+            <div className="pull-right">
+              <Link to="/user/users"><button className="btn btn-green" >Add Caretaker</button></Link>
+            </div>
+            <br /><br /><br/>
             {this.state.isShowError ?
               <div className="alert alert-success" > {this.state.statusMessage}
               </div> : null
@@ -194,8 +217,8 @@ class CARETAKER extends React.Component<{}, any> {
             />
 
           </div>
-       
-      </div>
+
+        </div>
       </div>
     );
   }

@@ -2,11 +2,10 @@ import * as React from 'react';
 import './style.css';
 import axios from "axios";
 import { baseURL } from 'Helpers/baseURL';
-import { TOKEN } from 'Helpers/token';
+import { ID, TOKEN } from 'Helpers/token';
 import ReactDatatable from '@ashvin27/react-datatable';
 import Dashboard from 'Components/DashboardLayout';
 import * as moment from 'moment';
-import { MSIDN } from 'Helpers/isLoggedIn';
 
 
 // interface ListingState {
@@ -109,14 +108,10 @@ class WalletTenant extends React.Component<{}, any> {
 
 
   }
-
-
   async componentDidMount() {
     const [walletResponse, usersResponse] = await Promise.all([
       axios.get(baseURL + "wallets", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-      axios.get(baseURL + "users?limit=1000&&role_id=4", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-
-
+      axios.get(baseURL + "users?id="+ID, { headers: { "Authorization": `Bearer ` + TOKEN } }),
     ]);
     this.setState(
       {
@@ -125,7 +120,7 @@ class WalletTenant extends React.Component<{}, any> {
         isLoading: false
       },
       function () {
-        console.log("lease", walletResponse.data);
+        console.log("userDATA", usersResponse.data);
       });
     /// var data = [];
 
@@ -138,19 +133,15 @@ class WalletTenant extends React.Component<{}, any> {
         //   var user_id = this.state.complian[i].user_id;       
 
         if (this.state.users[j].id == this.state.wallet[i].customer_id) {
-          if (MSIDN == this.state.wallet[i].msisdn) {
-
-            let date = { dates: moment(this.state.wallet[i].created_at).format('DD MMM, YYYY HH:MM') };
-            data.push(Object.assign(index, this.state.wallet[i], this.state.users[j], date))
-            this.setState({
-              data: data
-            });
-          }
+          let date = { dates: moment(this.state.wallet[i].created_at).format('DD MMM, YYYY HH:MM') };
+          data.push(Object.assign(index, this.state.wallet[i], this.state.users[j], date))
+          this.setState({
+            data: data
+          });
         }
       }
     }
   }
-
   render() {
     return (
       <div className="searchPage">

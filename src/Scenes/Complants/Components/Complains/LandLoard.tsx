@@ -63,6 +63,33 @@ const columns = [
     className: "tsc",
     align: "left",
   },
+  {
+    key: "agreement_source",
+    text: "options",
+    TrOnlyClassName: 'cell',
+    className: "cell",
+    width: 160,
+    align: "center",
+    sortable: false,
+    cell: record => {
+      return (
+        <>
+          <button
+            className="btn btn-primary btn-sm text-center"
+            // onClick={() => this.editRecord(record)}
+            style={{ marginRight: '5px', textAlign: 'center' }}>
+            <span className="fa fa-edit dt-icon-btn">Edit</span>
+          </button>
+          <button
+            className="btn btn-danger btn-sm text-center"
+            // onClick={() => this.editRecord(record)}
+            style={{ marginRight: '5px', textAlign: 'center' }}>
+            <span className="fa fa-trash dt-icon-btn">Delete</span>
+          </button>
+        </>
+      );
+    }
+  }
 ];
 
 const config = {

@@ -49,9 +49,9 @@ class LeftSide extends React.Component<LeftSideProps, {}> {
                     <li><Link to="/transactionLand">
                       Transactions<Icon name="circle-o" className="icon-right" />
                     </Link></li>
-                    <li><Link to="/walletLand">
+                    {/* <li><Link to="/walletLand">
                       Wallets<Icon name="circle-o" className="icon-right" />
-                    </Link></li>
+                    </Link></li> */}
                     {/* <li><Link to="/invoice">
                       Invoice<Icon name="circle-o" className="icon-right" />
                     </Link></li> */}
@@ -106,9 +106,9 @@ class LeftSide extends React.Component<LeftSideProps, {}> {
                     <Icon className="openIcon arrowRight" name="angle-down" />
                   </Link>
                   <ul className="colors secondUl">
-                    <li><Link to="/accounts">
+                    {/* <li><Link to="/accounts">
                       Accounts<Icon name="circle-o" className="icon-right" />
-                    </Link></li>
+                    </Link></li> */}
                     <li><Link to="/transactionTenant">
                       Transactions<Icon name="circle-o" className="icon-right" />
                     </Link></li>

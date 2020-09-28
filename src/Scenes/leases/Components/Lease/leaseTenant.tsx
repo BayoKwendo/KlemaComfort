@@ -2,7 +2,7 @@ import React from 'react';
 import './style.css';
 import axios from "axios";
 import { baseURL } from 'Helpers/baseURL';
-import { TOKEN } from 'Helpers/token';
+import { ID, TOKEN } from 'Helpers/token';
 import ReactDatatable from '@ashvin27/react-datatable';
 import * as moment from 'moment';
 import Dashboard from 'Components/DashboardLayout';
@@ -134,7 +134,7 @@ const columns = [
     cell: record => {
       return (
         <>
-          <a href="/lease/HOUSE_RENTAL_AGREEMENT2.pdf">
+          <a href="https://primecribsb3.s3.us-east-2.amazonaws.com/HOUSE_RENTAL_AGREEMENT2.pdf">
             <button
               className="btn btn-green btn-sm"
               title="Upload"
@@ -174,12 +174,13 @@ class LeaseTenant extends React.Component<{}, any> {
     };
   }
   async componentDidMount() {
+
     const [complainResponse, tenantResponse, houseResponse, apartmentResponse, usersResponse] = await Promise.all([
       axios.get(baseURL + "leases", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "tenants?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "houses?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "apartments", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-      axios.get(baseURL + "users?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      axios.get(baseURL + "users?id="+ID, { headers: { "Authorization": `Bearer ` + TOKEN } }),
 
 
     ]);
@@ -193,7 +194,7 @@ class LeaseTenant extends React.Component<{}, any> {
         isLoading: false
       },
       function () {
-        console.log("lease", tenantResponse.data);
+        console.log("lease", usersResponse.data);
       });
     /// var data = [];
 
@@ -231,10 +232,14 @@ class LeaseTenant extends React.Component<{}, any> {
 
                       console.log("EVANS", this.state.data);
                       let date = { dates: moment(this.state.complian[i].lease_end_date).format('DD MMM, YYYY') };
-                      data.push(Object.assign(index, this.state.complian[i], this.state.houses[j], this.state.apartment[l], date, this.state.users[k], this.state.tenants[m]))
+                      data.push(Object.assign(index, this.state.complian[i], 
+                        this.state.houses[j], this.state.apartment[l], date, 
+                        this.state.users[m], this.state.tenants[k]))
                       this.setState({
                         data: data
                       })
+
+                      console.log("data", this.state.data)
         
                      
                     }

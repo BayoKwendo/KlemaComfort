@@ -5,6 +5,7 @@ import { baseURL } from 'Helpers/baseURL';
 import { TOKEN } from 'Helpers/token';
 import ReactDatatable from '@ashvin27/react-datatable';
 import * as moment from 'moment';
+import { Link } from 'react-router-dom';
 
 
 // interface ListingState {
@@ -122,18 +123,9 @@ const columns = [
     align: "left",
   },
 
-
-  // {
-  //   key: "agreement_source",
-  //   text: "Agreement",
-  //   TrOnlyClassName: 'tsc',
-  //   className: "tsc",
-  //   align: "left",
-  // },
-
   {
     key: "agreement_source",
-    text: "Agreement",
+    text: "Options",
     TrOnlyClassName: 'cell',
     className: "cell",
     width: 160,
@@ -142,31 +134,28 @@ const columns = [
     cell: record => {
       return (
         <>
-          {/* <button
-                    className="btn btn-primary btn-sm text-center"
-                    onClick={() => this.editRecord(record)}
-                    style={{ marginRight: '5px', textAlign: 'center' }}>
-                    <span className="fa fa-eye dt-icon-btn"></span>
-                </button> */}
-          {/* <button
-                    className=" btn-primary"
-                    style={{ marginRight: '10px' }}
-                    onClick={() => this.viewRecord(record)}>
-                    <span className="fa fa-eye dt-icon-btn"></span>
-                </button> */}
-          <>
           <a href={url}>
-              <button
-                className="btn btn-green btn-sm"
-                title="Upload"
-                style={{ fontSize: '12px' }}
-              >
+            <button
+              className="btn btn-green btn-sm"
+              title="Upload"
+              style={{ fontSize: '12px' }}
+            >
 
-                <span className="fa fa-upload dt-icon-btn"> Download leasedocument</span>
-              </button>
-            </a>
-          </>
-
+              <span className="fa fa-upload dt-icon-btn"> Download leasedocument</span>
+            </button>
+          </a>
+          <button
+            className="btn btn-primary btn-sm text-center"
+            // onClick={() => this.editRecord(record)}
+            style={{ marginRight: '5px', textAlign: 'center' }}>
+            <span className="fa fa-edit dt-icon-btn">Edit</span>
+          </button>
+          <button
+            className="btn btn-danger btn-sm text-center"
+            // onClick={() => this.editRecord(record)}
+            style={{ marginRight: '5px', textAlign: 'center' }}>
+            <span className="fa fa-trash dt-icon-btn">Delete</span>
+          </button>
         </>
       );
     }
@@ -250,7 +239,7 @@ class LeaseP extends React.Component<{}, any> {
                       localStorage.setItem("url", this.state.complian[i].agreement_source)
 
                       let date = { dates: moment(this.state.complian[i].lease_end_date).format('DD MMM, YYYY') };
-                      data.push(Object.assign(index, this.state.complian[i],this.state.users[m],this.state.tenants[k], this.state.houses[j], this.state.apartment[l], date))
+                      data.push(Object.assign(index, this.state.complian[i], this.state.users[m], this.state.tenants[k], this.state.houses[j], this.state.apartment[l], date))
                       this.setState({
                         data: data
                       })
@@ -276,7 +265,10 @@ class LeaseP extends React.Component<{}, any> {
         <div className="dashboardBody">
 
           <div className="panel-body" >
-            <br /><br />
+            <div className="pull-right">
+              <Link to="user/lease"><button className="btn btn-green" >Add Lease</button></Link>
+            </div>
+            <br /><br /><br />
             {this.state.isShowError ?
               <div className="alert alert-success" > {this.state.statusMessage}
               </div> : null

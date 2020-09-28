@@ -4,15 +4,7 @@ import axios from "axios";
 import { baseURL } from 'Helpers/baseURL';
 import { TOKEN } from 'Helpers/token';
 import ReactDatatable from '@ashvin27/react-datatable';
-
-
-// interface ListingState {
-//   isLoading: boolean;
-//   isShowError: boolean;
-//   accountDats: any[];
-//   columns: any[];
-// }
-
+import { Link } from 'react-router-dom';
 
 const columns = [
   {
@@ -75,7 +67,34 @@ const columns = [
     className: "tsc",
     align: "left",
   },
- 
+  {
+    key: "agreement_source",
+    text: "options",
+    TrOnlyClassName: 'cell',
+    className: "cell",
+    width: 160,
+    align: "center",
+    sortable: false,
+    cell: record => {
+      return (
+        <>
+          <button
+            className="btn btn-primary btn-sm text-center"
+            // onClick={() => this.editRecord(record)}
+            style={{ marginRight: '5px', textAlign: 'center' }}>
+            <span className="fa fa-edit dt-icon-btn">Edit</span>
+          </button>
+          <button
+            className="btn btn-danger btn-sm text-center"
+            // onClick={() => this.editRecord(record)}
+            style={{ marginRight: '5px', textAlign: 'center' }}>
+            <span className="fa fa-trash dt-icon-btn">Delete</span>
+          </button>
+        </>
+      );
+    }
+  }
+
 ];
 
 const config = {
@@ -131,7 +150,7 @@ class USERS extends React.Component<{}, any> {
 
     var data = [];
     var da = 0
-  
+
     for (let l = 0; l < (this.state.apartment.length || da); l++) {
       let index = { idx: l + 1 };
       for (let i = 0; i < (this.state.users.length || da); i++) {
@@ -149,13 +168,9 @@ class USERS extends React.Component<{}, any> {
             }
           }
         }
-
       }
     }
   }
-
-
-
 
   render() {
     return (
@@ -167,7 +182,11 @@ class USERS extends React.Component<{}, any> {
         <div className="dashboardBody">
 
           <div className="panel-body" >
-            <br /><br />
+            <div className="pull-right">
+              <Link to="/user/users"><button className="btn btn-green" >Add Landlord</button></Link>
+            </div>
+            <br /><br /><br/><br/>
+
             {this.state.isShowError ?
               <div className="alert alert-success" > {this.state.statusMessage}
               </div> : null

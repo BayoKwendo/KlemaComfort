@@ -2,10 +2,9 @@ import * as React from 'react';
 import './style.css';
 import axios from "axios";
 import { baseURL } from 'Helpers/baseURL';
-import { TOKEN } from 'Helpers/token';
+import { ID, TOKEN } from 'Helpers/token';
 import ReactDatatable from '@ashvin27/react-datatable';
 import Dashboard from 'Components/DashboardLayout';
-import { MSIDN } from 'Helpers/isLoggedIn';
 
 
 // interface ListingState {
@@ -124,7 +123,7 @@ class TransactionTenant extends React.Component<{}, any> {
         "Authorization": `Bearer ` + TOKEN
       }
     };
-    axios.get(baseURL + 'transactions?msisdn='+MSIDN, config).then(res => {
+    axios.get(baseURL + 'transactions?customer_id='+ID, config).then(res => {
 
       this.setState({ statusMessage: res.data.status_message, isShowError: false, isLoading: false });
       //console.log("LOOG" , res.data.status_message);

@@ -1,7 +1,7 @@
 {
   "name": "reacttypescriptinit",
   "version": "0.1.0",
-  "homepage" : "https://agencyke.com",
+  "homepage": "https://agencyke.com",
   "private": true,
   "dependencies": {
     "@ashvin27/react-datatable": "^1.5.3",
@@ -34,7 +34,7 @@
     "react-js-pagination": "^3.0.3",
     "react-moment": "^0.9.7",
     "react-redux": "^5.0.6",
-    "react-router-dom": "^4.1.1",
+    "react-router-dom": "^4.3.1",
     "react-select": "^3.1.0",
     "react-slideshow-image": "^3.0.2",
     "recompose": "^0.30.0",

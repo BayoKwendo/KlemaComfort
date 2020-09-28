@@ -1,8 +1,7 @@
 import * as React from 'react';
 import axios from "axios";
 import { baseURL } from 'Helpers/baseURL';
-import { TOKEN } from 'Helpers/token';
-import Select from 'react-select';
+import { ID, TOKEN } from 'Helpers/token';
 
 
 type ListingState = {
@@ -179,7 +178,7 @@ class Payment extends React.Component<{}, ListingState> {
       "msisdn": this.state.number_of_floors,
       "amount": this.state.number_of_carparking,
       "customer_type": "tenant",
-      "customer_id":this.state.county_id,
+      "customer_id": ID,
 
       // 'school_logo': "logo.png"
     }
@@ -237,14 +236,14 @@ class Payment extends React.Component<{}, ListingState> {
         <form onSubmit={this.onSubmit}>
           <>
           <div className="Price col-xs-12 col-sm-6 col-md-6 col-md-offset-3">
-              <h4>Tenants</h4>
+              {/* <h4>Tenants</h4>
               <Select
                 options={this.County()}
                 onChange={this.onSelectChange}
                 placeholder="Select Tenant"
                 tabSelectsValue={false}
                 className='drop'
-              />
+              /> */}
               <br />
             </div>
             <div className="title col-xs-12 col-sm-6 col-md-6 col-md-offset-3">

@@ -6,6 +6,7 @@ import { TOKEN } from 'Helpers/token';
 import ReactDatatable from '@ashvin27/react-datatable';
 import * as moment from 'moment';
 import Dashboard from 'Components/DashboardLayout';
+import { Link } from 'react-router-dom';
 
 
 
@@ -191,7 +192,10 @@ class PostsList extends React.Component<{}, any> {
               </div>
               <div className="dashboardBody">
                 <div className="panel-body" >
-                  <br /><br />
+                  <div className="pull-right">
+                    <Link to="/posts"><button className="btn btn-green" >Add Post</button></Link>
+                  </div>
+                  <br /><br /><br /><br />
                   {this.state.isShowError ?
                     <div className="alert alert-success" > {this.state.statusMessage}
                     </div> : null

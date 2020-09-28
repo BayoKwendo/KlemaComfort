@@ -64,7 +64,6 @@ class PasswordReset extends React.Component<RouteComponentProps<{ token: string 
   }
   async componentDidMount() {
 
-   alert(this.props.match.params.token);
     const token = 'Bearer ' + TOKEN
     const [
       countiesResponse, constituencyResponse, wardsResponse, landlordResponse] = await Promise.all([

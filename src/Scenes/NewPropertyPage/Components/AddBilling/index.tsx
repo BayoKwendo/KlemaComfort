@@ -81,7 +81,8 @@ class AddBilling extends React.Component<{}, ListingState> {
         },
         {
           name: 'ONCE'
-        }],
+        },
+      ],
     };
 
 

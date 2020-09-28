@@ -108,14 +108,11 @@ class Wallet extends React.Component<{}, any> {
 
 
   }
-
   async componentDidMount() {
     const [walletResponse, usersResponse] = await Promise.all([
       axios.get(baseURL + "wallets", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "users?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-
-
-    ]);
+    ]); 
     this.setState(
       {
         wallet: walletResponse.data,
@@ -123,7 +120,7 @@ class Wallet extends React.Component<{}, any> {
         isLoading: false
       },
       function () {
-        console.log("lease", walletResponse.data);
+        console.log("userDATA", usersResponse.data);
       });
     /// var data = [];
 
