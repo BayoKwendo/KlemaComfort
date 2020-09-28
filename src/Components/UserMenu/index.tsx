@@ -58,7 +58,7 @@ class UserMenu extends React.Component<UserMenuProps, UserMenuState> {
         <a href="#" className="userHandler dropdown-toggle" data-toggle="dropdown">
           <Icon name="user-o" /><span className="counter">5</span></a>
         <a href="#" className="headerUser dropdown-toggle" data-toggle="dropdown">
-          <img className="avatar headerAvatar pull-left" src="http://mariusn.com/themes/reales/images/avatar-1.png" />
+          {/* <img className="avatar headerAvatar pull-left" src="http://mariusn.com/themes/reales/images/avatar-1.png" /> */}
           <div className="userTop pull-left">
             <span className="headerUserName">{NAME}</span>
             <Icon name="angle-down" />
@@ -67,11 +67,11 @@ class UserMenu extends React.Component<UserMenuProps, UserMenuState> {
         </a>
         <div className="dropdown-menu pull-right userMenu" role="menu">
           <div className="mobAvatar">
-            <img
+            {/* <img
               className="avatar mobAvatarImg"
               src="http://mariusn.com/themes/reales/images/avatar-1.png"
               alt="avatar"
-            />
+            /> */}
             <div className="mobAvatarName">{NAME}</div>
           </div>
           <ul>

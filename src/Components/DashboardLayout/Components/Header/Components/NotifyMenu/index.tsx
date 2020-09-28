@@ -81,7 +81,6 @@ class NotifyMenu extends React.Component<NotifyMenuProps, NotifyMenuState> {
             <ul className="notifyList">
               <li onMouseOver={this.infoHover}>
                 <a href="#">
-                  <img className="avatar pull-left" src="http://mariusn.com/themes/reales/images/avatar-1.png" />
                   <div className={`pulse border-grey ${this.state.infoHover ? 'pulsate' : ''}`} />
                   <div className="notify pull-left">
                     <div className="notifyName">Sed ut perspiciatis unde</div>

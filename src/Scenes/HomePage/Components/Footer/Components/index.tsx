@@ -34,7 +34,7 @@ class FooterContainer extends React.Component<{}, {}> {
             <Subscribe>Subscribe to Our Newsletter</Subscribe>
         </div>
         <div className="footerCopyRight">
-        Crib Mtaani<br/> ©2020 Copyright OnfonGroup
+        Crib Mtaani<br/> ©2020 Copyright CribMtaani
         </div>
       </div>
     );

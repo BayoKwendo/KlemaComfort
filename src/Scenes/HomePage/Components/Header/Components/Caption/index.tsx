@@ -24,7 +24,7 @@ class Caption extends React.Component<CaptionProps, {}> {
       <div className="homeCaption">
         <div className="homeTitle">{getTranslation(this.props.lang, 'Now it\'s easy to find your desired home')}</div>
         <div className="homeSubtitle">
-          {getTranslation(this.props.lang, 'With AgencyKe')}
+          {getTranslation(this.props.lang, 'With Crib Mtaani')}
         </div>
         <Link className="btn btn-black" to="/listing">{getTranslation(this.props.lang, 'Listing')}</Link>
       </div>

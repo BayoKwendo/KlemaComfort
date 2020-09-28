@@ -68,20 +68,20 @@ const columns = [
     sortable: false,
     cell: record => {
       return (
-
-        <button
-          title="Delete details"
-          className="btn btn-danger btn-sm"
-
-          style={
-            { marginRight: '10px' }}
-          onClick={(e) => {
-            if
-              (window.confirm('Are you sure you wish to delete this post?')) this.deleteRecord(record)
-          }}
-        >
-          <span className="fa fa-trash dt-icon-btn" > Delete </span>
-        </button>
+        <>
+          <button
+            className="btn btn-primary btn-sm text-center"
+            // onClick={() => this.editRecord(record)}
+            style={{ marginRight: '5px', textAlign: 'center' }}>
+            <span className="fa fa-edit dt-icon-btn">Edit</span>
+          </button>
+          <button
+            className="btn btn-danger btn-sm text-center"
+            // onClick={() => this.editRecord(record)}
+            style={{ marginRight: '5px', textAlign: 'center' }}>
+            <span className="fa fa-trash dt-icon-btn">Delete</span>
+          </button>
+        </>
       );
     }
   }
