@@ -9,7 +9,6 @@ import Dashboard from 'Components/DashboardLayout';
 import { Link } from 'react-router-dom';
 
 
-
 const columns = [
   {
     key: "idx",
