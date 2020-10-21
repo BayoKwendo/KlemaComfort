@@ -53,7 +53,7 @@ class NewsPage extends React.Component<RouteComponentProps<{}>, {}> {
               <div className="newItemWrapper container">
                 {this.listNew.map((item, index) => {
                   return (
-                    <div className="col-xs-12 col-sm-12 col-md-6" key={index}>
+                    <div className="col-xs-12 col-sm-12 col-md-6 " key={index}>
                       <NewItem data={item} />
                     </div>
                   );

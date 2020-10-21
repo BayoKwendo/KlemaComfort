@@ -8,7 +8,9 @@ import App from './App/MainRoute';
 render(
   <Provider store={store}>
     <App />
+
+
   </Provider>,
   document.getElementById('root')
 );
-// registerServiceWorker();
+registerServiceWorker();
