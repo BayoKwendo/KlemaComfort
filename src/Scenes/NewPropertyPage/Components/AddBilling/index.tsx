@@ -29,6 +29,8 @@ type ListingState = {
   wards: any[],
   landlord: any[],
   boolean: any[],
+  bill_type: any[],
+
   houses: any[],
   alert_color: string,
   selectedBolean: string,
@@ -39,7 +41,6 @@ type ListingState = {
   hide1Component: boolean,
   csvfile: string
 };
-
 
 class AddBilling extends React.Component<{}, ListingState> {
   constructor() {
@@ -83,6 +84,17 @@ class AddBilling extends React.Component<{}, ListingState> {
           name: 'ONCE'
         },
       ],
+
+      bill_type: [
+        {
+          id: 1,
+          bill_name: 'rent'
+        },
+        {
+          id: 2,
+          bill_name: 'kplc'
+        },
+      ],
     };
 
 
@@ -90,18 +102,16 @@ class AddBilling extends React.Component<{}, ListingState> {
   async componentDidMount() {
     const token = 'Bearer ' + TOKEN
     const [
-      countiesResponse, constituencyResponse, billingResponse] = await Promise.all([
+      countiesResponse, constituencyResponse] = await Promise.all([
         // axios.get(baseURL + 'users/1', { headers: { "Authorization": `Bearer ${window.user.data.access_token}` } }),
         axios.get(baseURL + "apartments", { headers: { "Authorization": token } }),
-        axios.get(baseURL + 'houses', { headers: { "Authorization": token } }),
-        axios.get(baseURL + 'bill-types', { headers: { "Authorization": token } }),
-
+        axios.get(baseURL + 'houses', { headers: { "Authorization": token } })
       ]);
 
     this.setState({
       counties: countiesResponse.data,
       constituency: constituencyResponse.data,
-      billing: billingResponse.data,
+      // billing: billingResponse.data,
 
     },
 
@@ -115,7 +125,6 @@ class AddBilling extends React.Component<{}, ListingState> {
 
 
   County() {
-
     return (this.state.counties && this.state.counties.length > 0 &&
       this.state.counties.map((countyItem, i) =>
         ({ label: countyItem.apartment_name, value: countyItem.id })))
@@ -153,8 +162,8 @@ class AddBilling extends React.Component<{}, ListingState> {
   };
 
   Landload() {
-    return (this.state.billing && (this.state.billing.length == 0 || this.state.billing.length > 0) &&
-      this.state.billing.map((countyItem, i) =>
+    return (this.state.bill_type && (this.state.bill_type.length == 0 || this.state.bill_type.length > 0) &&
+      this.state.bill_type.map((countyItem, i) =>
         ({ label: countyItem.bill_name, value: countyItem.id })))
   }
   onSelectChangeLandLord = value => {
@@ -208,7 +217,6 @@ class AddBilling extends React.Component<{}, ListingState> {
 
   handleChangeBolean1 = (event) => {
     this.setState({ selectedBolean1: event.target.value },);
-
   };
 
 

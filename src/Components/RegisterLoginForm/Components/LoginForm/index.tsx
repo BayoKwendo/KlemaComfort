@@ -2,7 +2,7 @@ import * as React from 'react';
 import './style.css';
 import { Icon } from 'react-fa';
 import { login, LoginData } from 'Services/Api/User';
-import { baseURL } from 'Helpers/baseURL';
+// import { baseURL } from 'Helpers/baseURL';
 import { currentUserSubject } from 'Helpers/storage.helper';
 import axios from 'axios';
 import { isLoggedIn } from 'Helpers/isLoggedIn';
@@ -102,9 +102,11 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
         "email_address": this.state.email,
         "password": this.state.password
       }
+
+
       console.log("DATA", JSON.stringify(formData))
       this.setState({ isLoading: true });
-      axios.post(baseURL + 'login', formData, {
+      axios.post('http://51.178.246.145:6900/api/v1/login', formData, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
@@ -112,35 +114,54 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
       })
         .then((response) => {
           if (response.data.status) {
-            localStorage.setItem("currentUser", JSON.stringify(response.data));
-            localStorage.setItem("user_role", response.data.response.user.role_id);
-            localStorage.setItem("token", response.data.response.token);
-            localStorage.setItem("isLoggedIn", "true");
-            localStorage.setItem("fullname", response.data.response.user.first_name + " " + response.data.response.user.last_name)
-            localStorage.setItem("id", response.data.response.user.id);
-            currentUserSubject.next(response.data);
             this.setState({ statusMessage: response.data.status_message, alert_color: "alert alert-success", isLoading: false, isShowError: true });
-            if (response.data.response.user.role_id == 1) {
+
+            // alert(JSON.stringify())
+            localStorage.setItem("token", response.data.responseParams.token);
+            localStorage.setItem("user_role", response.data.responseParams.user.role_id);
+            localStorage.setItem("id", response.data.responseParams.user.id);
+            localStorage.setItem("fullname", response.data.responseParams.user.first_name + " " + response.data.responseParams.user.last_name)
+
+            currentUserSubject.next(response.data);
+            if (response.data.responseParams.user.role_id == 1) {
+
               window.setTimeout(() => {
                 window.location.href = "/user/role";
                 this.setState({ isLoading: false });
 
               }, 2000);
 
-            } if (response.data.response.user.role_id == 3) {
+              localStorage.setItem("currentUser", JSON.stringify(response.data.response.responseParams));
+              localStorage.setItem("isLoggedIn", "true");
+
+            } if (response.data.responseParams.user.role_id == 3) {
               window.setTimeout(() => {
                 window.location.href = "/leaseLandLord";
                 this.setState({ isLoading: false });
 
               }, 2000);
 
+              localStorage.setItem("currentUser", JSON.stringify(response.data.response.responseParams));
+              localStorage.setItem("user_role", response.data.responseParams.user.role_id);
+              localStorage.setItem("token", response.data.responseParams.token);
+              localStorage.setItem("isLoggedIn", "true");
+              localStorage.setItem("fullname", response.data.responseParams.user.first_name + " " + response.data.response.user.last_name)
+              localStorage.setItem("id", response.data.responseParams.user.id);
+
             }
-            else if (response.data.response.user.role_id == 4) {
+            else if (response.data.responseParams.user.role_id == 4) {
               window.setTimeout(() => {
                 window.location.href = "/leaseTenant";
                 this.setState({ isLoading: false });
 
               }, 2000);
+
+              localStorage.setItem("currentUser", JSON.stringify(response.data.response.responseParams));
+              localStorage.setItem("user_role", response.data.responseParams.user.role_id);
+              localStorage.setItem("token", response.data.responseParams.token);
+              localStorage.setItem("isLoggedIn", "true");
+              localStorage.setItem("fullname", response.data.responseParams.user.first_name + " " + response.data.response.user.last_name)
+              localStorage.setItem("id", response.data.responseParams.user.id);
             }
           }
           else {
@@ -149,8 +170,9 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
             this.setState({});
           }
         }).catch(error => {
+          console.log("ERROR", error.response)
 
-          this.setState({ statusMessage: error.response.data.statusMessage, isLoading: false, alert_color: "alert alert-danger", isShowError: true });
+          // this.setState({ statusMessage: error.response.data.statusMessage, isLoading: false, alert_color: "alert alert-danger", isShowError: true });
         });
       this.setState({ password: "", email: "" });
     }
@@ -172,7 +194,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
                   {this.state.statusMessage}</div> : null}
               </>
               <div className="modal-header">
-                <br/>
+                <br />
                 <h4 className="modal-title" style={{ color: "black" }}>Sign In</h4>
               </div>
               <div className="modal-body">

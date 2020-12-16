@@ -27,7 +27,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
         <div className="logo">
           <Link to="/user/role">
             <Icon className="fa fa-home marker" name="home" />
-            <span className="logoText">CribMtaani</span>
+            <span className="logoText">KelmaComfort</span>
           </Link>
         </div>
         <a href="#" className="navHandler" onClick={(e) => this.props.clickToggle()}><Icon  name="bars" /></a>
