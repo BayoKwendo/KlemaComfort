@@ -1,0 +1,8 @@
+{
+    apps: [{
+        name: "Kelma",
+        script: "npx",
+        interpreter: "none",
+        args: "serve -s build -p 2000"
+    }]
+}
