@@ -103,12 +103,12 @@ class AddUser extends React.Component<{}, ListingState> {
         for (let j = 0; j < this.state.wards.length; j++) {
           var role_id = this.state.wards[j].id;
        
-          if (role_id == 3 || role_id == 5) {
-            data.push(Object.assign(this.state.wards[j]))
+          if (role_id == 3 || role_id == 2 || role_id == 5) {
+            data.push(Object.assign(this.state.wards[j]));
             this.setState({
-              data: data
-            })
-            console.log("EVANS", data);
+              data: data,
+            });
+            console.log('EVANS', data);
           }
         }
       });

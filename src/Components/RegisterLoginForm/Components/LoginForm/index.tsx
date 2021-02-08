@@ -87,7 +87,8 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
 
   onSubmit = e => {
     e.preventDefault();
-    this.setState({ isLoading: true });
+    // alert("ffh")
+    // this.setState({ isLoading: true });
     if (this.state.email === "" || this.state.password === "") {
       this.setState({
         isLoading: false,

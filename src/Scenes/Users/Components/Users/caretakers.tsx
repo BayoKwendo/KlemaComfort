@@ -16,26 +16,26 @@ import { Link } from 'react-router-dom';
 
 
 const columns = [
-  {
-    key: "idx",
-    text: "#",
-    TrOnlyClassName: 'tsc',
-    className: "tsc",
-    align: "left",
-  },
-  {
-    key: "house_number",
-    text: "House Number",
-    TrOnlyClassName: 'tsc',
-    className: "tsc",
-    align: "left",
-  },
-  {
-    key: "apartment_name",
-    TrOnlyClassName: 'tsc',
-    text: "Apartment Name",
-    className: "tsc",
-  },
+  // {
+  //   key: "idx",
+  //   text: "#",
+  //   TrOnlyClassName: 'tsc',
+  //   className: "tsc",
+  //   align: "left",
+  // },
+  // {
+  //   key: "house_number",
+  //   text: "House Number",
+  //   TrOnlyClassName: 'tsc',
+  //   className: "tsc",
+  //   align: "left",
+  // },
+  // {
+  //   key: "apartment_name",
+  //   TrOnlyClassName: 'tsc',
+  //   text: "Apartment Name",
+  //   className: "tsc",
+  // },
 
   {
     key: "first_name",
@@ -135,89 +135,86 @@ class CARETAKER extends React.Component<{}, any> {
       isShowError: false,
       accountDats: [],
     };
-
-
   }
 
-
   async componentDidMount() {
-
-    const [usersResponse, complainResponse, houseResponse, apartmentResponse,] = await Promise.all([
-
-      axios.get(baseURL + "users?limit=1000", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-      axios.get(baseURL + "roles", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-      axios.get(baseURL + "houses", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-      axios.get(baseURL + "apartments", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-
+    const [usersResponse, complainResponse] = await Promise.all([
+      axios.get(baseURL + 'users', {
+        headers: {Authorization: `Bearer ` + TOKEN},
+      }),
+      axios.get(baseURL + 'roles', {
+        headers: {Authorization: `Bearer ` + TOKEN},
+      }),
+      // axios.get(baseURL + "houses", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      // axios.get(baseURL + "apartments", { headers: { "Authorization": `Bearer ` + TOKEN } }),
     ]);
+
+    // alert(JSON.stringify(complainResponse.data));
     this.setState(
       {
-        complian: complainResponse.data,
         users: usersResponse.data,
-        houses: houseResponse.data,
-        apartment: apartmentResponse.data,
-        isLoading: false
+        complian: complainResponse.data,
+
+        // houses: houseResponse.data,
+        // apartment: apartmentResponse.data,
+        isLoading: false,
       },
       function () {
-        console.log("teachers", complainResponse.data);
-      });
+        console.log('teachers', complainResponse.data);
+      }
+    );
     /// var data = [];
 
     var data = [];
-    var da = 0
+    var da = 0;
 
-    for (let l = 0; l < (this.state.houses.length || da); l++) {
-      let index = { idx: l + 1 }
-      for (let k = 0; k < this.state.apartment.length; k++) {
-        if (this.state.apartment[k].id == this.state.houses[l].apartment_id) {
-          for (let i = 0; i < (this.state.users.length || da); i++) {
-            var user_id = this.state.users[i].id;
-            if (user_id == this.state.houses[l].caretaker_id) {
-              for (let j = 0; j < this.state.complian.length; j++) {
-                var user_role = this.state.users[i].role_id
-                if (user_role == this.state.complian[j].id) {
-                  data.push(Object.assign(index, this.state.houses[l], this.state.apartment[k], this.state.users[i], this.state.complian[j],))
-                  this.setState({
-                    data: data
-                  });
-                  console.log("apartments", this.state.data)
-                }
-              }
-            }
-          }
-        }
+    for (let i = 0; i < (this.state.users.length || da); i++) {
+      //  var user_role = this.state.users[i].role_id;
+      // var user_id = this.state.users[i].id;
+
+      var user_role = this.state.users[i].role_id;
+      if (user_role == 3) {
+        let index = {idx: i + 1};
+
+        data.push(Object.assign(index, this.state.users[i]));
+        this.setState({
+          data: data,
+        });
       }
     }
   }
 
   render() {
     return (
-
       <div className="rentPropertyPage">
         <div className="dashboardTitle">
           <h3>List of Caretakers</h3>
           <h5>These are list of Caretakers registered with their houses</h5>
         </div>
         <div className="dashboardBody">
-
-          <div className="panel-body" >
+          <div className="panel-body">
             <div className="pull-right">
-              <Link to="/user/users"><button className="btn btn-green" >Add Caretaker</button></Link>
+              <Link to="/user/users">
+                <button className="btn btn-green">Add Caretaker</button>
+              </Link>
             </div>
-            <br /><br /><br/>
-            {this.state.isShowError ?
-              <div className="alert alert-success" > {this.state.statusMessage}
-              </div> : null
-            }
-            < ReactDatatable config={config}
+            <br />
+            <br />
+            <br />
+            {this.state.isShowError ? (
+              <div className="alert alert-success">
+                {' '}
+                {this.state.statusMessage}
+              </div>
+            ) : null}
+            <ReactDatatable
+              config={config}
               records={this.state.data}
               id="tsc"
               columns={columns}
               loading={this.state.isLoading}
             />
-
           </div>
-
         </div>
       </div>
     );

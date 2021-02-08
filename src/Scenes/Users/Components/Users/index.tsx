@@ -7,19 +7,8 @@ import ReactDatatable from '@ashvin27/react-datatable';
 import { Link } from 'react-router-dom';
 
 const columns = [
-  {
-    key: "idx",
-    text: "#",
-    TrOnlyClassName: 'tsc',
-    className: "tsc",
-    align: "left",
-  },
-  {
-    key: "apartment_name",
-    TrOnlyClassName: 'tsc',
-    text: "Apartment Name",
-    className: "tsc",
-  },
+
+ 
   {
     key: "first_name",
     text: "First Name",
@@ -126,49 +115,50 @@ class USERS extends React.Component<{}, any> {
 
   async componentDidMount() {
 
-    const [usersResponse, complainResponse, houseResponse, apartmentResponse,] = await Promise.all([
+    const [usersResponse, complainResponse] = await Promise.all([
 
       axios.get(baseURL + "users", { headers: { "Authorization": `Bearer ` + TOKEN } }),
       axios.get(baseURL + "roles", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-      axios.get(baseURL + "houses", { headers: { "Authorization": `Bearer ` + TOKEN } }),
-      axios.get(baseURL + "apartments", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      // axios.get(baseURL + "houses", { headers: { "Authorization": `Bearer ` + TOKEN } }),
+      // axios.get(baseURL + "apartments", { headers: { "Authorization": `Bearer ` + TOKEN } }),
 
     ]);
+
+    // alert(JSON.stringify(usersResponse.data));
     this.setState(
       {
         users: usersResponse.data,
         complian: complainResponse.data,
 
-        houses: houseResponse.data,
-        apartment: apartmentResponse.data,
+        // houses: houseResponse.data,
+        // apartment: apartmentResponse.data,
         isLoading: false
       },
       function () {
-        console.log("teachers", apartmentResponse.data);
+        console.log('teachers', complainResponse.data);
       });
     /// var data = [];
 
     var data = [];
     var da = 0
 
-    for (let l = 0; l < (this.state.apartment.length || da); l++) {
-      let index = { idx: l + 1 };
       for (let i = 0; i < (this.state.users.length || da); i++) {
+   
         //  var user_role = this.state.users[i].role_id;
-        var user_id = this.state.users[i].id;
+        // var user_id = this.state.users[i].id;
 
-        if (user_id == this.state.apartment[l].owner_id) {
-          for (let j = 0; j < this.state.complian.length; j++) {
             var user_role = this.state.users[i].role_id;
-            if (user_role == this.state.complian[j].id) {
-              data.push(Object.assign(index, this.state.users[i], this.state.complian[j], this.state.apartment[l]))
+            if (user_role == 2) {
+              
+              let index = {idx: i + 1};
+
+              data.push(Object.assign(index, this.state.users[i]))
               this.setState({
                 data: data
               });
             }
-          }
-        }
-      }
+          
+      
     }
   }
 
